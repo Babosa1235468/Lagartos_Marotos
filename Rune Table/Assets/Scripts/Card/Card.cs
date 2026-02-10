@@ -4,14 +4,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-[Serializable]
+
+
+
+public class CardInfo
+{
+    public int life;
+    public int damage;
+    public int priceSacrifice;
+}
 class Card
 {
-    public int life { get; set; }
-    public int damage { get; set; }
-    public int priceSacrifice { get; set; }
-    public List<Effect> allEffects = new List<Effect>();
-
+    public int life;
+    public int damage;
+    public int priceSacrifice;
+    public List<Effect> allEffects;
     public Card(int cardIndex)
     {
         //Carrega o Json
@@ -19,15 +26,21 @@ class Card
         string json = jsonFile.text;
 
         
-        List<Card> cards = JsonUtility.FromJson<List<Card>>(json);
+        Cards cards = JsonUtility.FromJson<Cards>(json);
 
-        if (cards == null || cardIndex < 0 || cardIndex >= cards.Count)
+        if (cards == null || cardIndex < 0 || cardIndex >= cards.cardInfo.Length)
             throw new Exception("Card inválido ou índice fora do alcance");
 
-        Card card = cards[cardIndex];
+        CardInfo card = cards.cardInfo[cardIndex];
 
         life = card.life;
         damage = card.damage;
         priceSacrifice = card.priceSacrifice;
     }
+}
+
+[Serializable]
+public class Cards
+{
+    public CardInfo[] cardInfo;
 }
