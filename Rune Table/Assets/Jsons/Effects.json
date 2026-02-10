@@ -1,0 +1,23 @@
+{
+  "effects": [
+    {
+      "name": "Proteção",
+      "description": "A carta passa a ser atingida por cartas aéreas.",
+      "rarity": 15,
+      "priceAdd": 1
+    },
+    {
+      "name": "Voador",
+      "description": " a carta voa, ou seja, ela não pode ser atingida por cartas terrestres e não atinge cartas aéreas.",
+      "rarity": 15,
+      "priceAdd": 1
+    },
+    {
+      "name": "Ataque+",
+      "description": "A carta passa a poder atingir cartas aéreas",
+      "rarity": 15,
+      "priceAdd": 1
+    }
+  ],
+  "rarity": 40
+}
