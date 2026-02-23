@@ -13,13 +13,13 @@ public class PlayerShooting : MonoBehaviour
 
     [Header("Shooting Settings")]
     [SerializeField] public GameObject bullet;
-    [SerializeField] public float bulletSpeed = 5.4f;
-    [SerializeField] public float bulletDamage = 20f;
+    [SerializeField] public float bulletSpeed = 6.5f;
+    [SerializeField] public float bulletDamage = 25f;
     [SerializeField] public KeyCode shootKey = KeyCode.Space;
     [SerializeField] public KeyCode reloadKey = KeyCode.R;
-    [SerializeField] public float fireRate = 0.3f;          // one shot per 0.3s
+    [SerializeField] public float fireRate = 0.2f;          // one shot per 0.3s
     [SerializeField] public int magazineSize = 5;           // bullets per magazine
-    [SerializeField] public float reloadTime = 1.5f;
+    [SerializeField] public float reloadTime = 1.2f;
 
     [SerializeField] public int remainingBullets;
     [SerializeField] public float nextFireTime;

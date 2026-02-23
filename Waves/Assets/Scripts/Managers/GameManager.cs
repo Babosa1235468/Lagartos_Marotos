@@ -79,16 +79,11 @@ public class GameManager : MonoBehaviour
         switch (gameState)
         {
             case GameState.Playing:
-                CardManager.instance.HideCardSelection();
-                break;
-            case GameState.CardSelecting:
-                CardManager.instance.RandomizeNewCards();
                 break;
         }
     }
     public enum GameState
     {
         Playing,
-        CardSelecting
     }
 }

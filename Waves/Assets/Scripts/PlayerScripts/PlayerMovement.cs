@@ -1,6 +1,8 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -230,7 +232,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (currentLives <= 0)
         {
-            FinishRound();
+            Console.WriteLine("Perdeste");
         }
         else
         {
@@ -277,10 +279,5 @@ public class PlayerMovement : MonoBehaviour
 
         transform.position = spawnPos;
         rb.linearVelocity = Vector2.zero;
-    }
-
-    public void FinishRound()
-    {
-        GameManager.instance.ChangeState(GameManager.GameState.CardSelecting);
     }
 }
