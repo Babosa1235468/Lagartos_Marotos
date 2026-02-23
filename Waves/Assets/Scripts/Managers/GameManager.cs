@@ -86,8 +86,8 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-    public enum GameState 
-    { 
+    public enum GameState
+    {
         Playing,
         CardSelecting
     }

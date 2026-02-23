@@ -98,7 +98,7 @@ public class PlayerShooting : MonoBehaviour
             hit.owner = gameObject;
             hit.dmg = CalculateDamage();
         }
-            
+
 
         if (newBullet.TryGetComponent<BulletMovingScript>(out var bm))
         {
@@ -110,7 +110,7 @@ public class PlayerShooting : MonoBehaviour
             float angle = Mathf.Atan2(bm.moveDirection.y, bm.moveDirection.x) * Mathf.Rad2Deg;
             newBullet.transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
         }
-        
+
     }
     private float CalculateDamage()
     {

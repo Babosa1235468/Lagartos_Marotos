@@ -4,7 +4,7 @@ using UnityEngine;
 public class CardSO : ScriptableObject
 {
     public string cardText;
-    public Sprite cardImage; 
+    public Sprite cardImage;
     public CardEffect effectType;
     public CardLevel effectLevel;
     public float effectValue;

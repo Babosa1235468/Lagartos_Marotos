@@ -7,7 +7,7 @@ public class ButtonEffectsUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-                
+
         if (whiteSquare == null) return;
 
         RectTransform buttonRect = GetComponent<RectTransform>();

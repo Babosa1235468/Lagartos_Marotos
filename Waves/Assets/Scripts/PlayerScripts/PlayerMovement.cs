@@ -71,8 +71,8 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerShooting playerShooting;
     #endregion
-    
-    
+
+
     void Awake()
     {
         playerShooting = GetComponent<PlayerShooting>();
@@ -85,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
         Time.timeScale = 1f;
         if (otherPlayerCol != null)
             Physics2D.IgnoreCollision(col, otherPlayerCol, true);
-        
+
     }
     void Update()
     {
@@ -238,9 +238,9 @@ public class PlayerMovement : MonoBehaviour
             FixReload();
         }
     }
-    
+
     private void FixReload()
-    { 
+    {
         playerShooting.remainingBullets = playerShooting.magazineSize;
         playerShooting.reloadBar.enabled = false;
         playerShooting.isReloading = false;

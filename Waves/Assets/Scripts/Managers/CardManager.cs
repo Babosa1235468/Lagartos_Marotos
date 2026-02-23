@@ -1,6 +1,5 @@
-using NUnit.Framework;
+
 using System.Collections.Generic;
-using UnityEditor.Build.Content;
 using UnityEngine;
 
 public class CardManager : MonoBehaviour
@@ -59,7 +58,7 @@ public class CardManager : MonoBehaviour
         List<CardSO> avaliableCards = new List<CardSO>(deck);
         avaliableCards.RemoveAll(card => card.isUnique
             && alreadySelectedCards.Contains(card)
-            || card.unlockLevel > GameManager.instance.CurrentLevel() 
+            || card.unlockLevel > GameManager.instance.CurrentLevel()
         );
         if (avaliableCards.Count < 4)
         {
@@ -71,7 +70,7 @@ public class CardManager : MonoBehaviour
             CardSO randomCard = avaliableCards[Random.Range(0, avaliableCards.Count)];
             if (!RandomizedCards.Contains(randomCard))
             {
-                RandomizedCards.Add(randomCard);              
+                RandomizedCards.Add(randomCard);
             }
         }
 
