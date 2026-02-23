@@ -6,13 +6,21 @@ using System.Linq;
 
 
 
-
+[Serializable]
 public class CardInfo
 {
+    public int Index;
     public int life;
     public int damage;
     public int priceSacrifice;
 }
+
+[Serializable]
+public class Cards
+{
+    public CardInfo[] cardInfo;
+}
+
 class Card
 {
     public int life;
@@ -30,17 +38,18 @@ class Card
 
         if (cards == null || cardIndex < 0 || cardIndex >= cards.cardInfo.Length)
             throw new Exception("Card inválido ou índice fora do alcance");
-
-        CardInfo card = cards.cardInfo[cardIndex];
-
-        life = card.life;
-        damage = card.damage;
-        priceSacrifice = card.priceSacrifice;
+        foreach (CardInfo card in cards.cardInfo)
+        {
+            if (cardIndex == card.Index)
+            {
+                this.life = card.life;
+                this.damage = card.damage;
+                this.priceSacrifice = card.priceSacrifice;
+                return;
+            }
+        }
+        throw new Exception("Carta nao encontrada");
+        
     }
 }
 
-[Serializable]
-public class Cards
-{
-    public CardInfo[] cardInfo;
-}

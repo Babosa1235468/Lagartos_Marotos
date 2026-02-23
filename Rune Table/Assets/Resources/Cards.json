@@ -1,26 +1,37 @@
 {
   "cardInfo": [
     {
+      "Index":  0,
+      "life": 2,
+      "damage": 0,
+      "priceSacrifice": 0
+    },
+    {
+      "Index": 1,
       "life": 1,
       "damage": 3,
       "priceSacrifice": 2
     },
     {
+      "Index": 2,
       "life": 3,
       "damage": 1,
       "priceSacrifice": 1
     },
     {
+      "Index": 3,
       "life": 7,
       "damage": 0,
       "priceSacrifice": 2
     },
     {
+      "Index": 4,
       "life": 2,
       "damage": 1,
       "priceSacrifice": 0
     },
     {
+      "Index": 5,
       "life": 2,
       "damage": 1,
       "priceSacrifice": 2
