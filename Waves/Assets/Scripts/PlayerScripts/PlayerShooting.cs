@@ -6,24 +6,24 @@ using TMPro;
 public class PlayerShooting : MonoBehaviour
 {
     [Header("UI")]
-    [SerializeField] public Image reloadFill;
-    [SerializeField] public Canvas reloadBar;
-    [SerializeField] public Transform spriteHolder;
-    [SerializeField] public TMP_Text bulletsTxt;
+    public Image reloadFill;
+    public Canvas reloadBar;
+    public Transform spriteHolder;
+    public TMP_Text bulletsTxt;
 
     [Header("Shooting Settings")]
-    [SerializeField] public GameObject bullet;
-    [SerializeField] public float bulletSpeed = 6.5f;
-    [SerializeField] public float bulletDamage = 25f;
-    [SerializeField] public KeyCode shootKey = KeyCode.Space;
-    [SerializeField] public KeyCode reloadKey = KeyCode.R;
-    [SerializeField] public float fireRate = 0.2f;          // one shot per 0.3s
-    [SerializeField] public int magazineSize = 5;           // bullets per magazine
-    [SerializeField] public float reloadTime = 1.2f;
+    public GameObject bullet;
+    public float bulletSpeed = 6.5f;
+    public float bulletDamage = 25f;
+    public KeyCode shootKey = KeyCode.Space;
+    public KeyCode reloadKey = KeyCode.R;
+    public float fireRate = 0.2f;          // one shot per 0.3s
+    public int magazineSize = 5;           // bullets per magazine
+    public float reloadTime = 1.2f;
 
-    [SerializeField] public int remainingBullets;
-    [SerializeField] public float nextFireTime;
-    [SerializeField] public bool isReloading = false;
+    public int remainingBullets;
+    public float nextFireTime;
+    public bool isReloading = false;
     void Start()
     {
         reloadBar.enabled = false;
@@ -92,11 +92,12 @@ public class PlayerShooting : MonoBehaviour
     private void Shoot()
     {
         GameObject newBullet = Instantiate(bullet, spriteHolder.transform.position, Quaternion.identity);
-
+        Debug.Log(bulletDamage);
         if (newBullet.TryGetComponent<BulletHit>(out var hit))
         {
             hit.owner = gameObject;
             hit.dmg = CalculateDamage();
+            Debug.Log(hit.dmg);
         }
 
 

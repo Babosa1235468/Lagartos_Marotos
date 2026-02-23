@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     #region ...[VARIABLES]...  
     [Header("Player Settings")]
-    [SerializeField] private string playerName = "Player";
+    [SerializeField] public string playerName = "Player";
     [SerializeField] private Collider2D otherPlayerCol;
 
     [Header("Controls")]
@@ -103,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
     public void ResetVariables()
     {
         rb.gravityScale = gravity;
-        playerShooting.bulletDamage = 20f;
+
         // Jump
         jumpsLeft = maxJumps;
         isInAir = false;
@@ -232,7 +232,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (currentLives <= 0)
         {
-            Console.WriteLine("Perdeste");
         }
         else
         {

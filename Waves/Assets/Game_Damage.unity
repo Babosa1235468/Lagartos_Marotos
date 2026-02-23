@@ -404,6 +404,7 @@ GameObject:
   m_IsActive: 1
 --- !u!212 &181156813
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -422,6 +423,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -443,9 +446,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 2843792823560063155, guid: 1f80af54c8cf43d4c90cf9ce19bf3bed, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -455,7 +460,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &181156814
 Transform:
@@ -635,6 +639,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -744,9 +749,9 @@ Canvas:
   m_GameObject: {fileID: 244766618}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 519420031}
+  m_PlaneDistance: 9
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -986,6 +991,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1621,7 +1627,6 @@ MonoBehaviour:
   m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
-  m_Version: 2
   m_TaaSettings:
     m_Quality: 3
     m_FrameInfluence: 0.1
@@ -1629,6 +1634,7 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -1795,19 +1801,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c586f1aeedc45e44aebe54a965f0537, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardSelectionUI: {fileID: 892794428}
-  cardPrefab: {fileID: 5295801507356292100, guid: 8c27b2c060b84244a97284d1c44b93ec, type: 3}
-  cardPositionOne: {fileID: 2049710499}
-  cardPositionTwo: {fileID: 2024376222}
-  cardPositionThree: {fileID: 1477170999}
-  cardPositionFour: {fileID: 204127925}
-  deck:
-  - {fileID: 11400000, guid: 3c55372594cf70844952d78bb28e2214, type: 2}
-  - {fileID: 11400000, guid: a4e9df1c2e6777441a57e8210cd36b48, type: 2}
-  - {fileID: 11400000, guid: 6b233ba9343c76045afef85bab760bf2, type: 2}
-  - {fileID: 11400000, guid: c18f0b7c957120a4b9099bfd6ed71dfc, type: 2}
-  - {fileID: 11400000, guid: ea3b2e0e5ed3863428455edecd069110, type: 2}
-  - {fileID: 11400000, guid: cf54a28f519674a48869add68979b9a6, type: 2}
 --- !u!4 &590010191
 Transform:
   m_ObjectHideFlags: 0
@@ -1931,6 +1924,7 @@ GameObject:
   m_IsActive: 1
 --- !u!212 &622046179
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1949,6 +1943,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1970,9 +1966,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 3303526368867833591, guid: a69f93c5a3bd8f04badfea54fb55fccb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1982,7 +1980,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &622046180
 Transform:
@@ -2474,6 +2471,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -2610,6 +2608,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -2746,6 +2745,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -3264,13 +3264,13 @@ MonoBehaviour:
   spriteHolder: {fileID: 1625293656}
   bulletsTxt: {fileID: 2087254717}
   bullet: {fileID: 5475616947410406932, guid: 2635d684218f3624faf698bf99a68fb3, type: 3}
-  bulletSpeed: 5.4
-  bulletDamage: 20
+  bulletSpeed: 6.5
+  bulletDamage: 25
   shootKey: 116
   reloadKey: 114
   fireRate: 0.3
   magazineSize: 5
-  reloadTime: 1.5
+  reloadTime: 1.2
   remainingBullets: 0
   nextFireTime: 0
   isReloading: 0
@@ -3434,19 +3434,19 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 03acf7534ac5a814aaaf3c386c56b1cd, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerShooting
   reloadFill: {fileID: 1818310321}
   reloadBar: {fileID: 1678544580}
   spriteHolder: {fileID: 181156814}
   bulletsTxt: {fileID: 1454945029}
   bullet: {fileID: 5475616947410406932, guid: 2635d684218f3624faf698bf99a68fb3, type: 3}
-  bulletSpeed: 5.4
-  bulletDamage: 20
+  bulletSpeed: 6.5
+  bulletDamage: 25
   shootKey: 109
   reloadKey: 110
-  fireRate: 0.3
+  fireRate: 0.2
   magazineSize: 5
-  reloadTime: 1.5
+  reloadTime: 1.2
   remainingBullets: 0
   nextFireTime: 0
   isReloading: 0
@@ -3808,6 +3808,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -4097,6 +4098,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -4157,6 +4159,7 @@ GameObject:
   m_IsActive: 1
 --- !u!212 &1625293655
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4175,6 +4178,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4196,9 +4201,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 8710827284761249101, guid: 44f9eae53d7ac314d8ea7c16e057b797, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -4208,7 +4215,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1625293656
 Transform:
@@ -4440,7 +4446,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 673, y: -470}
+  m_AnchoredPosition: {x: 705, y: -480}
   m_SizeDelta: {x: 302.01, y: 60.401978}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1777916076
@@ -4770,7 +4776,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -786, y: -470}
+  m_AnchoredPosition: {x: -808, y: -480}
   m_SizeDelta: {x: 302.01, y: 60.401978}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2024376221
@@ -5009,6 +5015,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
