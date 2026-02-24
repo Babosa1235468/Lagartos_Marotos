@@ -24,27 +24,15 @@ public class PlayerShooting : MonoBehaviour
     public int remainingBullets;
     public float nextFireTime;
     public bool isReloading = false;
-    void Start()
-    {
-        reloadBar.enabled = false;
-        remainingBullets = magazineSize;
-        bulletsTxt.text = $"{remainingBullets}";
-    }
 
-    void Update()
-    {
-        if (isReloading) return;
-        HandleTryShooting();
-        HandleTryReloading();
-    }
-    private void HandleTryReloading()
+    public void HandleTryReloading()
     {
         if (Input.GetKeyDown(reloadKey) && magazineSize != remainingBullets)
         {
             StartCoroutine(Reload());
         }
     }
-    private void HandleTryShooting()
+    public void HandleTryShooting()
     {
         if (isReloading) return;
 
@@ -64,7 +52,7 @@ public class PlayerShooting : MonoBehaviour
             }
         }
     }
-    private IEnumerator Reload()
+    public IEnumerator Reload()
     {
         isReloading = true;
         reloadBar.enabled = true;
@@ -89,7 +77,7 @@ public class PlayerShooting : MonoBehaviour
         bulletsTxt.text = $"{remainingBullets}";
     }
 
-    private void Shoot()
+    public void Shoot()
     {
         GameObject newBullet = Instantiate(bullet, spriteHolder.transform.position, Quaternion.identity);
         Debug.Log(bulletDamage);
@@ -113,7 +101,7 @@ public class PlayerShooting : MonoBehaviour
         }
 
     }
-    private float CalculateDamage()
+    public float CalculateDamage()
     {
         float damage = bulletDamage;
         return damage;

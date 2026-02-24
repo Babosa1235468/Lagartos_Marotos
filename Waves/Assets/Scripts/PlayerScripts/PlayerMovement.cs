@@ -12,55 +12,55 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Player Settings")]
     [SerializeField] public string playerName = "Player";
-    [SerializeField] private Collider2D otherPlayerCol;
+    [SerializeField] public Collider2D otherPlayerCol;
 
     [Header("Controls")]
-    [SerializeField] private KeyCode leftKey = KeyCode.A;
-    [SerializeField] private KeyCode rightKey = KeyCode.D;
-    [SerializeField] private KeyCode jumpKey = KeyCode.W;
-    [SerializeField] private KeyCode downKey = KeyCode.S;
+    [SerializeField] public KeyCode leftKey = KeyCode.A;
+    [SerializeField] public KeyCode rightKey = KeyCode.D;
+    [SerializeField] public KeyCode jumpKey = KeyCode.W;
+    [SerializeField] public KeyCode downKey = KeyCode.S;
 
     [Header("Components")]
-    [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private Collider2D col;
-    [SerializeField] private Transform spriteHolder; // assign SpriteHolder in Inspector
+    [SerializeField] public Rigidbody2D rb;
+    [SerializeField] public Collider2D col;
+    [SerializeField] public Transform spriteHolder; // assign SpriteHolder in Inspector
 
     [Header("UI")]
-    [SerializeField] private Image healthBar;
-    [SerializeField] private TextMeshProUGUI playerNameTxt;
-    [SerializeField] private TextMeshProUGUI playerLivesTxt;
+    [SerializeField] public Image healthBar;
+    [SerializeField] public TextMeshProUGUI playerNameTxt;
+    [SerializeField] public TextMeshProUGUI playerLivesTxt;
 
     [Header("Stats (Editable)")]
-    [SerializeField] private float gravity = 2.3f;
+    [SerializeField] public float gravity = 2.3f;
 
     [Header("Jump Settings")]
-    [SerializeField] private float jumpSpeed = 6.5f;
-    [SerializeField] private int maxJumps = 2;
+    [SerializeField] public float jumpSpeed = 6.5f;
+    [SerializeField] public int maxJumps = 2;
 
     [Header("Lives & Health")]
-    [SerializeField] private int maxLives = 3;
-    [SerializeField] private float maxHealthPoints = 100f;
-    [SerializeField] private float healthBarSpeed = 5f;
+    [SerializeField] public int maxLives = 3;
+    [SerializeField] public float maxHealthPoints = 100f;
+    [SerializeField] public float healthBarSpeed = 5f;
 
     [Header("Movement Settings")]
-    [SerializeField] private float currentSpeed = 0f;
-    [SerializeField] private float acceleration;
-    [SerializeField] private float deceleration;
-    [SerializeField] private float maxSpeed;
+    [SerializeField] public float currentSpeed = 0f;
+    [SerializeField] public float acceleration;
+    [SerializeField] public float deceleration;
+    [SerializeField] public float maxSpeed;
 
     [Header("Health UI Colors")]
-    [SerializeField] private Color fullHealthColor = Color.green;
-    [SerializeField] private Color zeroHealthColor = Color.red;
+    [SerializeField] public Color fullHealthColor = Color.green;
+    [SerializeField] public Color zeroHealthColor = Color.red;
 
     [Header("Spawn Settings")]
     public PlayerMovement otherPlayer;          // reference to the other player
     public float minSpawnDistance = 1.5f;       // minimum distance from other player
 
-    // -------------------- Private State --------------------
-    private int jumpsLeft;
-    private bool isInAir;
-    private bool goingDown;
-    private bool isDead;
+    // -------------------- public State --------------------
+    public int jumpsLeft;
+    public bool isInAir;
+    public bool goingDown;
+    public bool isDead;
 
     public int currentLives;
     public float currentHealthPoints;
@@ -68,42 +68,14 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-    private float targetHealthFill;
-    private float currentHealthFill;
+    public float targetHealthFill;
+    public float currentHealthFill;
 
-    private Vector3 scale;
+    public Vector3 scale;
 
 
-    private PlayerShooting playerShooting;
+    public PlayerShooting playerShooting;
     #endregion
-
-    void Awake()
-    {
-        playerShooting = GetComponent<PlayerShooting>();
-    }
-    // -------------------- Main Functions --------------------
-    void Start()
-    {
-        ResetVariables();
-        Spawn();
-        Time.timeScale = 1f;
-        if (otherPlayerCol != null)
-        {
-            Physics2D.IgnoreCollision(col, otherPlayerCol, true);
-        }
-            
-
-    }
-
-    void Update()
-    {
-        UpdateHealthBar();
-        if (isDead || GameManager.instance.isPaused) return;
-        HandleJump();
-        HandleDropThrough();
-        HandleMovement();
-        HandleFalling();
-    }
 
     // -------------------- Core Variables --------------------
     public void ResetVariables()
@@ -134,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
         scale = spriteHolder.transform.localScale;
     }
 
-    private void UpdateHealthBar()
+    public void UpdateHealthBar()
     {
         if (healthBar == null) return;
 
@@ -144,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // -------------------- Player Movement Actions --------------------
-    private void HandleJump()
+    public void HandleJump()
     {
         if (Input.GetKeyDown(jumpKey) && jumpsLeft > 0)
         {
@@ -155,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void HandleDropThrough()
+    public void HandleDropThrough()
     {
         if (Input.GetKeyDown(downKey) && !isInAir)
         {
@@ -167,7 +139,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void HandleMovement()
+    public void HandleMovement()
     {
         float targetSpeed = 0f;
 
@@ -189,14 +161,14 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // 1 FOR RIGHT -1 FOR LEFT
-    private void FlipSprite(int direction)
+    public void FlipSprite(int direction)
     {
         Vector3 scale = spriteHolder.localScale;
         scale.x = Mathf.Abs(scale.x) * direction;
         spriteHolder.localScale = scale;
     }
 
-    private void HandleFalling()
+    public void HandleFalling()
     {
         if (isInAir && rb.linearVelocity.y <= 0 && !goingDown)
         {
@@ -212,14 +184,14 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // -------------------- Collision --------------------
-    private void OnCollisionStay2D(Collision2D collision)
+    public void OnCollisionStay2D(Collision2D collision)
     {
         jumpsLeft = maxJumps;
         isInAir = false;
         col.isTrigger = false;
     }
 
-    private void EnableCollider()
+    public void EnableCollider()
     {
         col.isTrigger = false;
         goingDown = false;
@@ -249,7 +221,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void FixReload()
+    public void FixReload()
     {
         playerShooting.remainingBullets = playerShooting.magazineSize;
         playerShooting.reloadBar.enabled = false;
