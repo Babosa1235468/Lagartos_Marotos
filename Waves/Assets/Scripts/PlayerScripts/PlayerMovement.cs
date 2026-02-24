@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -193,7 +194,10 @@ public class PlayerMovement : MonoBehaviour
     private void HandleFalling()
     {
         if (isInAir && rb.linearVelocity.y <= 0 && !goingDown)
+        {
             col.isTrigger = false;
+        }
+            
 
         if (rb.linearVelocity.y < 0 && !isInAir)
         {
@@ -211,7 +215,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void EnableCollider()
-    {
+    { 
         col.isTrigger = false;
         goingDown = false;
     }
