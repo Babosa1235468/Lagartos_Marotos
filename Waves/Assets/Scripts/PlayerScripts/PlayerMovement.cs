@@ -7,7 +7,9 @@ using Random = UnityEngine.Random;
 
 public class PlayerMovement : MonoBehaviour
 {
+
     #region ...[VARIABLES]...  
+
     [Header("Player Settings")]
     [SerializeField] public string playerName = "Player";
     [SerializeField] private Collider2D otherPlayerCol;
@@ -75,7 +77,6 @@ public class PlayerMovement : MonoBehaviour
     private PlayerShooting playerShooting;
     #endregion
 
-
     void Awake()
     {
         playerShooting = GetComponent<PlayerShooting>();
@@ -87,9 +88,13 @@ public class PlayerMovement : MonoBehaviour
         Spawn();
         Time.timeScale = 1f;
         if (otherPlayerCol != null)
+        {
             Physics2D.IgnoreCollision(col, otherPlayerCol, true);
+        }
+            
 
     }
+
     void Update()
     {
         UpdateHealthBar();
@@ -197,7 +202,7 @@ public class PlayerMovement : MonoBehaviour
         {
             col.isTrigger = false;
         }
-            
+
 
         if (rb.linearVelocity.y < 0 && !isInAir)
         {
@@ -215,7 +220,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void EnableCollider()
-    { 
+    {
         col.isTrigger = false;
         goingDown = false;
     }
@@ -272,7 +277,7 @@ public class PlayerMovement : MonoBehaviour
         {
             do
             {
-                spawnPos = new Vector3(Random.Range(-3f, 1.5f), 3f, -0.685f);
+                spawnPos = new Vector3(Random.Range(-3f, 1.5f), 10f, -0.685f);
             } while (Vector3.Distance(spawnPos, otherPlayer.transform.position) < minSpawnDistance);
         }
         else
