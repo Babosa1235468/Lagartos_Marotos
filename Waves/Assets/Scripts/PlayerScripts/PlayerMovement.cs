@@ -123,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpSpeed);
             jumpsLeft--;
             isInAir = true;
-            col.isTrigger = true;
+            //col.isTrigger = true;
         }
     }
 

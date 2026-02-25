@@ -8,6 +8,8 @@ TagManager:
   - Player1MovementScript
   - Player2MovementScript
   - Bullet
+  - Player1
+  - Player2
   layers:
   - Default
   - TransparentFX

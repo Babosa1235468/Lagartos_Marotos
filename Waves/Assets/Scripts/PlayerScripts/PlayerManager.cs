@@ -3,11 +3,30 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     [Header("PlayerScripts")]
-    [SerializeField] private PlayerMovement playerMovement;
-    [SerializeField] private PlayerShooting playerShooting;
+    private PlayerMovement playerMovement;
+    private PlayerShooting playerShooting;
     void Awake()
     {
+        
+        playerMovement = gameObject.GetComponent<PlayerMovement>();
+        playerShooting = gameObject.GetComponent<PlayerShooting>();
+
+        GameObject[] Players = GameObject.FindGameObjectsWithTag("Player");
+        int x = 0;
+        string LayerUIName = "Player";
+        foreach (GameObject p in Players)
+        { 
+            if (p != gameObject)
+            {
+                x++;
+                playerMovement.otherPlayerCol = p.GetComponent<Collider2D>();
+                LayerUIName += x.ToString();
+            }
+        }
+
+
         playerMovement.playerShooting = GetComponent<PlayerShooting>();
+        
     }
     // -------------------- Main Functions --------------------
     void Start()
