@@ -286,7 +286,7 @@ public class PlayerMovement : MonoBehaviour
         {
             do
             {
-                spawnPos = new Vector3(Random.Range(-3f, 1.5f), 10f, -0.685f);
+                spawnPos = new Vector3(Random.Range(-2.8f, 1.4f), 10f, -0.685f);
             } while (Vector3.Distance(spawnPos, otherPlayer.transform.position) < minSpawnDistance);
         }
         else
