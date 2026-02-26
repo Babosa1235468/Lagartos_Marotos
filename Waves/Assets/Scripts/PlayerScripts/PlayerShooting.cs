@@ -25,6 +25,23 @@ public class PlayerShooting : MonoBehaviour
     public float nextFireTime;
     public bool isReloading = false;
 
+    void Awake() 
+    {
+        string LayerUIName = string.Empty;
+        
+        LayerUIName = LayerMask.LayerToName(gameObject.layer) + "_UI";
+
+        // Gets UI elements of the player by name
+        GameObject UIGameObject = GameObject.FindGameObjectWithTag(LayerUIName);
+        bulletsTxt = UIGameObject.transform.Find("BulletsLeft/Text").GetComponent<TextMeshProUGUI>();
+    }
+    void Start()
+    {
+        reloadBar.enabled = false;
+        remainingBullets = magazineSize;
+        bulletsTxt.text = $"{remainingBullets}";
+    }
+
     public void HandleTryReloading()
     {
         if (Input.GetKeyDown(reloadKey) && magazineSize != remainingBullets)

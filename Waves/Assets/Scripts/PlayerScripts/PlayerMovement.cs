@@ -78,6 +78,39 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     // -------------------- Core Variables --------------------
+    void Awake()
+    {
+        GameObject[] Players = GameObject.FindGameObjectsWithTag("Player");
+        string LayerUIName = string.Empty;
+        foreach (GameObject p in Players)
+        { 
+            if (p != gameObject)
+            {
+                otherPlayerCol = p.GetComponent<Collider2D>();
+                otherPlayer = p.GetComponent<PlayerMovement>();
+                
+            }
+        }
+        LayerUIName = LayerMask.LayerToName(gameObject.layer) + "_UI";
+        Debug.Log(LayerUIName);
+        playerShooting = GetComponent<PlayerShooting>();
+
+        // Gets UI elements of the player by name
+        GameObject UIGameObject = GameObject.FindGameObjectWithTag(LayerUIName);
+        healthBar = UIGameObject.transform.Find("Health/HealthBar").GetComponent<Image>();
+        playerNameTxt = UIGameObject.transform.Find("PlayerName").GetComponent<TextMeshProUGUI>();
+        playerLivesTxt = UIGameObject.transform.Find("PlayerLives/Text").GetComponent<TextMeshProUGUI>();
+    }
+    void Start() 
+    {
+        ResetVariables();
+        Spawn();
+        Time.timeScale = 1f;
+        if (otherPlayerCol != null)
+        {
+            Physics2D.IgnoreCollision(col, otherPlayerCol, true);
+        }
+    }
     public void ResetVariables()
     {
         rb.gravityScale = gravity;
