@@ -13,18 +13,18 @@ public class PlayerManager : MonoBehaviour
 
         GameObject[] Players = GameObject.FindGameObjectsWithTag("Player");
         int x = 0;
-        string LayerUIName = "Player";
+        string LayerUIName = string.Empty;
         foreach (GameObject p in Players)
         { 
             if (p != gameObject)
             {
                 x++;
                 playerMovement.otherPlayerCol = p.GetComponent<Collider2D>();
-                LayerUIName += x.ToString();
+                LayerUIName = LayerMask.LayerToName(gameObject.layer) + "_UI";
+                Debug.Log(LayerUIName);
             }
         }
-
-
+        
         playerMovement.playerShooting = GetComponent<PlayerShooting>();
         
     }
