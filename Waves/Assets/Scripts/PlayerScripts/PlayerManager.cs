@@ -16,23 +16,32 @@ public class PlayerManager : MonoBehaviour
         playerMovement = gameObject.GetComponent<PlayerMovement>();
         playerShooting = gameObject.GetComponent<PlayerShooting>();
 
-        
     }
     // -------------------- Main Functions --------------------
-
     void Update()
     {
-        playerMovement.UpdateHealthBar();
         if (!playerShooting.isReloading)
         {
-            playerShooting.HandleTryShooting();
-            playerShooting.HandleTryReloading(); 
+            if(Input.GetKey(playerShooting.shootKey))
+            {
+                playerShooting.HandleTryShooting();
+            }
+            if(Input.GetKeyDown(playerShooting.reloadKey))
+            {
+                playerShooting.HandleTryReloading(); 
+            }
         }
         
         if (!playerMovement.isDead)
         {
-            playerMovement.HandleJump();
-            playerMovement.HandleDropThrough();
+            if (Input.GetKeyDown(playerMovement.jumpKey))
+            {
+                playerMovement.HandleJump();
+            }
+            if (Input.GetKeyDown(playerMovement.downKey))
+            {
+                playerMovement.HandleDropThrough();
+            }
             playerMovement.HandleMovement();
             playerMovement.HandleFalling();
         }

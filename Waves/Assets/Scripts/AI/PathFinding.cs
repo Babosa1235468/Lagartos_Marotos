@@ -1,16 +1,65 @@
+using System;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PathFinding : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private GameObject player;
+    private PlayerMovement playerMovement;
+    private PlayerShooting playerShooting;
+    private float radiusDetection = .8f;
+    Transform[] vertices;
+
     void Start()
     {
-        
-    }
+        GameObject[] Players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject p in Players)
+        { 
+            if (p != gameObject)
+            {
+                player = p;
+            }
+        }
 
-    // Update is called once per frame
-    void Update()
+        playerMovement = gameObject.GetComponent<PlayerMovement>();
+        playerShooting = gameObject.GetComponent<PlayerShooting>();
+        vertices = GameObject.FindGameObjectsWithTag("Vertices").Select(p => p.GetComponent<Transform>()).ToArray();
+    }
+    //Finds and returns the closest Vertice to the AI and Player
+    public GameObject FindClosestVerticeToPlayer()
     {
-        
+        Vector2 direction = (player.transform.position - transform.position).normalized;
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, radiusDetection, direction);
+        float minDistance = 99999f;
+        GameObject closest = null;
+        Collider2D AICollider = playerMovement.col;
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.collider != null && hit.collider.gameObject != gameObject && hit.collider.tag == "Vertices" )
+            {
+                float distance = Vector2.Distance(playerMovement.otherPlayer.gameObject.transform.position, hit.collider.transform.position);
+
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    closest = hit.collider.transform.gameObject;
+                }
+            }
+        }
+        return closest;
+    }
+    public bool PlayerInLOS()
+    {
+        float facing = playerShooting.spriteHolder.transform.localScale.x > 0 ? 1f : -1f;
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, new Vector2(facing, 0));
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.collider.gameObject != gameObject && hit.collider.gameObject.tag == "Player")
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

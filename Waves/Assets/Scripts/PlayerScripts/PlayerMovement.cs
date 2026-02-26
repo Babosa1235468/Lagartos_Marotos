@@ -111,6 +111,10 @@ public class PlayerMovement : MonoBehaviour
             Physics2D.IgnoreCollision(col, otherPlayerCol, true);
         }
     }
+    void Update()
+    {
+        UpdateHealthBar();
+    }
     public void ResetVariables()
     {
         rb.gravityScale = gravity;
@@ -151,7 +155,7 @@ public class PlayerMovement : MonoBehaviour
     // -------------------- Player Movement Actions --------------------
     public void HandleJump()
     {
-        if (Input.GetKeyDown(jumpKey) && jumpsLeft > 0)
+        if (jumpsLeft > 0)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpSpeed);
             jumpsLeft--;
@@ -162,7 +166,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void HandleDropThrough()
     {
-        if (Input.GetKeyDown(downKey) && !isInAir)
+        if (!isInAir)
         {
             col.isTrigger = true;
             isInAir = true;

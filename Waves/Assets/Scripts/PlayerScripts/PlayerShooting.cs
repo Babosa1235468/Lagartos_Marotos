@@ -44,7 +44,9 @@ public class PlayerShooting : MonoBehaviour
 
     public void HandleTryReloading()
     {
-        if (Input.GetKeyDown(reloadKey) && magazineSize != remainingBullets)
+        if (isReloading) return;
+
+        if (magazineSize != remainingBullets)
         {
             StartCoroutine(Reload());
         }
@@ -53,7 +55,7 @@ public class PlayerShooting : MonoBehaviour
     {
         if (isReloading) return;
 
-        if (Input.GetKey(shootKey) && Time.time >= nextFireTime)
+        if (Time.time >= nextFireTime)
         {
             if (remainingBullets > 0)
             {

@@ -12,6 +12,7 @@ TagManager:
   - Player2
   - Player2_UI
   - Player1_UI
+  - Vertices
   layers:
   - Default
   - TransparentFX
