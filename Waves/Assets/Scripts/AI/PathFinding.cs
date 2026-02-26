@@ -8,7 +8,7 @@ public class PathFinding : MonoBehaviour
     private GameObject player;
     private PlayerMovement playerMovement;
     private PlayerShooting playerShooting;
-    private float radiusDetection = .8f;
+    private float radiusDetection = .7f;
     Transform[] vertices;
 
     void Start()
@@ -33,7 +33,6 @@ public class PathFinding : MonoBehaviour
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, radiusDetection, direction);
         float minDistance = 99999f;
         GameObject closest = null;
-        Collider2D AICollider = playerMovement.col;
         foreach (RaycastHit2D hit in hits)
         {
             if (hit.collider != null && hit.collider.gameObject != gameObject && hit.collider.tag == "Vertices" )
@@ -44,6 +43,25 @@ public class PathFinding : MonoBehaviour
                 {
                     minDistance = distance;
                     closest = hit.collider.transform.gameObject;
+                }
+            }
+        }
+        return closest;
+    }
+    public GameObject FindFarthestVerticeFromPlayer()
+    {
+        float maxDistance = -99999f;
+        GameObject closest = null;
+        foreach (Transform v in vertices)
+        {
+            if (v != null)
+            {
+                float distance = Vector2.Distance(playerMovement.otherPlayer.gameObject.transform.position, v.position);
+
+                if (distance > maxDistance)
+                {
+                    maxDistance = distance;
+                    closest = v.gameObject;
                 }
             }
         }

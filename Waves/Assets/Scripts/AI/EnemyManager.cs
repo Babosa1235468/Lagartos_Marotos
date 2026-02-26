@@ -3,6 +3,7 @@ using System.Collections;
 using System.Numerics;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using Vector2 = UnityEngine.Vector2;
@@ -35,7 +36,8 @@ public class EnemyManager : MonoBehaviour
         Chasing,
         Shooting,
         Running,
-        Dying
+        Dying,
+        PlayerDeath
 
     }
 
@@ -80,6 +82,10 @@ public class EnemyManager : MonoBehaviour
         {
             currentState = States.Chasing;
         }
+        if(currentState == States.Running)
+        {
+            runAway();
+        }
     }
     void OnStateChanged()
     {
@@ -92,8 +98,6 @@ public class EnemyManager : MonoBehaviour
                 break;
             case States.Chasing:
                 StartCoroutine(ChasingState());
-                break;
-            case States.Running:
                 break;
             case States.Dying:
                 StartCoroutine(DyingState());
@@ -129,14 +133,26 @@ public class EnemyManager : MonoBehaviour
     //Moves the player to the closest vertice
     void MoveToClosestVertice()
     {
-        Collider2D AICollider = playerMovement.col;
-        Collider2D moveCollider = pathFinding.FindClosestVerticeToPlayer().GetComponent<Collider2D>();
+        Collider2D moveCollider = pathFinding.FindClosestVerticeToPlayer()?.GetComponent<Collider2D>();
+        if(moveCollider == null) return;
         if (pathFinding.PlayerInLOS())
         {
             Debug.Log("In Los");
             currentState = States.Shooting;
             return;
         }
+        MoveTowards(moveCollider);
+    }
+    //Moves the player to the Farthest vertice
+    void runAway()
+    {
+        Collider2D moveCollider = pathFinding.FindFarthestVerticeFromPlayer()?.GetComponent<Collider2D>();
+        if(moveCollider == null) return;
+        MoveTowards(moveCollider);
+    }
+    //Moves the player towards a vertice
+    void MoveTowards(Collider2D moveCollider)
+    {
         float colliderY = moveCollider.gameObject.transform.position.y;
         float colliderX = moveCollider.gameObject.transform.position.x;
         float enemyY = gameObject.transform.position.y;
@@ -166,5 +182,4 @@ public class EnemyManager : MonoBehaviour
 
         playerMovement.rb.linearVelocity = new Vector2(playerMovement.currentSpeed, playerMovement.rb.linearVelocity.y);
     }
-    
 }

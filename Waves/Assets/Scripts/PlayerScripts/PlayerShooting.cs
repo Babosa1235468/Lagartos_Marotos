@@ -14,7 +14,7 @@ public class PlayerShooting : MonoBehaviour
     [Header("Shooting Settings")]
     public GameObject bullet;
     public float bulletSpeed = 6.5f;
-    public float bulletDamage = 25f;
+    public float bulletDamage = 10f;
     public KeyCode shootKey = KeyCode.Space;
     public KeyCode reloadKey = KeyCode.R;
     public float fireRate = 0.2f;          // one shot per 0.3s
@@ -64,7 +64,6 @@ public class PlayerShooting : MonoBehaviour
                 bulletsTxt.text = $"{remainingBullets}";
                 nextFireTime = Time.time + fireRate;
             }
-
             if (remainingBullets <= 0 && !isReloading)
             {
                 StartCoroutine(Reload());
