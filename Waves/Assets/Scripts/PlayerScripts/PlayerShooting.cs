@@ -99,7 +99,6 @@ public class PlayerShooting : MonoBehaviour
     public void Shoot()
     {
         GameObject newBullet = Instantiate(bullet, spriteHolder.transform.position, Quaternion.identity);
-        Debug.Log(bulletDamage);
         if (newBullet.TryGetComponent<BulletHit>(out var hit))
         {
             hit.owner = gameObject;
