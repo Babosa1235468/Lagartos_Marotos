@@ -95,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log(LayerUIName);
         playerShooting = GetComponent<PlayerShooting>();
 
-        // Gets UI elements of the player by name
+        // Gets UI elements of the player by name // Bom codigo, Aprovado. Ass Babosa
         GameObject UIGameObject = GameObject.FindGameObjectWithTag(LayerUIName);
         healthBar = UIGameObject.transform.Find("Health/HealthBar").GetComponent<Image>();
         playerNameTxt = UIGameObject.transform.Find("PlayerName").GetComponent<TextMeshProUGUI>();
