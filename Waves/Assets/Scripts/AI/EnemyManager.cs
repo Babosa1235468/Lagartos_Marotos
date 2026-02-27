@@ -137,7 +137,6 @@ public class EnemyManager : MonoBehaviour
         if(moveCollider == null) return;
         if (pathFinding.PlayerInLOS())
         {
-            Debug.Log("In Los");
             currentState = States.Shooting;
             return;
         }

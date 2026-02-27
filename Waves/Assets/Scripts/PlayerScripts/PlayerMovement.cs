@@ -41,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public int maxLives = 3;
     [SerializeField] public float maxHealthPoints = 100f;
     [SerializeField] public float healthBarSpeed = 5f;
+    [SerializeField] public bool isInvincible = false;
 
     [Header("Movement Settings")]
     [SerializeField] public float currentSpeed = 0f;
@@ -92,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         LayerUIName = LayerMask.LayerToName(gameObject.layer) + "_UI";
-        Debug.Log(LayerUIName);
+
         playerShooting = GetComponent<PlayerShooting>();
 
         // Gets UI elements of the player by name
@@ -297,4 +298,37 @@ public class PlayerMovement : MonoBehaviour
         transform.position = spawnPos;
         rb.linearVelocity = Vector2.zero;
     }
+    #region  ...[Power Ups Section]...
+    public void ApplySpeedBoost(float multValue, float time)
+    {
+        maxSpeed *= multValue;
+        Invoke(nameof(EndSpeedBoost),time);
+    }
+    public void EndSpeedBoost()
+    {
+        maxSpeed /= 1.3f;
+    }
+    public void ApplyJumpBoost(float multValue, float time)
+    {
+        jumpSpeed *= multValue;
+        Invoke(nameof(EndJumpBoost),time);
+    }
+    public void EndJumpBoost()
+    {
+        jumpSpeed /= 1.5f;
+    }
+    public void ApplyInvulnerability(float time)
+    {
+        isInvincible = true;
+        Invoke(nameof(EndInvulnerability),time);
+    }
+    public void EndInvulnerability()
+    {
+        isInvincible = false;
+    }
+    public void AddMaxHealth(int livesAmmount)
+    {
+        currentHealthPoints += livesAmmount;
+    }
+    #endregion
 }

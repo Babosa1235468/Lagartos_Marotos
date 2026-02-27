@@ -339,7 +339,7 @@ GameObject:
   - component: {fileID: 87364981}
   - component: {fileID: 87364980}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Player 2 Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1124,7 +1124,7 @@ GameObject:
   - component: {fileID: 1119931929}
   - component: {fileID: 1119931928}
   m_Layer: 5
-  m_Name: Image (2)
+  m_Name: Map choosing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1204,7 +1204,7 @@ GameObject:
   - component: {fileID: 1247075587}
   - component: {fileID: 1247075586}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Player 1 Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

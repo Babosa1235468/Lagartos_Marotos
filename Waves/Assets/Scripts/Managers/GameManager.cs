@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour
     public bool isPaused = false;
 
 
-    int currentLevel = 1;
-    GameState gameState;
+    // int currentLevel = 1;
+    // GameState gameState;
 
     private void Awake()
     {
@@ -64,26 +64,26 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    // ------------------- WORKS --------------
-    public int CurrentLevel()
-    {
-        return currentLevel;
-    }
-    public void ChangeState(GameState newGameState)
-    {
-        gameState = newGameState;
-        HandleStateChanged(gameState);
-    }
-    private void HandleStateChanged(GameState gameState)
-    {
-        switch (gameState)
-        {
-            case GameState.Playing:
-                break;
-        }
-    }
-    public enum GameState
-    {
-        Playing,
-    }
+    // // ------------------- WORKS --------------
+    // public int CurrentLevel()
+    // {
+    //     return currentLevel;
+    // }
+    // public void ChangeState(GameState newGameState)
+    // {
+    //     gameState = newGameState;
+    //     HandleStateChanged(gameState);
+    // }
+    // private void HandleStateChanged(GameState gameState)
+    // {
+    //     switch (gameState)
+    //     {
+    //         case GameState.Playing:
+    //             break;
+    //     }
+    // }
+    // public enum GameState
+    // {
+    //     Playing,
+    // }
 }

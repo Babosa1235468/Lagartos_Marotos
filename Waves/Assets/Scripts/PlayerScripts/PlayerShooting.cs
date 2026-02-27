@@ -101,8 +101,7 @@ public class PlayerShooting : MonoBehaviour
         if (newBullet.TryGetComponent<BulletHit>(out var hit))
         {
             hit.owner = gameObject;
-            hit.dmg = CalculateDamage();
-            Debug.Log(hit.dmg);
+            hit.dmg = bulletDamage;
         }
 
 
@@ -118,9 +117,8 @@ public class PlayerShooting : MonoBehaviour
         }
 
     }
-    public float CalculateDamage()
+    public void ApplyDamageBoost(float multValue, float time)
     {
-        float damage = bulletDamage;
-        return damage;
+        
     }
 }
