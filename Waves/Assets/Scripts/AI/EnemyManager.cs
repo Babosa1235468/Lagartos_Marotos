@@ -14,7 +14,10 @@ public class EnemyManager : MonoBehaviour
     private PlayerMovement playerMovement;
     private PlayerShooting playerShooting;
     private PathFinding pathFinding;
-    private float heightDiference = .3f;
+    private float heightDiference = .5f;
+    [SerializeField] private bool isReacting = false;
+    [Header("AI Settings")]
+    [SerializeField] private float reactionTime = .2f;
     void Awake()
     {
         playerMovement = gameObject.GetComponent<PlayerMovement>();
@@ -37,7 +40,8 @@ public class EnemyManager : MonoBehaviour
         Shooting,
         Running,
         Dying,
-        PlayerDeath
+        PlayerDeath,
+        GrabbingPowerUp
 
     }
 
@@ -63,29 +67,56 @@ public class EnemyManager : MonoBehaviour
     }
     void Update()
     {
+        if(!isReacting)
+        {
+            if(pathFinding.findClosestPowerUp() != null)
+            {
+                if (IsPowerUpCloser())
+                {
+                    currentState = States.GrabbingPowerUp;
+                }
+                else
+                {
+                    currentState = States.Chasing;
+                }
+            }
+            if(pathFinding.PlayerInLOS() && currentState == States.Shooting)
+            {
+                if(playerShooting.remainingBullets <= 0)
+                {
+                    currentState = States.Reloading;
+                }
+                else
+                {
+                    playerShooting.HandleTryShooting();
+                }
+            }
+            else if(!pathFinding.PlayerInLOS() && currentState == States.Shooting)
+            {
+                currentState = States.Chasing;
+            }
+            StartCoroutine(ReactionTime());
+        }
         if(currentState == States.Chasing)
         {
             MoveToClosestVertice();
-        }
-        if(pathFinding.PlayerInLOS() && currentState == States.Shooting)
-        {
-            if(playerShooting.remainingBullets <= 0)
-            {
-                currentState = States.Reloading;
-            }
-            else
-            {
-                playerShooting.HandleTryShooting();
-            }
-        }
-        else if(!pathFinding.PlayerInLOS() && currentState == States.Shooting)
-        {
-            currentState = States.Chasing;
         }
         if(currentState == States.Running)
         {
             runAway();
         }
+        if(currentState == States.GrabbingPowerUp)
+        {
+            GrabPowerUp();
+        }
+    }
+    IEnumerator ReactionTime()
+    {
+        isReacting = true;
+
+        yield return new WaitForSeconds(reactionTime); 
+
+        isReacting = false;
     }
     void OnStateChanged()
     {
@@ -134,7 +165,6 @@ public class EnemyManager : MonoBehaviour
     void MoveToClosestVertice()
     {
         Collider2D moveCollider = pathFinding.FindClosestVerticeToPlayer()?.GetComponent<Collider2D>();
-        if(moveCollider == null) return;
         if (pathFinding.PlayerInLOS())
         {
             currentState = States.Shooting;
@@ -146,12 +176,12 @@ public class EnemyManager : MonoBehaviour
     void runAway()
     {
         Collider2D moveCollider = pathFinding.FindFarthestVerticeFromPlayer()?.GetComponent<Collider2D>();
-        if(moveCollider == null) return;
         MoveTowards(moveCollider);
     }
     //Moves the player towards a vertice
     void MoveTowards(Collider2D moveCollider)
     {
+        if(moveCollider == null) return;
         float colliderY = moveCollider.gameObject.transform.position.y;
         float colliderX = moveCollider.gameObject.transform.position.x;
         float enemyY = gameObject.transform.position.y;
@@ -161,7 +191,7 @@ public class EnemyManager : MonoBehaviour
         {
             playerMovement.HandleDropThrough();
         }
-        else if(enemyY < colliderY)
+        else if(enemyY < colliderY - heightDiference)
         {
             playerMovement.HandleJump();
         }
@@ -180,5 +210,26 @@ public class EnemyManager : MonoBehaviour
         playerMovement.currentSpeed = Mathf.Lerp(playerMovement.currentSpeed, targetSpeed, smoothFactor * Time.deltaTime);
 
         playerMovement.rb.linearVelocity = new Vector2(playerMovement.currentSpeed, playerMovement.rb.linearVelocity.y);
+    }
+    void GrabPowerUp()
+    {
+        Collider2D moveCollider = pathFinding.findClosestPowerUp()?.GetComponent<Collider2D>();
+        MoveTowards(moveCollider);
+        if (moveCollider == null || moveCollider != null && gameObject.GetComponent<Collider2D>().IsTouching(moveCollider))
+        {
+            currentState = States.Chasing;
+        }
+    }
+    bool IsPowerUpCloser()
+    {
+        Collider2D moveCollider = pathFinding.findClosestPowerUp()?.GetComponent<Collider2D>();
+        Collider2D playerColliderVertice = playerMovement.otherPlayer.GetComponent<Collider2D>();
+        Vector2 moveColliderVector = moveCollider.transform.position;
+        Vector2 playerColliderVerticeVector = playerColliderVertice.transform.position;
+        if(playerColliderVerticeVector == null || (moveColliderVector != null && Vector2.Distance(playerColliderVerticeVector, transform.position) > Vector2.Distance(moveColliderVector, transform.position)))
+        {
+            return true;
+        }
+        return false;
     }
 }
