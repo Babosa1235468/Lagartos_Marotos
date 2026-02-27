@@ -62,7 +62,5 @@ public class PowerUpManager : MonoBehaviour
         }
         puScript.type = chosenPowerUp.type;
 
-        // Debug
-        Debug.Log($"Olha o bom powerup: Tipo {chosenPowerUp.type}");
     }
 }

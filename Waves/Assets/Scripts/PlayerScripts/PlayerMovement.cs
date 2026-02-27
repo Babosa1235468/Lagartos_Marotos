@@ -41,7 +41,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public int maxLives = 3;
     [SerializeField] public float maxHealthPoints = 100f;
     [SerializeField] public float healthBarSpeed = 5f;
-    [SerializeField] public bool isInvincible = false;
 
     [Header("Movement Settings")]
     [SerializeField] public float currentSpeed = 0f;
@@ -101,6 +100,9 @@ public class PlayerMovement : MonoBehaviour
         healthBar = UIGameObject.transform.Find("Health/HealthBar").GetComponent<Image>();
         playerNameTxt = UIGameObject.transform.Find("PlayerName").GetComponent<TextMeshProUGUI>();
         playerLivesTxt = UIGameObject.transform.Find("PlayerLives/Text").GetComponent<TextMeshProUGUI>();
+        rb = gameObject.GetComponent<Rigidbody2D>();
+        col = gameObject.GetComponent<BoxCollider2D>();
+        spriteHolder = gameObject.GetComponentInChildren<SpriteRenderer>().transform;
     }
     void Start() 
     {
@@ -298,24 +300,37 @@ public class PlayerMovement : MonoBehaviour
         transform.position = spawnPos;
         rb.linearVelocity = Vector2.zero;
     }
-    #region  ...[Power Ups Section]...
+    #region ...[Power Ups Section]...
+    #region ...[Variaveis]...
+    public bool isInvincible = false;
+    public float speedDiference;
+    public float jumpDiference;
+    public bool SpeedEffectOn = false;
+    public bool JumpEffectOn = false;
+    #endregion
     public void ApplySpeedBoost(float multValue, float time)
     {
-        maxSpeed *= multValue;
+        SpeedEffectOn = true;
+        speedDiference = (maxSpeed*multValue) - maxSpeed;
+        maxSpeed += speedDiference;
         Invoke(nameof(EndSpeedBoost),time);
     }
     public void EndSpeedBoost()
     {
-        maxSpeed /= 1.3f;
+        SpeedEffectOn = false;
+        maxSpeed -= speedDiference;
     }
     public void ApplyJumpBoost(float multValue, float time)
     {
-        jumpSpeed *= multValue;
+        JumpEffectOn = true;
+        jumpDiference = (jumpSpeed*multValue) - jumpSpeed;
+        jumpSpeed += jumpDiference;
         Invoke(nameof(EndJumpBoost),time);
     }
     public void EndJumpBoost()
     {
-        jumpSpeed /= 1.5f;
+        JumpEffectOn = false;
+        jumpSpeed -= jumpDiference;
     }
     public void ApplyInvulnerability(float time)
     {
@@ -328,8 +343,8 @@ public class PlayerMovement : MonoBehaviour
     }
     public void AddMaxHealth(int livesAmmount)
     {
-        playerLivesTxt.text = $"{currentLives}";
-        currentHealthPoints += livesAmmount;
+        currentLives += livesAmmount;
+        playerLivesTxt.text = $"{currentLives}";   
     }
     #endregion
 }

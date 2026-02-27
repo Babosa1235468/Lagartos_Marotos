@@ -117,8 +117,21 @@ public class PlayerShooting : MonoBehaviour
         }
 
     }
+    #region ...[Power Up Effects]...
+    #region ...[Variables]...
+    public float bulletDamageDifference;
+    public bool DamageEffectOn = false;
+    #endregion
     public void ApplyDamageBoost(float multValue, float time)
     {
-        
+        DamageEffectOn = true;
+        bulletDamageDifference = (bulletDamage*multValue) - bulletDamage;
+        bulletDamage += bulletDamageDifference;
+        Invoke(nameof(EndDamageBoost), time);
     }
+    public void EndDamageBoost()
+    {
+        bulletDamage -= bulletDamageDifference;
+    }
+    #endregion
 }
