@@ -3213,6 +3213,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cc91555ae1dfd24eba299025eca7cfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  powerUps:
+  - prefab: {fileID: 2600872617570852673, guid: 1670d937f97ebba4db3bf83e6c1d3b15, type: 3}
+    type: 2
+  - prefab: {fileID: 375504089821540875, guid: 2f173ae9777d88541b442c4729713647, type: 3}
+    type: 4
+  - prefab: {fileID: 6024762544222586544, guid: 14df3a4045e01e74aac81f84fcd61e10, type: 3}
+    type: 3
+  - prefab: {fileID: 6875840016173739346, guid: 732ee9746f2406b4ca0be7f7c04fd553, type: 3}
+    type: 1
+  - prefab: {fileID: 3669439216324371895, guid: d72a91ab06ac70b40ab32f6776b5ae09, type: 3}
+    type: 0
 --- !u!4 &1512798866
 Transform:
   m_ObjectHideFlags: 0

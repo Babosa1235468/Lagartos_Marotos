@@ -328,6 +328,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void AddMaxHealth(int livesAmmount)
     {
+        playerLivesTxt.text = $"{currentLives}";
         currentHealthPoints += livesAmmount;
     }
     #endregion
