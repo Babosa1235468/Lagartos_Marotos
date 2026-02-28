@@ -15,6 +15,9 @@ public class EnemyManager : MonoBehaviour
     private PlayerShooting playerShooting;
     private PathFinding pathFinding;
     private float heightDiference = .5f;
+    Collider2D moveColliderPlayer = null;
+    Collider2D moveColliderPowerUp = null;
+    private bool secondJumpReady = false;
     [SerializeField] private bool isReacting = false;
     [Header("AI Settings")]
     [SerializeField] private float reactionTime = .2f;
@@ -161,39 +164,94 @@ public class EnemyManager : MonoBehaviour
     }
     
     #endregion
-    //Moves the player to the closest vertice
+   //Move a ia em direção ao player
     void MoveToClosestVertice()
     {
-        Collider2D moveCollider = pathFinding.FindClosestVerticeToPlayer()?.GetComponent<Collider2D>();
+        if(!playerMovement.isInAir)
+        {
+            GameObject moveTo = pathFinding.FindClosestVerticeToPlayer();
+            if(moveTo != null)
+            {
+                moveColliderPlayer = moveTo.GetComponent<Collider2D>();
+            }
+        }
         if (pathFinding.PlayerInLOS())
         {
             currentState = States.Shooting;
             return;
         }
-        MoveTowards(moveCollider);
+        MoveTowards(moveColliderPlayer);
     }
-    //Moves the player to the Farthest vertice
+    //Faz a ia fugir do player
     void runAway()
-    {
-        Collider2D moveCollider = pathFinding.FindFarthestVerticeFromPlayer()?.GetComponent<Collider2D>();
-        MoveTowards(moveCollider);
+    {   
+        if(!playerMovement.isInAir)
+        {
+            GameObject moveTo = pathFinding.FindFarthestVerticeFromPlayer();
+            if(moveTo != null)
+            {
+                moveColliderPlayer = moveTo.GetComponent<Collider2D>();
+            }
+        }
+        MoveTowards(moveColliderPlayer);
     }
-    //Moves the player towards a vertice
+    //Move a ia em direção a um powerUp
+    void GrabPowerUp()
+    {
+        if(!playerMovement.isInAir)
+        {
+            GameObject moveTo = pathFinding.findClosestPowerUp();
+            if(moveTo != null)
+            {
+                moveColliderPowerUp = moveTo.GetComponent<Collider2D>();
+            }
+        }
+        MoveTowards(moveColliderPowerUp);
+        if (moveColliderPowerUp == null || moveColliderPowerUp != null && gameObject.GetComponent<Collider2D>().IsTouching(moveColliderPowerUp))
+        {
+            currentState = States.Chasing;
+        }
+    }
+    IEnumerator SecondJumpWait(float timeToMax)
+    {
+        yield return new WaitForSeconds(timeToMax);
+        playerMovement.HandleJump();
+        Debug.Log("Salto Duplo");
+        secondJumpReady = false;
+    }
+    
+    //Move a ia em direção a um vertice
     void MoveTowards(Collider2D moveCollider)
     {
         if(moveCollider == null) return;
+
+        float effectiveGravity = Mathf.Abs(playerMovement.gravity * Physics2D.gravity.y);
+        float maxJumpHeight = playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
+        float doubleJumpHeight = maxJumpHeight + playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
+
+        float timeToMax = playerMovement.jumpSpeed / effectiveGravity;
+        float horizontalDistanceAtMax = playerMovement.currentSpeed * timeToMax;
+
         float colliderY = moveCollider.gameObject.transform.position.y;
         float colliderX = moveCollider.gameObject.transform.position.x;
-        float enemyY = gameObject.transform.position.y;
-        float enemyX = gameObject.transform.position.x;
+        float enemyY = transform.position.y;
+        float enemyX = transform.position.x;
 
         if(enemyY > colliderY + heightDiference)
         {
             playerMovement.HandleDropThrough();
+            Debug.Log("Cair");
         }
-        else if(enemyY < colliderY - heightDiference)
+        else if(!secondJumpReady && enemyY < colliderY - heightDiference && colliderX > enemyX - horizontalDistanceAtMax && colliderX < enemyX + horizontalDistanceAtMax && !playerMovement.isInAir)
         {
+            // se apenas um salto não for suficiente faz o segundo salto
+            if(enemyY + maxJumpHeight < colliderY - heightDiference && enemyY + doubleJumpHeight > colliderY)
+            {
+                secondJumpReady = true;
+                StartCoroutine(SecondJumpWait(timeToMax));
+            }
             playerMovement.HandleJump();
+            Debug.Log("Salto");
         }
         float targetSpeed = 0f;
         if(enemyX > colliderX)
@@ -211,20 +269,12 @@ public class EnemyManager : MonoBehaviour
 
         playerMovement.rb.linearVelocity = new Vector2(playerMovement.currentSpeed, playerMovement.rb.linearVelocity.y);
     }
-    void GrabPowerUp()
-    {
-        Collider2D moveCollider = pathFinding.findClosestPowerUp()?.GetComponent<Collider2D>();
-        MoveTowards(moveCollider);
-        if (moveCollider == null || moveCollider != null && gameObject.GetComponent<Collider2D>().IsTouching(moveCollider))
-        {
-            currentState = States.Chasing;
-        }
-    }
+    // O power up esta mais perto que o player?
     bool IsPowerUpCloser()
     {
-        Collider2D moveCollider = pathFinding.findClosestPowerUp()?.GetComponent<Collider2D>();
+        Collider2D temp = pathFinding.findClosestPowerUp()?.GetComponent<Collider2D>();
         Collider2D playerColliderVertice = playerMovement.otherPlayer.GetComponent<Collider2D>();
-        Vector2 moveColliderVector = moveCollider.transform.position;
+        Vector2 moveColliderVector = temp.transform.position;
         Vector2 playerColliderVerticeVector = playerColliderVertice.transform.position;
         if(playerColliderVerticeVector == null || (moveColliderVector != null && Vector2.Distance(playerColliderVerticeVector, transform.position) > Vector2.Distance(moveColliderVector, transform.position)))
         {

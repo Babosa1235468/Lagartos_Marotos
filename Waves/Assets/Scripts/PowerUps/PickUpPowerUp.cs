@@ -20,7 +20,7 @@ public class PickUpPowerUp : MonoBehaviour
             powerUp = GetComponentInParent<PowerUp>();
         }
         ApplyPowerUpEffect(powerUp.type);
-        Destroy(gameObject.transform.parent.gameObject);
+        Destroy(transform.parent.gameObject);
     }
     public void ApplyPowerUpEffect(PowerUp.PowerUpType type)
     {
