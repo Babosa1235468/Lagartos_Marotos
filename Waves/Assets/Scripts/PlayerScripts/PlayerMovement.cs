@@ -346,5 +346,10 @@ public class PlayerMovement : MonoBehaviour
         currentLives += livesAmmount;
         playerLivesTxt.text = $"{currentLives}";   
     }
+    public void HealPlayerBackToFullHp()
+    {
+        currentHealthPoints = maxHealthPoints;
+        UpdateHealthBar();
+    }
     #endregion
 }

@@ -55,6 +55,9 @@ public class PickUpPowerUp : MonoBehaviour
             case PowerUp.PowerUpType.MoreHealth:
                 playerMovement.AddMaxHealth(1);
                 break;
+            case PowerUp.PowerUpType.Heal:
+                playerMovement.HealPlayerBackToFullHp();
+                break;
         }
     }
     

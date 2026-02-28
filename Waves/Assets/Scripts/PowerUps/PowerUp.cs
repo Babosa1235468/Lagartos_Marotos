@@ -13,7 +13,7 @@ public class PowerUp : MonoBehaviour
         DamageBoost,     // multiplica o dano do player por 2x por 4s
         Invulnerability, // torna o player invulnerável por 4s
         MoreHealth,      // adiciona uma vida máxima ao player
-        // Heal             // back to full hp
+        Heal             // back to full hp
     }
     // ao ser instanciado, vai colocar esta variavel com o tipo de efeito
     public PowerUpType type;
