@@ -14,14 +14,12 @@ public class BulletHit : MonoBehaviour
         if (collision.gameObject.layer == 6 || collision.gameObject.layer == 7)
         {
             // se o player estiver invencibel, nao leva dano
-            if (collision.GetComponent<PlayerMovement>().isInvincible)
+            if (!collision.GetComponent<PlayerMovement>().isInvincible)
             {
-                return;
+                collision.GetComponent<PlayerMovement>().Damage(dmg);
             }
-            collision.GetComponent<PlayerMovement>().Damage(dmg);
-        }
-        Destroy(gameObject);
-        // destroy bullet after hit
+            // destroy bullet after hit
+            Destroy(gameObject);
+        } 
     }
-
 }
