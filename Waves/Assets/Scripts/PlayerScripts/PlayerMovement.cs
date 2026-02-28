@@ -348,8 +348,9 @@ public class PlayerMovement : MonoBehaviour
     }
     public void HealPlayerBackToFullHp()
     {
-        currentHealthPoints = maxHealthPoints;
-        UpdateHealthBar();
+        float damageToDeal;
+        damageToDeal = -1 * (maxHealthPoints - currentHealthPoints);
+        Damage(damageToDeal);
     }
     #endregion
 }
