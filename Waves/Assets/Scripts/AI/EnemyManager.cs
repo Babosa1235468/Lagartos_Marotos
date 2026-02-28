@@ -17,6 +17,7 @@ public class EnemyManager : MonoBehaviour
     private float heightDiference = .5f;
     Collider2D moveColliderPlayer = null;
     Collider2D moveColliderPowerUp = null;
+    private bool secondJumpReady = false;
     [SerializeField] private bool isReacting = false;
     [Header("AI Settings")]
     [SerializeField] private float reactionTime = .2f;
@@ -163,7 +164,7 @@ public class EnemyManager : MonoBehaviour
     }
     
     #endregion
-    //Moves the ai to the closest player vertice
+   //Move a ia em direção ao player
     void MoveToClosestVertice()
     {
         if(!playerMovement.isInAir)
@@ -181,7 +182,7 @@ public class EnemyManager : MonoBehaviour
         }
         MoveTowards(moveColliderPlayer);
     }
-    //Moves the ai to the Farthest player vertice
+    //Faz a ia fugir do player
     void runAway()
     {   
         if(!playerMovement.isInAir)
@@ -194,7 +195,7 @@ public class EnemyManager : MonoBehaviour
         }
         MoveTowards(moveColliderPlayer);
     }
-    //Moves the ai to the power up vertice
+    //Move a ia em direção a um powerUp
     void GrabPowerUp()
     {
         if(!playerMovement.isInAir)
@@ -211,22 +212,44 @@ public class EnemyManager : MonoBehaviour
             currentState = States.Chasing;
         }
     }
-    //Moves the player towards a vertice
+    IEnumerator SecondJumpWait(float timeToMax)
+    {
+        yield return new WaitForSeconds(timeToMax);
+        playerMovement.HandleJump();
+        Debug.Log("Salto Duplo");
+        secondJumpReady = false;
+    }
+    
+    //Move a ia em direção a um vertice
     void MoveTowards(Collider2D moveCollider)
     {
         if(moveCollider == null) return;
+
+        float effectiveGravity = Mathf.Abs(playerMovement.gravity * Physics2D.gravity.y);
+        float maxJumpHeight = playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
+        float doubleJumpHeight = maxJumpHeight + playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
+
+        float timeToMax = playerMovement.jumpSpeed / effectiveGravity;
+        float horizontalDistanceAtMax = playerMovement.currentSpeed * timeToMax;
+
         float colliderY = moveCollider.gameObject.transform.position.y;
         float colliderX = moveCollider.gameObject.transform.position.x;
-        float enemyY = gameObject.transform.position.y;
-        float enemyX = gameObject.transform.position.x;
+        float enemyY = transform.position.y;
+        float enemyX = transform.position.x;
 
         if(enemyY > colliderY + heightDiference)
         {
             playerMovement.HandleDropThrough();
             Debug.Log("Cair");
         }
-        else if(enemyY < colliderY - heightDiference)
+        else if(!secondJumpReady && enemyY < colliderY - heightDiference && colliderX > enemyX - horizontalDistanceAtMax && colliderX < enemyX + horizontalDistanceAtMax && !playerMovement.isInAir)
         {
+            // se apenas um salto não for suficiente faz o segundo salto
+            if(enemyY + maxJumpHeight < colliderY - heightDiference && enemyY + doubleJumpHeight > colliderY)
+            {
+                secondJumpReady = true;
+                StartCoroutine(SecondJumpWait(timeToMax));
+            }
             playerMovement.HandleJump();
             Debug.Log("Salto");
         }
@@ -246,6 +269,7 @@ public class EnemyManager : MonoBehaviour
 
         playerMovement.rb.linearVelocity = new Vector2(playerMovement.currentSpeed, playerMovement.rb.linearVelocity.y);
     }
+    // O power up esta mais perto que o player?
     bool IsPowerUpCloser()
     {
         Collider2D temp = pathFinding.findClosestPowerUp()?.GetComponent<Collider2D>();

@@ -33,18 +33,19 @@ public class PathFinding : MonoBehaviour
         verticesPowerUps = GameObject.FindGameObjectsWithTag("PowerUpVertice").Select(p => p.GetComponent<Transform>()).ToArray();
         vertices = GameObject.FindGameObjectsWithTag("Vertices").Select(p => p.GetComponent<Transform>()).ToArray();
     }
-    //Finds and returns the closest Vertice to the AI and Player
+    //Encontra o vertice mais proximo do player ao qual a ia consegue chegar
     public GameObject FindClosestVerticeToPlayer()
     {
-        if(playerMovement.otherPlayer.GetComponent<PlayerMovement>().isInAir || playerMovement.isInAir) return null;
+        if(playerMovement.isInAir) return null;
         float effectiveGravity = Mathf.Abs(playerMovement.gravity * Physics2D.gravity.y);
         float maxJumpHeight = playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
+        float doubleJumpHeight = maxJumpHeight + playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
 
         GameObject closest = vertices.OrderBy(p => Vector2.Distance(playerMovement.otherPlayer.transform.position,p.position)).First().gameObject;
         GameObject nextVetice = closest;
         float uncertainty = 0.5f;
 
-        // Jump reachability: only evaluate vertices that are meaningfully above the AI
+        // É possivel chegar ao vertice a saltar?
         float distanceY = closest.transform.position.y - transform.position.y;
         if (distanceY > uncertainty)
         {
@@ -55,11 +56,11 @@ public class PathFinding : MonoBehaviour
                 float distanceAIY = v.transform.position.y - transform.position.y;
                 if (distanceAIY > uncertainty)
                 {
-                    if(distanceAIY < maxJumpHeight)
+                    if(distanceAIY < doubleJumpHeight)
                     {
                         if(distanceToAI < minDistance)
                         {
-                            minDistance = distanceAIY;
+                            minDistance = distanceToAI;
                             nextVetice = v.gameObject;
                         }
                     }
@@ -68,17 +69,19 @@ public class PathFinding : MonoBehaviour
         }
         return nextVetice;
     }
+    //Encontra o vertice mais longe do player ao qual a ia consegue chegar
     public GameObject FindFarthestVerticeFromPlayer()
     {
-        if(playerMovement.otherPlayer.GetComponent<PlayerMovement>().isInAir  || playerMovement.isInAir) return null;
+        if(playerMovement.isInAir) return null;
         float effectiveGravity = Mathf.Abs(playerMovement.gravity * Physics2D.gravity.y);
         float maxJumpHeight = playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
+        float doubleJumpHeight = maxJumpHeight + playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
 
         GameObject farthest = vertices.OrderBy(p => Vector2.Distance(playerMovement.otherPlayer.transform.position,p.position)).Reverse().First().gameObject;
         GameObject nextVetice = farthest;
         float uncertainty = 0.5f;
 
-        // Jump reachability: only evaluate vertices that are meaningfully above the AI
+        // É possivel chegar ao vertice a saltar?
         float distanceY = farthest.transform.position.y - transform.position.y;
         if (distanceY > uncertainty)
         {
@@ -89,11 +92,11 @@ public class PathFinding : MonoBehaviour
                 float distanceAIY = v.transform.position.y - transform.position.y;
                 if (distanceAIY > uncertainty)
                 {
-                    if(distanceAIY < maxJumpHeight)
+                    if(distanceAIY < doubleJumpHeight)
                     {
                         if(distanceToAI < minDistance)
                         {
-                            minDistance = distanceAIY;
+                            minDistance = distanceToAI;
                             nextVetice = v.gameObject;
                         }
                     }
@@ -102,6 +105,7 @@ public class PathFinding : MonoBehaviour
         }
         return nextVetice;
     }
+    //Encontra o vertice mais perto do power up ao qual a ia consegue chegar
     public GameObject findClosestPowerUp()
     {
         if(playerMovement.isInAir) return null;
@@ -113,12 +117,13 @@ public class PathFinding : MonoBehaviour
 
         float effectiveGravity = Mathf.Abs(playerMovement.gravity * Physics2D.gravity.y);
         float maxJumpHeight = playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
+        float doubleJumpHeight = maxJumpHeight + playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
 
         GameObject closest = powerVertices.OrderBy(p => Vector2.Distance(playerMovement.otherPlayer.transform.position,p.position)).First().gameObject;
         GameObject nextVetice = closest;
         float uncertainty = 0.5f;
 
-        // Jump reachability: only evaluate vertices that are meaningfully above the AI
+        // É possivel chegar ao vertice a saltar?
         float distanceY = closest.transform.position.y - transform.position.y;
         if (distanceY > uncertainty)
         {
@@ -129,11 +134,11 @@ public class PathFinding : MonoBehaviour
                 float distanceAIY = v.transform.position.y - transform.position.y;
                 if (distanceAIY > uncertainty)
                 {
-                    if(distanceAIY < maxJumpHeight)
+                    if(distanceAIY < doubleJumpHeight)
                     {
                         if(distanceToAI < minDistance)
                         {
-                            minDistance = distanceAIY;
+                            minDistance = distanceToAI;
                             nextVetice = v.gameObject;
                         }
                     }
@@ -142,6 +147,7 @@ public class PathFinding : MonoBehaviour
         }
         return nextVetice;
     }
+    //O player está no los do player
     public bool PlayerInLOS()
     {
         float facing = playerShooting.spriteHolder.transform.localScale.x > 0 ? 1f : -1f;
