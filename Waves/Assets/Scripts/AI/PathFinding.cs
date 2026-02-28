@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Color = UnityEngine.Color;
 
 public class PathFinding : MonoBehaviour
 {
@@ -34,162 +36,111 @@ public class PathFinding : MonoBehaviour
     //Finds and returns the closest Vertice to the AI and Player
     public GameObject FindClosestVerticeToPlayer()
     {
-        float distanceToAIWeight = 5f;
-        float distanceToPlayerWeight = 5f;
-        float verticalWeight = 3f;
-        float jumpWeight = 8f;
-        float uncertainty = 0.6f;
-
+        if(playerMovement.otherPlayer.GetComponent<PlayerMovement>().isInAir || playerMovement.isInAir) return null;
         float effectiveGravity = Mathf.Abs(playerMovement.gravity * Physics2D.gravity.y);
         float maxJumpHeight = playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
-        GameObject closest = null;
-        int maxPoints = -99999;
-        foreach (Transform v in vertices)
+
+        GameObject closest = vertices.OrderBy(p => Vector2.Distance(playerMovement.otherPlayer.transform.position,p.position)).First().gameObject;
+        GameObject nextVetice = closest;
+        float uncertainty = 0.5f;
+
+        // Jump reachability: only evaluate vertices that are meaningfully above the AI
+        float distanceY = closest.transform.position.y - transform.position.y;
+        if (distanceY > uncertainty)
         {
-            float distanceToAI = Vector2.Distance(v.position, transform.position);
-
-            // Skip the vertex we're already standing on
-            if (distanceToAI < 0.7f) continue;
-
-            int points = 0;
-            float distanceToPlayer = Vector2.Distance(v.position, playerMovement.otherPlayerCol.transform.position);
-
-            // Less penalty for being close to AI (we want to move toward player, not stay put)
-            points += (int)(1f / (distanceToAI + 0.01f) * 100 * distanceToAIWeight);
-            // Reward proximity to player
-            points += (int)(1f / (distanceToPlayer + 0.01f) * 100f * distanceToPlayerWeight);
-
-            float distancePlayerY = v.position.y - playerMovement.otherPlayerCol.transform.position.y;
-            float distanceAIY = transform.position.y - playerMovement.otherPlayerCol.transform.position.y;
-
-            // If both AI and vertex are below the player, prefer vertices that are higher (closer to player level)
-            if (distancePlayerY < -uncertainty && distanceAIY < -uncertainty)
+            float minDistance = 9999f;
+            foreach (Transform v in vertices)
             {
-                points += v.position.y > transform.position.y ? (int)(100 * verticalWeight) : -(int)(100 * verticalWeight);
-            }
-            // If both AI and vertex are above the player, prefer vertices that are lower (closer to player level)
-            if (distancePlayerY > uncertainty && distanceAIY > uncertainty)
-            {
-                points += v.position.y < transform.position.y ? (int)(100 * verticalWeight) : -(int)(100 * verticalWeight);
-            }
-
-            // Jump reachability: only evaluate vertices that are meaningfully above the AI
-            float distanceY = v.position.y - transform.position.y;
-            if (distanceY > uncertainty)
-            {
-                points += distanceY <= maxJumpHeight ? (int)(100 * jumpWeight) : -(int)(100 * jumpWeight);
-            }
-
-            if (points > maxPoints)
-            {
-                maxPoints = points;
-                closest = v.gameObject;
+                float distanceToAI = Vector2.Distance(v.transform.position, transform.position);
+                float distanceAIY = v.transform.position.y - transform.position.y;
+                if (distanceAIY > uncertainty)
+                {
+                    if(distanceAIY < maxJumpHeight)
+                    {
+                        if(distanceToAI < minDistance)
+                        {
+                            minDistance = distanceAIY;
+                            nextVetice = v.gameObject;
+                        }
+                    }
+                }
             }
         }
-        return closest;
+        return nextVetice;
     }
     public GameObject FindFarthestVerticeFromPlayer()
     {
-        float distanceToAIWeight = 5f;
-        float distanceToPlayerWeight = 5f;
-        float verticalWeight = 3f;
-        float jumpWeight = 8f;
-        float uncertainty = 0.6f;
-        
+        if(playerMovement.otherPlayer.GetComponent<PlayerMovement>().isInAir  || playerMovement.isInAir) return null;
         float effectiveGravity = Mathf.Abs(playerMovement.gravity * Physics2D.gravity.y);
         float maxJumpHeight = playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
-        GameObject closest = null;
-        int maxPoints = -99999;
-        foreach (Transform v in vertices)
+
+        GameObject farthest = vertices.OrderBy(p => Vector2.Distance(playerMovement.otherPlayer.transform.position,p.position)).Reverse().First().gameObject;
+        GameObject nextVetice = farthest;
+        float uncertainty = 0.5f;
+
+        // Jump reachability: only evaluate vertices that are meaningfully above the AI
+        float distanceY = farthest.transform.position.y - transform.position.y;
+        if (distanceY > uncertainty)
         {
-            float distanceToAI = Vector2.Distance(v.position, transform.position);
-            // Skip the vertex we're already standing on
-            if (distanceToAI < 0.5f) continue;
-            int points = 0;
-            float distanceToPlayer = Vector2.Distance(v.position, playerMovement.otherPlayerCol.transform.position);
-
-            // Reward vertices FAR from AI
-            points += (int)(distanceToAI * distanceToAIWeight * 10);
-            // Reward vertices FAR from player
-            points += (int)(distanceToPlayer * distanceToPlayerWeight * 10);
-
-            float distancePlayerY = v.position.y - playerMovement.otherPlayerCol.transform.position.y;
-            float distanceAIY = transform.position.y - playerMovement.otherPlayerCol.transform.position.y;
-
-            // If both AI and vertex are below the player, prefer vertices that are LOWER (further from player level)
-            if (distancePlayerY < -uncertainty && distanceAIY < -uncertainty)
+            float minDistance = 9999f;
+            foreach (Transform v in vertices)
             {
-                points += v.position.y < transform.position.y ? (int)(100 * verticalWeight) : -(int)(100 * verticalWeight);
-            }
-            // If both AI and vertex are above the player, prefer vertices that are HIGHER (further from player level)
-            if (distancePlayerY > uncertainty && distanceAIY > uncertainty)
-            {
-                points += v.position.y > transform.position.y ? (int)(100 * verticalWeight) : -(int)(100 * verticalWeight);
-            }
-
-            // Jump reachability: still penalize unreachable vertices — no point fleeing somewhere you can't get to
-            float distanceY = v.position.y - transform.position.y;
-            if (distanceY > uncertainty)
-            {
-                points += distanceY <= maxJumpHeight ? (int)(100 * jumpWeight) : -(int)(100 * jumpWeight);
-            }
-            if (points > maxPoints)
-            {
-                maxPoints = points;
-                closest = v.gameObject;
+                float distanceToAI = Vector2.Distance(v.transform.position, transform.position);
+                float distanceAIY = v.transform.position.y - transform.position.y;
+                if (distanceAIY > uncertainty)
+                {
+                    if(distanceAIY < maxJumpHeight)
+                    {
+                        if(distanceToAI < minDistance)
+                        {
+                            minDistance = distanceAIY;
+                            nextVetice = v.gameObject;
+                        }
+                    }
+                }
             }
         }
-        return closest;
+        return nextVetice;
     }
     public GameObject findClosestPowerUp()
     {
+        if(playerMovement.isInAir) return null;
         List<Transform> powerVertices = verticesPowerUps.Where(v => v.childCount != 0).ToList();
         if (powerVertices.Count <= 0)
         {
             return null;
         }
 
-        float distanceToAIWeight = 5f;
-        float distanceToPlayerWeight = 5f;
-        float verticalWeight = 3f;
-        float jumpWeight = 8f;
-        float uncertainty = 0.6f;
-        
         float effectiveGravity = Mathf.Abs(playerMovement.gravity * Physics2D.gravity.y);
         float maxJumpHeight = playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
-        GameObject closest = null;
-        int maxPoints = -99999;
 
-        foreach (Transform v in powerVertices)
+        GameObject closest = powerVertices.OrderBy(p => Vector2.Distance(playerMovement.otherPlayer.transform.position,p.position)).First().gameObject;
+        GameObject nextVetice = closest;
+        float uncertainty = 0.5f;
+
+        // Jump reachability: only evaluate vertices that are meaningfully above the AI
+        float distanceY = closest.transform.position.y - transform.position.y;
+        if (distanceY > uncertainty)
         {
-            if (v == null) continue;
-
-            float distanceToAI = Vector2.Distance(v.position, transform.position);
-            if (distanceToAI < 0.5f) continue;
-
-            int points = 0;
-            float distanceToPlayer = Vector2.Distance(v.position, playerMovement.otherPlayerCol.transform.position);
-
-            // Reward vertices close to AI
-            points += (int)(1f / (distanceToAI + 0.01f) * 100f * distanceToAIWeight);
-            // Slight penalty if the player is also close (they might grab it first)
-            points -= (int)(1f / (distanceToPlayer + 0.01f) * 100f * distanceToPlayerWeight);
-
-            // Jump reachability
-            float distanceY = v.position.y - transform.position.y;
-            if (distanceY > uncertainty)
+            float minDistance = 9999f;
+            foreach (Transform v in powerVertices)
             {
-                points += distanceY <= maxJumpHeight ? (int)(100 * jumpWeight) : -(int)(100 * jumpWeight);
-            }
-
-            if (points > maxPoints)
-            {
-                maxPoints = points;
-                closest = v.gameObject;
+                float distanceToAI = Vector2.Distance(v.transform.position, transform.position);
+                float distanceAIY = v.transform.position.y - transform.position.y;
+                if (distanceAIY > uncertainty)
+                {
+                    if(distanceAIY < maxJumpHeight)
+                    {
+                        if(distanceToAI < minDistance)
+                        {
+                            minDistance = distanceAIY;
+                            nextVetice = v.gameObject;
+                        }
+                    }
+                }
             }
         }
-
-        return closest;
+        return nextVetice;
     }
     public bool PlayerInLOS()
     {

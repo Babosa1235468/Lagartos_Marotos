@@ -15,6 +15,8 @@ public class EnemyManager : MonoBehaviour
     private PlayerShooting playerShooting;
     private PathFinding pathFinding;
     private float heightDiference = .5f;
+    Collider2D moveColliderPlayer = null;
+    Collider2D moveColliderPowerUp = null;
     [SerializeField] private bool isReacting = false;
     [Header("AI Settings")]
     [SerializeField] private float reactionTime = .2f;
@@ -161,22 +163,53 @@ public class EnemyManager : MonoBehaviour
     }
     
     #endregion
-    //Moves the player to the closest vertice
+    //Moves the ai to the closest player vertice
     void MoveToClosestVertice()
     {
-        Collider2D moveCollider = pathFinding.FindClosestVerticeToPlayer()?.GetComponent<Collider2D>();
+        if(!playerMovement.isInAir)
+        {
+            GameObject moveTo = pathFinding.FindClosestVerticeToPlayer();
+            if(moveTo != null)
+            {
+                moveColliderPlayer = moveTo.GetComponent<Collider2D>();
+            }
+        }
         if (pathFinding.PlayerInLOS())
         {
             currentState = States.Shooting;
             return;
         }
-        MoveTowards(moveCollider);
+        MoveTowards(moveColliderPlayer);
     }
-    //Moves the player to the Farthest vertice
+    //Moves the ai to the Farthest player vertice
     void runAway()
+    {   
+        if(!playerMovement.isInAir)
+        {
+            GameObject moveTo = pathFinding.FindFarthestVerticeFromPlayer();
+            if(moveTo != null)
+            {
+                moveColliderPlayer = moveTo.GetComponent<Collider2D>();
+            }
+        }
+        MoveTowards(moveColliderPlayer);
+    }
+    //Moves the ai to the power up vertice
+    void GrabPowerUp()
     {
-        Collider2D moveCollider = pathFinding.FindFarthestVerticeFromPlayer()?.GetComponent<Collider2D>();
-        MoveTowards(moveCollider);
+        if(!playerMovement.isInAir)
+        {
+            GameObject moveTo = pathFinding.findClosestPowerUp();
+            if(moveTo != null)
+            {
+                moveColliderPowerUp = moveTo.GetComponent<Collider2D>();
+            }
+        }
+        MoveTowards(moveColliderPowerUp);
+        if (moveColliderPowerUp == null || moveColliderPowerUp != null && gameObject.GetComponent<Collider2D>().IsTouching(moveColliderPowerUp))
+        {
+            currentState = States.Chasing;
+        }
     }
     //Moves the player towards a vertice
     void MoveTowards(Collider2D moveCollider)
@@ -190,10 +223,12 @@ public class EnemyManager : MonoBehaviour
         if(enemyY > colliderY + heightDiference)
         {
             playerMovement.HandleDropThrough();
+            Debug.Log("Cair");
         }
         else if(enemyY < colliderY - heightDiference)
         {
             playerMovement.HandleJump();
+            Debug.Log("Salto");
         }
         float targetSpeed = 0f;
         if(enemyX > colliderX)
@@ -211,20 +246,11 @@ public class EnemyManager : MonoBehaviour
 
         playerMovement.rb.linearVelocity = new Vector2(playerMovement.currentSpeed, playerMovement.rb.linearVelocity.y);
     }
-    void GrabPowerUp()
-    {
-        Collider2D moveCollider = pathFinding.findClosestPowerUp()?.GetComponent<Collider2D>();
-        MoveTowards(moveCollider);
-        if (moveCollider == null || moveCollider != null && gameObject.GetComponent<Collider2D>().IsTouching(moveCollider))
-        {
-            currentState = States.Chasing;
-        }
-    }
     bool IsPowerUpCloser()
     {
-        Collider2D moveCollider = pathFinding.findClosestPowerUp()?.GetComponent<Collider2D>();
+        Collider2D temp = pathFinding.findClosestPowerUp()?.GetComponent<Collider2D>();
         Collider2D playerColliderVertice = playerMovement.otherPlayer.GetComponent<Collider2D>();
-        Vector2 moveColliderVector = moveCollider.transform.position;
+        Vector2 moveColliderVector = temp.transform.position;
         Vector2 playerColliderVerticeVector = playerColliderVertice.transform.position;
         if(playerColliderVerticeVector == null || (moveColliderVector != null && Vector2.Distance(playerColliderVerticeVector, transform.position) > Vector2.Distance(moveColliderVector, transform.position)))
         {
