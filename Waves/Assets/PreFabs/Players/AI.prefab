@@ -286,7 +286,7 @@ GameObject:
   - component: {fileID: 9160369638977446242}
   m_Layer: 6
   m_Name: AI
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -411,7 +411,6 @@ MonoBehaviour:
   maxLives: 5
   maxHealthPoints: 100
   healthBarSpeed: 5
-  isInvincible: 0
   currentSpeed: 0
   acceleration: 0
   deceleration: 0
@@ -430,6 +429,11 @@ MonoBehaviour:
   currentHealthFill: 0
   scale: {x: 0, y: 0, z: 0}
   playerShooting: {fileID: 0}
+  isInvincible: 0
+  speedDiference: 0
+  jumpDiference: 0
+  SpeedEffectOn: 0
+  JumpEffectOn: 0
 --- !u!114 &6443438252919894533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,6 +461,8 @@ MonoBehaviour:
   remainingBullets: 0
   nextFireTime: 0
   isReloading: 0
+  bulletDamageDifference: 0
+  DamageEffectOn: 0
 --- !u!114 &7832572660243978807
 MonoBehaviour:
   m_ObjectHideFlags: 0
