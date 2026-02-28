@@ -62,5 +62,12 @@ public class PowerUpManager : MonoBehaviour
         }
         puScript.type = chosenPowerUp.type;
 
+        // Associa o script PickUpPowerUp
+        PickUpPowerUp ppuScript = newPowerUp.GetComponent<PickUpPowerUp>();
+        if (ppuScript == null)
+        {
+            newPowerUp.AddComponent<PickUpPowerUp>();
+        }
+
     }
 }
