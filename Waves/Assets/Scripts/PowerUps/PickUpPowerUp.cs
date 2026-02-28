@@ -13,14 +13,14 @@ public class PickUpPowerUp : MonoBehaviour
         // caso toque em outras cenas
         if (playerMovement == null || playerShooting == null ) return;
 
-        //buscar o powerUp script para encontrar o respetivo tipo
-        PowerUp powerUp = GetComponentInParent<PowerUp>();
+        //buscar ao pai o powerUp script para ir buscar o respetivo powerUp
+        PowerUp powerUp = GetComponent<PowerUp>();
         if (powerUp == null)
         {
             powerUp = GetComponentInParent<PowerUp>();
         }
         ApplyPowerUpEffect(powerUp.type);
-        Destroy(gameObject.transform.parent.gameObject);
+        Destroy(transform.parent.gameObject);
     }
     public void ApplyPowerUpEffect(PowerUp.PowerUpType type)
     {
