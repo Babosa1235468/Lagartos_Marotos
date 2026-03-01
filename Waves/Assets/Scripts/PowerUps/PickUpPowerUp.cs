@@ -20,7 +20,6 @@ public class PickUpPowerUp : MonoBehaviour
             powerUp = GetComponentInParent<PowerUp>();
         }
         ApplyPowerUpEffect(powerUp.type);
-        Destroy(transform.parent.gameObject);
     }
     public void ApplyPowerUpEffect(PowerUp.PowerUpType type)
     {
@@ -30,33 +29,43 @@ public class PickUpPowerUp : MonoBehaviour
                 if(!playerMovement.SpeedEffectOn)
                 {
                     playerMovement.ApplySpeedBoost(1.5f, 6f);
-                }
-                
+                    Destroy(transform.parent.gameObject);
+                }   
                 break;
 
             case PowerUp.PowerUpType.JumpBoost:
                 if(!playerMovement.JumpEffectOn)
                 {
                     playerMovement.ApplyJumpBoost(1.5f, 6f);
+                    Destroy(transform.parent.gameObject);
                 }
                 break;
 
             case PowerUp.PowerUpType.DamageBoost:
-                playerShooting.ApplyDamageBoost(2f, 4f);
+                if (!playerShooting.DamageEffectOn)
+                {
+                    playerShooting.ApplyDamageBoost(2f, 4f);
+                    Destroy(transform.parent.gameObject);
+                }
+                
                 break;
 
             case PowerUp.PowerUpType.Invulnerability:
                 if(!playerMovement.isInvincible)
                 {
                     playerMovement.ApplyInvulnerability(4f);
+                    Destroy(transform.parent.gameObject);
                 }
                 break;
 
             case PowerUp.PowerUpType.MoreHealth:
                 playerMovement.AddMaxHealth(1);
+                Destroy(transform.parent.gameObject);
                 break;
+
             case PowerUp.PowerUpType.Heal:
                 playerMovement.HealPlayerBackToFullHp();
+                Destroy(transform.parent.gameObject);
                 break;
         }
     }
