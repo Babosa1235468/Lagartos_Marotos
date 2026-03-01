@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Settings")]
     [SerializeField] public string playerName = "Player";
     [SerializeField] public Collider2D otherPlayerCol;
+    [SerializeField] public Collider2D otherPlayerFootCol;
 
     [Header("Controls")]
     [SerializeField] public KeyCode leftKey = KeyCode.A;
@@ -23,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Components")]
     [SerializeField] public Rigidbody2D rb;
     [SerializeField] public Collider2D col;
+    [SerializeField] public Collider2D footCol;
     [SerializeField] public Transform spriteHolder; // assign SpriteHolder in Inspector
 
     [Header("UI")]
@@ -47,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public float acceleration;
     [SerializeField] public float deceleration;
     [SerializeField] public float maxSpeed;
+    [SerializeField] public float maxFallSpeed = 1f;
 
     [Header("Health UI Colors")]
     [SerializeField] public Color fullHealthColor = Color.green;
@@ -57,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
     public float minSpawnDistance = 1.5f;       // minimum distance from other player
 
     // -------------------- public State --------------------
+    [Header("Etc")]
     public int jumpsLeft;
     public bool isInAir;
     public bool goingDown;
@@ -88,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 otherPlayerCol = p.GetComponent<Collider2D>();
                 otherPlayer = p.GetComponent<PlayerMovement>();
-                
+                otherPlayerFootCol = p.transform.Find("Foot").GetComponent<Collider2D>();
             }
         }
         LayerUIName = LayerMask.LayerToName(gameObject.layer) + "_UI";
@@ -96,6 +100,8 @@ public class PlayerMovement : MonoBehaviour
         playerShooting = GetComponent<PlayerShooting>();
 
         // Gets UI elements of the player by name
+        footCol = transform.Find("Foot").GetComponent<Collider2D>();
+        
         GameObject UIGameObject = GameObject.FindGameObjectWithTag(LayerUIName);
         healthBar = UIGameObject.transform.Find("Health/HealthBar").GetComponent<Image>();
         playerNameTxt = UIGameObject.transform.Find("PlayerName").GetComponent<TextMeshProUGUI>();
@@ -112,11 +118,23 @@ public class PlayerMovement : MonoBehaviour
         if (otherPlayerCol != null)
         {
             Physics2D.IgnoreCollision(col, otherPlayerCol, true);
+            Physics2D.IgnoreCollision(footCol, otherPlayerCol, true);
+            Physics2D.IgnoreCollision(col, otherPlayerFootCol, true);
+            Physics2D.IgnoreCollision(footCol, otherPlayerFootCol, true);
+            GameObject[] grounds = GameObject.FindGameObjectsWithTag("Ground");
+            foreach(GameObject g in grounds)
+            {
+                Physics2D.IgnoreCollision(col, g.GetComponent<Collider2D>(), true);
+            }
         }
     }
     void Update()
     {
         UpdateHealthBar();
+        if(rb.linearVelocityY < -maxFallSpeed)
+        {
+            rb.linearVelocityY = -maxFallSpeed;
+        }
     }
     public void ResetVariables()
     {
@@ -172,10 +190,11 @@ public class PlayerMovement : MonoBehaviour
         if (!isInAir)
         {
             col.isTrigger = true;
+            footCol.isTrigger = true;
             isInAir = true;
             goingDown = true;
             jumpsLeft = 1;
-            Invoke(nameof(EnableCollider), 0.24f);
+            Invoke(nameof(EnableCollider), 0.3f);
         }
     }
 
@@ -212,7 +231,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isInAir && rb.linearVelocity.y <= 0 && !goingDown)
         {
-            col.isTrigger = false;
+            footCol.isTrigger = false;
         }
 
 
@@ -223,17 +242,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // -------------------- Collision --------------------
-    public void OnCollisionStay2D(Collision2D collision)
-    {
-        jumpsLeft = maxJumps;
-        isInAir = false;
-        col.isTrigger = false;
-    }
+    
 
     public void EnableCollider()
     {
-        col.isTrigger = false;
+        footCol.isTrigger = false;
         goingDown = false;
     }
 
@@ -289,7 +302,7 @@ public class PlayerMovement : MonoBehaviour
         {
             do
             {
-                spawnPos = new Vector3(Random.Range(-2.8f, 1.4f), 10f, -0.685f);
+                spawnPos = new Vector3(Random.Range(-2.8f, 1.4f), 5f, -0.685f);
             } while (Vector3.Distance(spawnPos, otherPlayer.transform.position) < minSpawnDistance);
         }
         else

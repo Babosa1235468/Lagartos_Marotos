@@ -17,7 +17,7 @@ public class EnemyManager : MonoBehaviour
     private float heightDiference = .5f;
     Collider2D moveColliderPlayer = null;
     Collider2D moveColliderPowerUp = null;
-    private bool secondJumpReady = false;
+    private bool jumping = false;
     [SerializeField] private bool isReacting = false;
     [Header("AI Settings")]
     [SerializeField] private float reactionTime = .2f;
@@ -77,6 +77,7 @@ public class EnemyManager : MonoBehaviour
                 if (IsPowerUpCloser())
                 {
                     currentState = States.GrabbingPowerUp;
+                    playerShooting.HandleTryReloading();
                 }
                 else
                 {
@@ -167,13 +168,9 @@ public class EnemyManager : MonoBehaviour
    //Move a ia em direção ao player
     void MoveToClosestVertice()
     {
-        if(!playerMovement.isInAir)
+        if(playerMovement.rb.linearVelocityY == 0)
         {
-            GameObject moveTo = pathFinding.FindClosestVerticeToPlayer();
-            if(moveTo != null)
-            {
-                moveColliderPlayer = moveTo.GetComponent<Collider2D>();
-            }
+            moveColliderPlayer = pathFinding.FindClosestVerticeToPlayer().GetComponent<Collider2D>();
         }
         if (pathFinding.PlayerInLOS())
         {
@@ -185,29 +182,26 @@ public class EnemyManager : MonoBehaviour
     //Faz a ia fugir do player
     void runAway()
     {   
-        if(!playerMovement.isInAir)
+        if(playerMovement.rb.linearVelocityY == 0)
         {
-            GameObject moveTo = pathFinding.FindFarthestVerticeFromPlayer();
-            if(moveTo != null)
-            {
-                moveColliderPlayer = moveTo.GetComponent<Collider2D>();
-            }
+            moveColliderPlayer = pathFinding.FindFarthestVerticeFromPlayer().GetComponent<Collider2D>();
         }
         MoveTowards(moveColliderPlayer);
     }
     //Move a ia em direção a um powerUp
     void GrabPowerUp()
     {
-        if(!playerMovement.isInAir)
+        
+        if(playerMovement.rb.linearVelocityY == 0)
         {
-            GameObject moveTo = pathFinding.findClosestPowerUp();
-            if(moveTo != null)
+            GameObject powerUp = pathFinding.findClosestPowerUp();
+            if(powerUp != null)
             {
-                moveColliderPowerUp = moveTo.GetComponent<Collider2D>();
+                moveColliderPowerUp = powerUp.GetComponent<Collider2D>();
             }
         }
         MoveTowards(moveColliderPowerUp);
-        if (moveColliderPowerUp == null || moveColliderPowerUp != null && gameObject.GetComponent<Collider2D>().IsTouching(moveColliderPowerUp))
+        if (moveColliderPowerUp == null || moveColliderPowerUp != null && playerMovement.col.IsTouching(moveColliderPowerUp))
         {
             currentState = States.Chasing;
         }
@@ -216,42 +210,56 @@ public class EnemyManager : MonoBehaviour
     {
         yield return new WaitForSeconds(timeToMax);
         playerMovement.HandleJump();
-        Debug.Log("Salto Duplo");
-        secondJumpReady = false;
     }
     
     //Move a ia em direção a um vertice
     void MoveTowards(Collider2D moveCollider)
     {
         if(moveCollider == null) return;
-
-        float effectiveGravity = Mathf.Abs(playerMovement.gravity * Physics2D.gravity.y);
-        float maxJumpHeight = playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
-        float doubleJumpHeight = maxJumpHeight + playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
-
-        float timeToMax = playerMovement.jumpSpeed / effectiveGravity;
-        float horizontalDistanceAtMax = playerMovement.currentSpeed * timeToMax;
+        if(moveCollider.IsTouching(playerMovement.col)) return;
+        Debug.Log("---------------------------");
+        Debug.Log(moveCollider.transform.parent.parent);
+        Debug.Log(moveCollider);
+        Debug.Log("---------------------------");
 
         float colliderY = moveCollider.gameObject.transform.position.y;
         float colliderX = moveCollider.gameObject.transform.position.x;
         float enemyY = transform.position.y;
         float enemyX = transform.position.x;
 
-        if(enemyY > colliderY + heightDiference)
+        float effectiveGravity = Mathf.Abs(playerMovement.gravity * Physics2D.gravity.y);
+        float maxJumpHeight = playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
+        float doubleJumpHeight = maxJumpHeight + playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
+
+        float timeToMax = playerMovement.jumpSpeed / effectiveGravity;
+        float direction = Mathf.Sign(colliderX - enemyX);
+        float horizontalDistanceAtMax = direction * (Mathf.Abs(playerMovement.currentSpeed) * timeToMax + 0.5f * Mathf.Abs(playerMovement.acceleration) * timeToMax * timeToMax);
+
+        if(playerMovement.rb.linearVelocityY > 0)
         {
-            playerMovement.HandleDropThrough();
-            Debug.Log("Cair");
+            jumping = true;
         }
-        else if(!secondJumpReady && enemyY < colliderY - heightDiference && colliderX > enemyX - horizontalDistanceAtMax && colliderX < enemyX + horizontalDistanceAtMax && !playerMovement.isInAir)
+        else
         {
-            // se apenas um salto não for suficiente faz o segundo salto
-            if(enemyY + maxJumpHeight < colliderY - heightDiference && enemyY + doubleJumpHeight > colliderY)
-            {
-                secondJumpReady = true;
-                StartCoroutine(SecondJumpWait(timeToMax));
-            }
-            playerMovement.HandleJump();
+            jumping = false;
+        }
+        if(!jumping && enemyY > colliderY + heightDiference)
+        {
+            Debug.Log("Pa baixo");
+            playerMovement.HandleDropThrough();
+        }
+        else if(!jumping && pathFinding.canJumpTo(moveCollider,1))
+        {
             Debug.Log("Salto");
+            jumping = true;
+            playerMovement.HandleJump();
+        } // se apenas um salto não for suficiente faz dois saltos
+        else if(!jumping && pathFinding.canJumpTo(moveCollider,2))
+        {
+            Debug.Log("Salto duplo");
+            jumping = true;
+            playerMovement.HandleJump();
+            StartCoroutine(SecondJumpWait(timeToMax));
         }
         float targetSpeed = 0f;
         if(enemyX > colliderX)

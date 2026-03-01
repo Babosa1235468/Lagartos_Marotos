@@ -14,6 +14,7 @@ TagManager:
   - Player1_UI
   - Vertices
   - PowerUpVertice
+  - Ground
   layers:
   - Default
   - TransparentFX
