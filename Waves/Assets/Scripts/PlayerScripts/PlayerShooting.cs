@@ -128,10 +128,12 @@ public class PlayerShooting : MonoBehaviour
         bulletDamageDifference = (bulletDamage*multValue) - bulletDamage;
         bulletDamage += bulletDamageDifference;
         Invoke(nameof(EndDamageBoost), time);
-    }
+         
+        }
     public void EndDamageBoost()
     {
         bulletDamage -= bulletDamageDifference;
+        DamageEffectOn = false;
     }
     #endregion
 }

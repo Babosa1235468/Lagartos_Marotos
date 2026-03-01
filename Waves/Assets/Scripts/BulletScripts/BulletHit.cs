@@ -11,6 +11,7 @@ public class BulletHit : MonoBehaviour
 
         if (collision.gameObject.tag == "Player")
         {
+            Debug.Log(collision.GetComponent<PlayerMovement>().isInvincible);
             // se o player estiver invencivel, nao leva dano
             if (collision.GetComponent<PlayerMovement>().isInvincible)
             {

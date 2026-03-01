@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using System.Numerics;
 using TMPro;
 using Unity.VisualScripting;
@@ -243,18 +244,21 @@ public class EnemyManager : MonoBehaviour
         {
             jumping = false;
         }
-        if(!jumping && enemyY > colliderY + heightDiference)
+        if(enemyY > colliderY + heightDiference && playerMovement.rb.linearVelocityY == 0)
         {
-            Debug.Log("Pa baixo");
-            playerMovement.HandleDropThrough();
+            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position,Vector2.down,10f,LayerMask.GetMask("Ground"));
+            if(hits.Count() >= 2)
+            {
+                playerMovement.HandleDropThrough();
+            }
         }
-        else if(!jumping && pathFinding.canJumpTo(moveCollider,1))
+        else if(!jumping && pathFinding.canJumpTo(moveCollider,1) && playerMovement.jumpsLeft >= 1)
         {
             Debug.Log("Salto");
             jumping = true;
             playerMovement.HandleJump();
         } // se apenas um salto não for suficiente faz dois saltos
-        else if(!jumping && pathFinding.canJumpTo(moveCollider,2))
+        else if(!jumping && pathFinding.canJumpTo(moveCollider,2) && playerMovement.jumpsLeft >= 2)
         {
             Debug.Log("Salto duplo");
             jumping = true;
@@ -262,13 +266,27 @@ public class EnemyManager : MonoBehaviour
             StartCoroutine(SecondJumpWait(timeToMax));
         }
         float targetSpeed = 0f;
+        RaycastHit2D[] hitsLeftFloor = Physics2D.RaycastAll(transform.position,new Vector2(-1,-1),2f,LayerMask.GetMask("Ground"));
+        RaycastHit2D[] hitsRightFloor = Physics2D.RaycastAll(transform.position,new Vector2(1,-1),2f,LayerMask.GetMask("Ground"));
         if(enemyX > colliderX)
         {
+            if(!jumping && playerMovement.jumpsLeft >= 1 && hitsLeftFloor.Count() <= 0)
+            {
+                Debug.Log("Salto");
+                jumping = true;
+                playerMovement.HandleJump();
+            }
             targetSpeed = -playerMovement.maxSpeed;
             playerMovement.FlipSprite(-1);
         }
         else if(enemyX < colliderX)
         {
+            if(!jumping && playerMovement.jumpsLeft >= 1 && hitsRightFloor.Count() <= 0)
+            {
+                Debug.Log("Salto");
+                jumping = true;
+                playerMovement.HandleJump();
+            }
             targetSpeed = playerMovement.maxSpeed;
             playerMovement.FlipSprite(1);
         }
