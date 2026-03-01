@@ -396,12 +396,14 @@ MonoBehaviour:
   playerName: Joao
   otherPlayerCol: {fileID: 0}
   otherPlayerFootCol: {fileID: 0}
+  otherPlayerFootCol: {fileID: 0}
   leftKey: 97
   rightKey: 100
   jumpKey: 119
   downKey: 115
   rb: {fileID: 9195390949039812927}
   col: {fileID: 1277434389744419537}
+  footCol: {fileID: 0}
   footCol: {fileID: 0}
   spriteHolder: {fileID: 7849448788827519628}
   healthBar: {fileID: 0}
