@@ -218,10 +218,6 @@ public class EnemyManager : MonoBehaviour
     {
         if(moveCollider == null) return;
         if(moveCollider.IsTouching(playerMovement.col)) return;
-        Debug.Log("---------------------------");
-        Debug.Log(moveCollider.transform.parent.parent);
-        Debug.Log(moveCollider);
-        Debug.Log("---------------------------");
 
         float colliderY = moveCollider.gameObject.transform.position.y;
         float colliderX = moveCollider.gameObject.transform.position.x;
@@ -252,13 +248,13 @@ public class EnemyManager : MonoBehaviour
                 playerMovement.HandleDropThrough();
             }
         }
-        else if(!jumping && pathFinding.canJumpTo(moveCollider,1) && playerMovement.jumpsLeft >= 1)
+        else if(!jumping && pathFinding.canJumpTo(moveCollider,1) && playerMovement.jumpsLeft >= 1 )
         {
             Debug.Log("Salto");
             jumping = true;
             playerMovement.HandleJump();
         } // se apenas um salto não for suficiente faz dois saltos
-        else if(!jumping && pathFinding.canJumpTo(moveCollider,2) && playerMovement.jumpsLeft >= 2)
+        else if(!jumping && pathFinding.canJumpTo(moveCollider,2)  && playerMovement.jumpsLeft >= 2)
         {
             Debug.Log("Salto duplo");
             jumping = true;
@@ -270,7 +266,7 @@ public class EnemyManager : MonoBehaviour
         RaycastHit2D[] hitsRightFloor = Physics2D.RaycastAll(transform.position,new Vector2(1,-1),2f,LayerMask.GetMask("Ground"));
         if(enemyX > colliderX)
         {
-            if(!jumping && playerMovement.jumpsLeft >= 1 && hitsLeftFloor.Count() <= 0)
+            if(!jumping && playerMovement.jumpsLeft >= 1 && hitsLeftFloor.Count() <= 0 && enemyY <= colliderY )
             {
                 Debug.Log("Salto");
                 jumping = true;
@@ -281,7 +277,7 @@ public class EnemyManager : MonoBehaviour
         }
         else if(enemyX < colliderX)
         {
-            if(!jumping && playerMovement.jumpsLeft >= 1 && hitsRightFloor.Count() <= 0)
+            if(!jumping && playerMovement.jumpsLeft >= 1 && hitsRightFloor.Count() <= 0  && enemyY <= colliderY)
             {
                 Debug.Log("Salto");
                 jumping = true;
