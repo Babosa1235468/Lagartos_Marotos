@@ -1888,7 +1888,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6187291110493100583, guid: 8463d340d36a9984283419933b603e6c, type: 3}
       propertyPath: reactionTime
-      value: 0
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6315187201325522643, guid: 8463d340d36a9984283419933b603e6c, type: 3}
       propertyPath: m_Name
