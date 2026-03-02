@@ -22,6 +22,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private bool isReacting = false;
     [Header("AI Settings")]
     [SerializeField] private float reactionTime = .2f;
+    [SerializeField] private bool isAlive = false;
     void Awake()
     {
         playerMovement = gameObject.GetComponent<PlayerMovement>();
@@ -71,6 +72,19 @@ public class EnemyManager : MonoBehaviour
     }
     void Update()
     {
+        if(playerMovement.currentHealthPoints <= 0)
+        {
+            isAlive = false;
+            currentState = States.Dying;
+            Debug.Log("Morreu");
+        }
+        if(currentState == States.Starting || currentState == States.Dying)
+        {
+            if(playerMovement.rb.linearVelocityY == 0 && isAlive)
+            {
+                currentState = States.Chasing;
+            }
+        }
         if(!isReacting)
         {
             if(pathFinding.findClosestPowerUp() != null)
@@ -127,7 +141,7 @@ public class EnemyManager : MonoBehaviour
     {
         switch (currentState) {
             case States.Starting:
-                StartCoroutine(StartingState());
+                StartCoroutine(Spawning());
                 break;
              case States.Reloading:
                 StartCoroutine(ReloadingState());
@@ -136,17 +150,11 @@ public class EnemyManager : MonoBehaviour
                 StartCoroutine(ChasingState());
                 break;
             case States.Dying:
-                StartCoroutine(DyingState());
+                StartCoroutine(Spawning());
                 break;
         }
     }
     #region States
-    IEnumerator StartingState()
-    {
-        yield return new WaitForSeconds(1.5f);
-        currentState = States.Chasing;
-
-    }
     IEnumerator ReloadingState()
     {
         currentState = States.Running;
@@ -166,6 +174,11 @@ public class EnemyManager : MonoBehaviour
     }
     
     #endregion
+    IEnumerator Spawning()
+    {
+        yield return new WaitForSeconds(.2f);
+        isAlive = true;
+    }
    //Move a ia em direção ao player
     void MoveToClosestVertice()
     {
