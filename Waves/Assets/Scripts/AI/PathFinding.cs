@@ -160,6 +160,7 @@ public class PathFinding : MonoBehaviour
     }
     public bool canJumpTo(Collider2D jumpTo, int amountOfJump)
     {
+        if(jumpTo.transform.position.y < transform.position.y) return false;
         float effectiveGravity = Mathf.Abs(playerMovement.gravity * Physics2D.gravity.y);
         float maxJumpHeight = playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
         float doubleJumpHeight = maxJumpHeight + playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
