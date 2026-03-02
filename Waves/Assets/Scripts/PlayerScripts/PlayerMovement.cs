@@ -314,7 +314,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     SpawnInGround = true;
                 }
-            } while ((Vector3.Distance(spawnPos, otherPlayer.transform.position) < minSpawnDistance) && !SpawnInGround);
+            } while ((Vector3.Distance(spawnPos, otherPlayer.transform.position) < minSpawnDistance) || !SpawnInGround);
         }
         else
         {
