@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using TMPro;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -298,12 +300,21 @@ public class PlayerMovement : MonoBehaviour
 
 
         Vector3 spawnPos;
+        bool SpawnInGround = false;
         if (otherPlayer != null)
         {
             do
             {
+                SpawnInGround = false;
                 spawnPos = new Vector3(Random.Range(-2.8f, 1.4f), 5f, -0.685f);
-            } while (Vector3.Distance(spawnPos, otherPlayer.transform.position) < minSpawnDistance);
+
+                //VERIFICA SE HA CHAO EM BAIXO
+                RaycastHit2D[] hits = Physics2D.RaycastAll(spawnPos, new Vector2(0, -1), 100f, LayerMask.GetMask("Ground"));
+                if (hits.Count() > 0)
+                {
+                    SpawnInGround = true;
+                }
+            } while ((Vector3.Distance(spawnPos, otherPlayer.transform.position) < minSpawnDistance) && !SpawnInGround);
         }
         else
         {
