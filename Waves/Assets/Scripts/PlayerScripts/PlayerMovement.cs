@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public Collider2D col;
     [SerializeField] public Collider2D footCol;
     [SerializeField] public Transform spriteHolder; // assign SpriteHolder in Inspector
+    [SerializeField] public Animator animator;
 
     [Header("UI")]
     [SerializeField] public Image healthBar;
@@ -111,6 +112,7 @@ public class PlayerMovement : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody2D>();
         col = gameObject.GetComponent<BoxCollider2D>();
         spriteHolder = gameObject.GetComponentInChildren<SpriteRenderer>().transform;
+        animator = gameObject.GetComponent<Animator>();
     }
     void Start() 
     {
@@ -217,7 +219,7 @@ public class PlayerMovement : MonoBehaviour
 
         float smoothFactor = (targetSpeed == 0f) ? deceleration : acceleration;
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, smoothFactor * Time.deltaTime);
-
+        animator.SetFloat("Speed", Math.Abs(currentSpeed));
         rb.linearVelocity = new Vector2(currentSpeed, rb.linearVelocity.y);
     }
 
