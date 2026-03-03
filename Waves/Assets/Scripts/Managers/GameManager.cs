@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using TMPro;
+using UnityEngine.Analytics;
 public class GameManager : MonoBehaviour
 {
     // PAUSE MENU VARIABLES
     public GameObject pauseGameMenu;
+    public GameObject gameOverScreen;
+    public TextMeshProUGUI nomeJogador;
+    public GameObject Mapas;
     public static GameManager instance;
     public bool isPaused = false;
 
@@ -15,11 +19,10 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-    }
-    // Just to prevent future 
-    private void Start()
-    {
         pauseGameMenu.SetActive(false);
+        gameOverScreen.SetActive(false);
+        Mapas = GameObject.Find("Maps");
+        nomeJogador = gameOverScreen.transform.Find("GameOverMenu/PlayerWhoWon").GetComponent<TextMeshProUGUI>();
     }
 
     // ------------------- PAUSE / CONTINUE FUNTIONS --------------------------
@@ -30,6 +33,10 @@ public class GameManager : MonoBehaviour
         {
             ChangePauseMenuState();
         }
+    }
+    public void StartGame()
+    {
+        //CODIGO PARA PODER COMECAR O JOGO
     }
     public void ChangePauseMenuState()
     {
@@ -62,6 +69,13 @@ public class GameManager : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale = 1f;
+    }
+    public void EndGame(string PlayerWhoWonName)
+    {
+        Mapas.SetActive(false);
+        gameOverScreen.SetActive(true);
+       
+        nomeJogador.text = $"{PlayerWhoWonName} \nGANHOU!!!";
     }
 
     // // ------------------- WORKS --------------
