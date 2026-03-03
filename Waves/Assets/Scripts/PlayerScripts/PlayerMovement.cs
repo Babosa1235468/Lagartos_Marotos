@@ -1,9 +1,11 @@
 using System;
+using System.Collections;
 using System.Linq;
 using TMPro;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -68,11 +70,10 @@ public class PlayerMovement : MonoBehaviour
     public bool isInAir;
     public bool goingDown;
     public bool isDead;
+    public float respawnTimer;
 
     public int currentLives;
     public float currentHealthPoints;
-
-
 
 
     public float targetHealthFill;
@@ -90,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
         GameObject[] Players = GameObject.FindGameObjectsWithTag("Player");
         string LayerUIName = string.Empty;
         foreach (GameObject p in Players)
-        { 
+        {
             if (p != gameObject)
             {
                 otherPlayerCol = p.GetComponent<Collider2D>();
@@ -104,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Gets UI elements of the player by name
         footCol = transform.Find("Foot").GetComponent<Collider2D>();
-        
+
         GameObject UIGameObject = GameObject.FindGameObjectWithTag(LayerUIName);
         healthBar = UIGameObject.transform.Find("Health/HealthBar").GetComponent<Image>();
         playerNameTxt = UIGameObject.transform.Find("PlayerName").GetComponent<TextMeshProUGUI>();
@@ -114,7 +115,8 @@ public class PlayerMovement : MonoBehaviour
         spriteHolder = gameObject.GetComponentInChildren<SpriteRenderer>().transform;
         animator = gameObject.GetComponent<Animator>();
     }
-    void Start() 
+
+    void Start()
     {
         ResetVariables();
         Spawn();
@@ -126,24 +128,28 @@ public class PlayerMovement : MonoBehaviour
             Physics2D.IgnoreCollision(col, otherPlayerFootCol, true);
             Physics2D.IgnoreCollision(footCol, otherPlayerFootCol, true);
             GameObject[] grounds = GameObject.FindGameObjectsWithTag("Ground");
-            foreach(GameObject g in grounds)
+            foreach (GameObject g in grounds)
             {
                 Physics2D.IgnoreCollision(col, g.GetComponent<Collider2D>(), true);
             }
         }
     }
+
     void Update()
     {
         UpdateHealthBar();
-        if(rb.linearVelocityY < -maxFallSpeed)
+        if (isDead) return;
+        
+        if (rb.linearVelocityY < -maxFallSpeed)
         {
             rb.linearVelocityY = -maxFallSpeed;
         }
     }
+
     public void ResetVariables()
     {
         rb.gravityScale = gravity;
-
+        maxLives = 3;
         // Jump
         jumpsLeft = maxJumps;
         isInAir = false;
@@ -157,6 +163,7 @@ public class PlayerMovement : MonoBehaviour
         currentHealthPoints = maxHealthPoints;
         targetHealthFill = 1f;
         currentHealthFill = 1f;
+        respawnTimer = 3f;
 
         // Movement
         maxSpeed = 2.8f;
@@ -246,8 +253,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    
-
     public void EnableCollider()
     {
         footCol.isTrigger = false;
@@ -265,17 +270,39 @@ public class PlayerMovement : MonoBehaviour
     public void Death()
     {
         if (isDead) return;
+
         isDead = true;
         currentLives--;
 
         if (currentLives <= 0)
         {
+            StartCoroutine(GameOver());
+            return;
         }
-        else
+
+        StartCoroutine(RespawnCoroutine());
+    }
+    public IEnumerator GameOver()
+    {
+        float timeUntilShowScreen = 2f;
+        while(timeUntilShowScreen > 0)
         {
-            Spawn();
-            FixReload();
+            timeUntilShowScreen -= Time.deltaTime;
+            yield return null;
         }
+        GameManager.instance.EndGame(otherPlayer.playerName);
+    }
+    public IEnumerator RespawnCoroutine()
+    {
+        while(respawnTimer > 0)
+        {
+            Debug.Log(respawnTimer);
+            respawnTimer -= Time.deltaTime;
+            yield return null;
+        }
+        respawnTimer = 3f;
+        Spawn();
+        FixReload();
     }
 
     public void FixReload()
@@ -295,10 +322,16 @@ public class PlayerMovement : MonoBehaviour
         currentHealthFill = 1f;
 
         if (playerLivesTxt != null)
+        {
             playerLivesTxt.text = $"{currentLives}";
+        }
+            
 
         if (playerNameTxt != null)
+        {
             playerNameTxt.text = $"{playerName}";
+        }
+            
 
 
         Vector3 spawnPos;
@@ -326,6 +359,7 @@ public class PlayerMovement : MonoBehaviour
         transform.position = spawnPos;
         rb.linearVelocity = Vector2.zero;
     }
+
     #region ...[Power Ups Section]...
     #region ...[Variaveis]...
     public bool isInvincible = false;
@@ -337,9 +371,9 @@ public class PlayerMovement : MonoBehaviour
     public void ApplySpeedBoost(float multValue, float time)
     {
         SpeedEffectOn = true;
-        speedDiference = (maxSpeed*multValue) - maxSpeed;
+        speedDiference = (maxSpeed * multValue) - maxSpeed;
         maxSpeed += speedDiference;
-        Invoke(nameof(EndSpeedBoost),time);
+        Invoke(nameof(EndSpeedBoost), time);
     }
     public void EndSpeedBoost()
     {
@@ -349,9 +383,9 @@ public class PlayerMovement : MonoBehaviour
     public void ApplyJumpBoost(float multValue, float time)
     {
         JumpEffectOn = true;
-        jumpDiference = (jumpSpeed*multValue) - jumpSpeed;
+        jumpDiference = (jumpSpeed * multValue) - jumpSpeed;
         jumpSpeed += jumpDiference;
-        Invoke(nameof(EndJumpBoost),time);
+        Invoke(nameof(EndJumpBoost), time);
     }
     public void EndJumpBoost()
     {
@@ -361,7 +395,7 @@ public class PlayerMovement : MonoBehaviour
     public void ApplyInvulnerability(float time)
     {
         isInvincible = true;
-        Invoke(nameof(EndInvulnerability),time);
+        Invoke(nameof(EndInvulnerability), time);
     }
     public void EndInvulnerability()
     {
@@ -370,7 +404,7 @@ public class PlayerMovement : MonoBehaviour
     public void AddMaxHealth(int livesAmmount)
     {
         currentLives += livesAmmount;
-        playerLivesTxt.text = $"{currentLives}";   
+        playerLivesTxt.text = $"{currentLives}";
     }
     public void HealPlayerBackToFullHp()
     {

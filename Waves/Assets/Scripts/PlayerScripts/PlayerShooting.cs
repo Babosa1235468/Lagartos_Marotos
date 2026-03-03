@@ -35,6 +35,7 @@ public class PlayerShooting : MonoBehaviour
         GameObject UIGameObject = GameObject.FindGameObjectWithTag(LayerUIName);
         bulletsTxt = UIGameObject.transform.Find("BulletsLeft/Text").GetComponent<TextMeshProUGUI>();
     }
+    
     void Start()
     {
         reloadBar.enabled = false;
@@ -51,6 +52,7 @@ public class PlayerShooting : MonoBehaviour
             StartCoroutine(Reload());
         }
     }
+    
     public void HandleTryShooting()
     {
         if (isReloading) return;
@@ -70,6 +72,7 @@ public class PlayerShooting : MonoBehaviour
             }
         }
     }
+    
     public IEnumerator Reload()
     {
         isReloading = true;
@@ -81,7 +84,10 @@ public class PlayerShooting : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             if (reloadFill != null)
+            {
                 reloadFill.fillAmount = Mathf.Clamp01(elapsed / reloadTime);
+            }
+
             yield return null;
         }
 
@@ -89,7 +95,9 @@ public class PlayerShooting : MonoBehaviour
         isReloading = false;
 
         if (reloadFill != null)
+        {
             reloadFill.fillAmount = 0f;
+        }
 
         reloadBar.enabled = false;
         bulletsTxt.text = $"{remainingBullets}";
@@ -116,6 +124,7 @@ public class PlayerShooting : MonoBehaviour
         }
 
     }
+    
     #region ...[Power Up Effects]...
     #region ...[Variables]...
     public float bulletDamageDifference;
