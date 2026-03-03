@@ -429,6 +429,7 @@ MonoBehaviour:
   isInAir: 0
   goingDown: 0
   isDead: 0
+  respawnTimer: 0
   currentLives: 0
   currentHealthPoints: 0
   targetHealthFill: 0
