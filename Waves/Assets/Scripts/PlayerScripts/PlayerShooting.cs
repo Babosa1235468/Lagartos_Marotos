@@ -108,7 +108,6 @@ public class PlayerShooting : MonoBehaviour
         if (newBullet.TryGetComponent<BulletMovingScript>(out var bm))
         {
             bm.moveSpeed = bulletSpeed;
-
             float facing = spriteHolder.transform.localScale.x > 0 ? 1f : -1f;
             bm.moveDirection = new Vector2(facing, 0);
 

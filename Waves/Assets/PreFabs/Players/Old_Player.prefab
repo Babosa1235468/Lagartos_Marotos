@@ -404,8 +404,9 @@ MonoBehaviour:
   downKey: 115
   rb: {fileID: 9195390949039812927}
   col: {fileID: 1277434389744419537}
-  footCol: {fileID: 0}
-  spriteHolder: {fileID: 7849448788827519628}
+  footCol: {fileID: 5316776034432023909}
+  spriteHolder: {fileID: 1448654658341250412}
+  animator: {fileID: 0}
   healthBar: {fileID: 0}
   playerNameTxt: {fileID: 0}
   playerLivesTxt: {fileID: 0}
@@ -453,7 +454,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reloadFill: {fileID: 3837614213012559077}
   reloadBar: {fileID: 2501290823126241702}
-  spriteHolder: {fileID: 7849448788827519628}
+  spriteHolder: {fileID: 1448654658341250412}
   bulletsTxt: {fileID: 0}
   bullet: {fileID: 5475616947410406932, guid: 2635d684218f3624faf698bf99a68fb3, type: 3}
   bulletSpeed: 6.5

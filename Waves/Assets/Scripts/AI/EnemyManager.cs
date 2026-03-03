@@ -72,11 +72,14 @@ public class EnemyManager : MonoBehaviour
     }
     void Update()
     {
-        if(playerMovement.currentHealthPoints <= 0)
+        if (playerMovement.otherPlayer.isInvincible)
+        {
+            currentState = States.Running;
+        }
+        if(playerMovement.isDead)
         {
             isAlive = false;
             currentState = States.Dying;
-            Debug.Log("Morreu");
         }
         if(currentState == States.Starting || currentState == States.Dying)
         {
@@ -99,8 +102,14 @@ public class EnemyManager : MonoBehaviour
                     currentState = States.Chasing;
                 }
             }
-            if(pathFinding.PlayerInLOS() && currentState == States.Shooting)
+            int facingBehind = playerShooting.spriteHolder.transform.localScale.x > 0 ? -1 : 1;
+            if (pathFinding.PlayerBehind())
             {
+                playerMovement.FlipSprite(facingBehind);
+            }
+            if(pathFinding.PlayerInLOS()  && currentState == States.Shooting)
+            {
+                
                 if(playerShooting.remainingBullets <= 0)
                 {
                     currentState = States.Reloading;
@@ -150,7 +159,7 @@ public class EnemyManager : MonoBehaviour
                 StartCoroutine(ChasingState());
                 break;
             case States.Dying:
-                StartCoroutine(Spawning());
+                StartCoroutine(DyingState());
                 break;
         }
     }
@@ -170,13 +179,14 @@ public class EnemyManager : MonoBehaviour
 
     IEnumerator DyingState()
     {
-        yield return null;
+        yield return new WaitForSeconds(.1f);
+        isAlive = true;
     }
     
     #endregion
     IEnumerator Spawning()
     {
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.1f);
         isAlive = true;
     }
    //Move a ia em direção ao player
@@ -253,49 +263,34 @@ public class EnemyManager : MonoBehaviour
         {
             jumping = false;
         }
+        RaycastHit2D[] hitsFloor = Physics2D.RaycastAll(transform.position,new Vector2(direction,-1),2f,LayerMask.GetMask("Ground"));
         if(enemyY > colliderY + heightDiference && playerMovement.rb.linearVelocityY == 0)
         {
             RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position,Vector2.down,10f,LayerMask.GetMask("Ground"));
-            if(hits.Count() >= 2)
+            if(hits.Count() >= 2 || (colliderX > enemyX - horizontalDistanceAtMax && colliderX < enemyX + horizontalDistanceAtMax))
             {
                 playerMovement.HandleDropThrough();
             }
         }
-        else if(!jumping && pathFinding.canJumpTo(moveCollider,1) && playerMovement.jumpsLeft >= 1 )
+        else if(!jumping && pathFinding.canJumpTo(moveCollider,1) && playerMovement.jumpsLeft >= 1)
         {
-            Debug.Log("Salto");
             jumping = true;
             playerMovement.HandleJump();
         } // se apenas um salto não for suficiente faz dois saltos
-        else if(!jumping && pathFinding.canJumpTo(moveCollider,2)  && playerMovement.jumpsLeft >= 2)
+        else if((!jumping && pathFinding.canJumpTo(moveCollider,2) || hitsFloor.Count() <= 0) && playerMovement.jumpsLeft >= 2)
         {
-            Debug.Log("Salto duplo");
             jumping = true;
             playerMovement.HandleJump();
-            StartCoroutine(SecondJumpWait(timeToMax));
+            StartCoroutine(SecondJumpWait(timeToMax + .2f));
         }
         float targetSpeed = 0f;
-        RaycastHit2D[] hitsLeftFloor = Physics2D.RaycastAll(transform.position,new Vector2(-1,-1),2f,LayerMask.GetMask("Ground"));
-        RaycastHit2D[] hitsRightFloor = Physics2D.RaycastAll(transform.position,new Vector2(1,-1),2f,LayerMask.GetMask("Ground"));
         if(enemyX > colliderX)
         {
-            if(!jumping && playerMovement.jumpsLeft >= 1 && hitsLeftFloor.Count() <= 0 && enemyY <= colliderY )
-            {
-                Debug.Log("Salto");
-                jumping = true;
-                playerMovement.HandleJump();
-            }
             targetSpeed = -playerMovement.maxSpeed;
             playerMovement.FlipSprite(-1);
         }
         else if(enemyX < colliderX)
         {
-            if(!jumping && playerMovement.jumpsLeft >= 1 && hitsRightFloor.Count() <= 0  && enemyY <= colliderY)
-            {
-                Debug.Log("Salto");
-                jumping = true;
-                playerMovement.HandleJump();
-            }
             targetSpeed = playerMovement.maxSpeed;
             playerMovement.FlipSprite(1);
         }

@@ -41,7 +41,7 @@ public class PathFinding : MonoBehaviour
 
         GameObject closest = vertices.OrderBy(p => Vector2.Distance(playerMovement.otherPlayer.transform.position,p.position)).First().gameObject;
         GameObject nextVetice = closest;
-        float uncertainty = 0.5f;
+        float uncertainty = 0.4f;
 
         // É possivel chegar ao vertice a saltar?
         float distanceY = closest.transform.position.y - transform.position.y;
@@ -76,7 +76,7 @@ public class PathFinding : MonoBehaviour
 
         GameObject farthest = vertices.OrderBy(p => Vector2.Distance(playerMovement.otherPlayer.transform.position,p.position)).Reverse().First().gameObject;
         GameObject nextVetice = farthest;
-        float uncertainty = 0.5f;
+        float uncertainty = 0.4f;
 
         // É possivel chegar ao vertice a saltar?
         float distanceY = farthest.transform.position.y - transform.position.y;
@@ -114,14 +114,23 @@ public class PathFinding : MonoBehaviour
         float effectiveGravity = Mathf.Abs(playerMovement.gravity * Physics2D.gravity.y);
         float maxJumpHeight = playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
         float doubleJumpHeight = maxJumpHeight + playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
+
+        float timeToMax = playerMovement.jumpSpeed / effectiveGravity;
+        float horizontalDistanceAtMax = Mathf.Abs(playerMovement.currentSpeed) * timeToMax + 0.5f * Mathf.Abs(playerMovement.acceleration) * timeToMax * timeToMax;
+
         
         GameObject closestPowerUp = powerVertices.OrderBy(p => Vector2.Distance(transform.position,p.position)).First().gameObject;
+        float distanceY = closestPowerUp.transform.position.y - transform.position.y;
+        float uncertainty = 0.4f;
+        if(distanceY > uncertainty && canJumpTo(closestPowerUp.GetComponent<Collider2D>(), 2) || (closestPowerUp.transform.position.x > transform.position.x - horizontalDistanceAtMax && closestPowerUp.transform.position.x < transform.position.x + horizontalDistanceAtMax) )
+        {
+            return closestPowerUp;
+        }
         GameObject closestVertice = vertices.OrderBy(p => Vector2.Distance(closestPowerUp.transform.position,p.position)).First().gameObject;
         GameObject nextVetice = closestVertice;
-        float uncertainty = 0.5f;
 
         // É possivel chegar ao vertice a saltar?
-        float distanceY = closestVertice.transform.position.y - transform.position.y;
+        distanceY = closestVertice.transform.position.y - transform.position.y;
         if (distanceY > uncertainty && !canJumpTo(closestVertice.GetComponent<Collider2D>(),2))
         {
             float minDistance = 9999f;
@@ -158,9 +167,22 @@ public class PathFinding : MonoBehaviour
         }
         return false;
     }
+    public bool PlayerBehind()
+    {
+        float facing = playerShooting.spriteHolder.transform.localScale.x > 0 ? -1f : 1f;
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, new Vector2(facing, 0));
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.collider.gameObject != gameObject && hit.collider.gameObject.tag == "Player")
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     public bool canJumpTo(Collider2D jumpTo, int amountOfJump)
     {
-        if(jumpTo.transform.position.y < transform.position.y) return false;
+        if(jumpTo.transform.position.y <= transform.position.y) return false;
         float effectiveGravity = Mathf.Abs(playerMovement.gravity * Physics2D.gravity.y);
         float maxJumpHeight = playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
         float doubleJumpHeight = maxJumpHeight + playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
