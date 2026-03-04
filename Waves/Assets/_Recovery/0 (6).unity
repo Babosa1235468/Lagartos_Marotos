@@ -724,17 +724,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7214243164452808892, guid: 4b4ffe35dc2f21b448e3ad3e7a6eabb0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7221623768674939480, guid: 4b4ffe35dc2f21b448e3ad3e7a6eabb0, type: 3}
       propertyPath: m_Name
       value: MapaTeste
-      objectReference: {fileID: 0}
-    - target: {fileID: 9126559213398605576, guid: 4b4ffe35dc2f21b448e3ad3e7a6eabb0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
