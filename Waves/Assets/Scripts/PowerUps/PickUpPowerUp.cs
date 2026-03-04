@@ -26,36 +26,23 @@ public class PickUpPowerUp : MonoBehaviour
         switch (type)
         {
             case PowerUp.PowerUpType.SpeedBoost:
-                if(!playerMovement.SpeedEffectOn)
-                {
-                    playerMovement.ApplySpeedBoost(1.5f, 6f);
-                    Destroy(transform.parent.gameObject);
-                }   
+                playerMovement.ApplySpeedBoost(1.5f, 6f);
+                Destroy(transform.parent.gameObject);
                 break;
 
             case PowerUp.PowerUpType.JumpBoost:
-                if(!playerMovement.JumpEffectOn)
-                {
-                    playerMovement.ApplyJumpBoost(1.5f, 6f);
-                    Destroy(transform.parent.gameObject);
-                }
+                playerMovement.ApplyJumpBoost(1.5f, 6f);
+                Destroy(transform.parent.gameObject);
                 break;
 
             case PowerUp.PowerUpType.DamageBoost:
-                if (!playerShooting.DamageEffectOn)
-                {
-                    playerShooting.ApplyDamageBoost(2f, 4f);
-                    Destroy(transform.parent.gameObject);
-                }
-                
+                playerShooting.ApplyDamageBoost(2f, 4f);
+                Destroy(transform.parent.gameObject);
                 break;
 
             case PowerUp.PowerUpType.Invulnerability:
-                if(!playerMovement.isInvincible)
-                {
-                    playerMovement.ApplyInvulnerability(4f);
-                    Destroy(transform.parent.gameObject);
-                }
+                playerMovement.ApplyInvulnerability(4f);
+                Destroy(transform.parent.gameObject);
                 break;
 
             case PowerUp.PowerUpType.MoreHealth:

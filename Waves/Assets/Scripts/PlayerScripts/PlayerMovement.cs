@@ -139,7 +139,7 @@ public class PlayerMovement : MonoBehaviour
     {
         UpdateHealthBar();
         if (isDead) return;
-        
+
         if (rb.linearVelocityY < -maxFallSpeed)
         {
             rb.linearVelocityY = -maxFallSpeed;
@@ -262,11 +262,14 @@ public class PlayerMovement : MonoBehaviour
     // -------------------- Health & Lives --------------------
     public void Damage(float dmg)
     {
+        if (isInvincible || isDead) return;
         currentHealthPoints = Mathf.Max(0, currentHealthPoints - dmg);
         targetHealthFill = (float)currentHealthPoints / maxHealthPoints;
-        if (currentHealthPoints <= 0) Death();
+        if (currentHealthPoints <= 0)
+        {
+            Death();
+        }
     }
-
     public void Death()
     {
         if (isDead) return;
@@ -285,7 +288,7 @@ public class PlayerMovement : MonoBehaviour
     public IEnumerator GameOver()
     {
         float timeUntilShowScreen = 2f;
-        while(timeUntilShowScreen > 0)
+        while (timeUntilShowScreen > 0)
         {
             timeUntilShowScreen -= Time.deltaTime;
             yield return null;
@@ -294,13 +297,14 @@ public class PlayerMovement : MonoBehaviour
     }
     public IEnumerator RespawnCoroutine()
     {
-        while(respawnTimer > 0)
+        float timer = respawnTimer;
+
+        while (timer > 0)
         {
-            Debug.Log(respawnTimer);
-            respawnTimer -= Time.deltaTime;
+            timer -= Time.deltaTime;
             yield return null;
         }
-        respawnTimer = 3f;
+
         Spawn();
         FixReload();
     }
@@ -325,13 +329,13 @@ public class PlayerMovement : MonoBehaviour
         {
             playerLivesTxt.text = $"{currentLives}";
         }
-            
+
 
         if (playerNameTxt != null)
         {
             playerNameTxt.text = $"{playerName}";
         }
-            
+
 
 
         Vector3 spawnPos;
@@ -370,6 +374,11 @@ public class PlayerMovement : MonoBehaviour
     #endregion
     public void ApplySpeedBoost(float multValue, float time)
     {
+        if (SpeedEffectOn)
+        {
+            CancelInvoke(nameof(EndSpeedBoost));
+            maxSpeed -= speedDiference;
+        }
         SpeedEffectOn = true;
         speedDiference = (maxSpeed * multValue) - maxSpeed;
         maxSpeed += speedDiference;
@@ -377,11 +386,17 @@ public class PlayerMovement : MonoBehaviour
     }
     public void EndSpeedBoost()
     {
+        Debug.Log("Chamei");
         SpeedEffectOn = false;
         maxSpeed -= speedDiference;
     }
     public void ApplyJumpBoost(float multValue, float time)
     {
+        if (JumpEffectOn)
+        {
+            CancelInvoke(nameof(EndJumpBoost));
+            jumpSpeed -= jumpDiference;
+        }
         JumpEffectOn = true;
         jumpDiference = (jumpSpeed * multValue) - jumpSpeed;
         jumpSpeed += jumpDiference;
@@ -389,16 +404,22 @@ public class PlayerMovement : MonoBehaviour
     }
     public void EndJumpBoost()
     {
+        Debug.Log("Chamei");
         JumpEffectOn = false;
         jumpSpeed -= jumpDiference;
     }
     public void ApplyInvulnerability(float time)
     {
+        if (isInvincible)
+        {
+            CancelInvoke(nameof(EndInvulnerability));
+        }
         isInvincible = true;
         Invoke(nameof(EndInvulnerability), time);
     }
     public void EndInvulnerability()
     {
+        Debug.Log("Chamei");
         isInvincible = false;
     }
     public void AddMaxHealth(int livesAmmount)
@@ -408,9 +429,8 @@ public class PlayerMovement : MonoBehaviour
     }
     public void HealPlayerBackToFullHp()
     {
-        float damageToDeal;
-        damageToDeal = -1 * (maxHealthPoints - currentHealthPoints);
-        Damage(damageToDeal);
+        currentHealthPoints = maxHealthPoints;
+        targetHealthFill = 1f;
     }
     #endregion
 }

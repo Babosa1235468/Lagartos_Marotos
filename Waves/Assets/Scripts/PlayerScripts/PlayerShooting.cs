@@ -132,6 +132,11 @@ public class PlayerShooting : MonoBehaviour
     #endregion
     public void ApplyDamageBoost(float multValue, float time)
     {
+        if (DamageEffectOn)
+        {
+            CancelInvoke(nameof(EndDamageBoost));
+            bulletDamage -= bulletDamageDifference;
+        }
         DamageEffectOn = true;
         bulletDamageDifference = (bulletDamage*multValue) - bulletDamage;
         bulletDamage += bulletDamageDifference;
