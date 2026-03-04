@@ -602,6 +602,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 3837614213012559077, guid: 5f32ba0572fd04448962ac8caf436aa0, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3837614213012559077, guid: 5f32ba0572fd04448962ac8caf436aa0, type: 3}
+      propertyPath: m_FillMethod
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3837614213012559077, guid: 5f32ba0572fd04448962ac8caf436aa0, type: 3}
+      propertyPath: m_FillOrigin
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3845709389138073006, guid: 5f32ba0572fd04448962ac8caf436aa0, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -659,7 +671,8 @@ PrefabInstance:
       value: Assembly-CSharp::PlayerMovement
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5775119679712767195, guid: 5f32ba0572fd04448962ac8caf436aa0, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f32ba0572fd04448962ac8caf436aa0, type: 3}
@@ -870,7 +883,8 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5775119679712767195, guid: 5f32ba0572fd04448962ac8caf436aa0, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f32ba0572fd04448962ac8caf436aa0, type: 3}
