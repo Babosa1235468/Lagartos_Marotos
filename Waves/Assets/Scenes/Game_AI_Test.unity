@@ -612,6 +612,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1375222666341451897, guid: 4d012d5d50c84b34d8060bde0fdb641c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1328239795}
+    - target: {fileID: 1375222666341451897, guid: 4d012d5d50c84b34d8060bde0fdb641c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: QuitGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 1375222666341451897, guid: 4d012d5d50c84b34d8060bde0fdb641c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1375222666341451897, guid: 4d012d5d50c84b34d8060bde0fdb641c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7697656670944327253, guid: 4d012d5d50c84b34d8060bde0fdb641c, type: 3}
       propertyPath: m_Name
       value: GameOverScreen
@@ -619,6 +635,22 @@ PrefabInstance:
     - target: {fileID: 7697656670944327253, guid: 4d012d5d50c84b34d8060bde0fdb641c, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8711547663640128168, guid: 4d012d5d50c84b34d8060bde0fdb641c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1328239795}
+    - target: {fileID: 8711547663640128168, guid: 4d012d5d50c84b34d8060bde0fdb641c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 8711547663640128168, guid: 4d012d5d50c84b34d8060bde0fdb641c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8711547663640128168, guid: 4d012d5d50c84b34d8060bde0fdb641c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
