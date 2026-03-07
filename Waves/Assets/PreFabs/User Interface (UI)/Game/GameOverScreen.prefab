@@ -204,7 +204,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1178207435878269004
 RectTransform:
   m_ObjectHideFlags: 0
@@ -320,9 +320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7415778716478191857, guid: 3e1d7582641725540b91df1a55a51a21, type: 3}
       propertyPath: m_text
-      value: '"Player Who Won"
-
-        GANHOU!!!'
+      value: "Joao \nGANHOU!!!"
       objectReference: {fileID: 0}
     - target: {fileID: 7415778716478191857, guid: 3e1d7582641725540b91df1a55a51a21, type: 3}
       propertyPath: m_fontSize
@@ -356,7 +354,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7353619345452543807, guid: cb2d479b0b74d614eb0c7b98a9fb177d, type: 3}
       propertyPath: m_text
-      value: Voltar ao Menu Printipal
+      value: Voltar ao Menu Principal
       objectReference: {fileID: 0}
     - target: {fileID: 7353619345452543807, guid: cb2d479b0b74d614eb0c7b98a9fb177d, type: 3}
       propertyPath: m_fontSize

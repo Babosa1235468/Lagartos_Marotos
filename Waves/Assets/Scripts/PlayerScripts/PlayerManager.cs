@@ -20,20 +20,20 @@ public class PlayerManager : MonoBehaviour
     // -------------------- Main Functions --------------------
     void Update()
     {
-        if (!playerShooting.isReloading)
-        {
-            if(Input.GetKey(playerShooting.shootKey))
-            {
-                playerShooting.HandleTryShooting();
-            }
-            if(Input.GetKeyDown(playerShooting.reloadKey))
-            {
-                playerShooting.HandleTryReloading(); 
-            }
-        }
-        
         if (!playerMovement.isDead)
         {
+            if (!playerShooting.isReloading)
+            {
+                if(Input.GetKey(playerShooting.shootKey))
+                {
+                    playerShooting.HandleTryShooting();
+                }
+                if(Input.GetKeyDown(playerShooting.reloadKey))
+                {
+                    playerShooting.HandleTryReloading(); 
+                }
+            }
+            
             if (Input.GetKeyDown(playerMovement.jumpKey))
             {
                 playerMovement.HandleJump();

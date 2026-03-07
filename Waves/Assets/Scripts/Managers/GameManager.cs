@@ -51,11 +51,6 @@ public class GameManager : MonoBehaviour
             ContinueGame();
         }
     }
-    public void ResumeGame()
-    {
-        ContinueGame();
-        pauseGameMenu.SetActive(false);
-    }
     public void QuitGame()
     {
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);

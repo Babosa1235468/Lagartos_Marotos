@@ -22,7 +22,8 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private bool isReacting = false;
     [Header("AI Settings")]
     [SerializeField] private float reactionTime = .2f;
-    [SerializeField] private bool isAlive = false;
+    bool respawning = false;
+    bool wasInvincible;
     void Awake()
     {
         playerMovement = gameObject.GetComponent<PlayerMovement>();
@@ -72,71 +73,108 @@ public class EnemyManager : MonoBehaviour
     }
     void Update()
     {
-        if (playerMovement.otherPlayer.isInvincible)
+        bool isDead = playerMovement.isDead;
+        if (!isDead)
         {
-            currentState = States.Running;
-        }
-        if(playerMovement.isDead)
-        {
-            isAlive = false;
-            currentState = States.Dying;
-        }
-        if(currentState == States.Starting || currentState == States.Dying)
-        {
-            if(playerMovement.rb.linearVelocityY == 0 && isAlive)
+            if(currentState == States.Dying)
             {
-                currentState = States.Chasing;
-            }
-        }
-        if(!isReacting)
-        {
-            if(pathFinding.findClosestPowerUp() != null)
-            {
-                if (IsPowerUpCloser())
+                if(!respawning)
                 {
-                    currentState = States.GrabbingPowerUp;
-                    playerShooting.HandleTryReloading();
+                    StartCoroutine(waitTillRespawn());
                 }
-                else
+                return;
+            }
+            if(currentState == States.Starting)
+            {
+                
+                if(playerMovement.rb.linearVelocityY == 0)
                 {
                     currentState = States.Chasing;
                 }
             }
-            int facingBehind = playerShooting.spriteHolder.transform.localScale.x > 0 ? -1 : 1;
-            if (pathFinding.PlayerBehind())
+            bool isInvincible = playerMovement.otherPlayer.isInvincible;
+            if (isInvincible)
             {
-                playerMovement.FlipSprite(facingBehind);
-            }
-            if(pathFinding.PlayerInLOS()  && currentState == States.Shooting)
-            {
-                
-                if(playerShooting.remainingBullets <= 0)
+                playerShooting.HandleTryReloading();
+                if (pathFinding.findClosestPowerUp() != null)
                 {
-                    currentState = States.Reloading;
+                    currentState = States.GrabbingPowerUp;
                 }
                 else
                 {
-                    playerShooting.HandleTryShooting();
+                    currentState = States.Running;
                 }
             }
-            else if(!pathFinding.PlayerInLOS() && currentState == States.Shooting)
+            else
+            {
+                if(!isReacting)
+                {
+                    if(pathFinding.findClosestPowerUp() != null)
+                    {
+                        if (IsPowerUpCloser())
+                        {
+                            currentState = States.GrabbingPowerUp;
+                            playerShooting.HandleTryReloading();
+                        }
+                        else
+                        {
+                            currentState = States.Chasing;
+                        }
+                    }
+                    int facingBehind = playerShooting.spriteHolder.transform.localScale.x > 0 ? -1 : 1;
+                    if (pathFinding.PlayerBehind())
+                    {
+                        playerMovement.FlipSprite(facingBehind);
+                    }
+                    if(pathFinding.PlayerInLOS()  && currentState == States.Shooting)
+                    {
+                        MoveToClosestVertice();
+                        if(playerShooting.remainingBullets <= 0)
+                        {
+                            currentState = States.Reloading;
+                        }
+                        else
+                        {
+                            playerShooting.HandleTryShooting();
+                        }
+                    }
+                    else if(!pathFinding.PlayerInLOS() && currentState == States.Shooting)
+                    {
+                        currentState = States.Chasing;
+                    }
+                    StartCoroutine(ReactionTime());
+                }
+            }
+            if (wasInvincible && !isInvincible)
             {
                 currentState = States.Chasing;
             }
-            StartCoroutine(ReactionTime());
+            wasInvincible = isInvincible;
+            if(currentState == States.Chasing)
+            {
+                MoveToClosestVertice();
+            }
+            if(currentState == States.Running)
+            {
+                runAway();
+            }
+            if(currentState == States.GrabbingPowerUp)
+            {
+                GrabPowerUp();
+            }
         }
-        if(currentState == States.Chasing)
+        else
         {
-            MoveToClosestVertice();
+            currentState = States.Dying;
         }
-        if(currentState == States.Running)
-        {
-            runAway();
-        }
-        if(currentState == States.GrabbingPowerUp)
-        {
-            GrabPowerUp();
-        }
+        
+    }
+    IEnumerator waitTillRespawn()
+    {
+        respawning = true;
+        yield return new WaitForSeconds(.3f);
+        respawning = false;
+        currentState = States.Starting;
     }
     IEnumerator ReactionTime()
     {
@@ -179,15 +217,13 @@ public class EnemyManager : MonoBehaviour
 
     IEnumerator DyingState()
     {
-        yield return new WaitForSeconds(.1f);
-        isAlive = true;
+        yield return null;
     }
     
     #endregion
     IEnumerator Spawning()
     {
-        yield return new WaitForSeconds(.1f);
-        isAlive = true;
+        yield return null;
     }
    //Move a ia em direção ao player
     void MoveToClosestVertice()
@@ -241,6 +277,8 @@ public class EnemyManager : MonoBehaviour
     {
         if(moveCollider == null) return;
         if(moveCollider.IsTouching(playerMovement.col)) return;
+        Debug.Log("Pai:" + moveCollider.transform.parent.parent);
+        Debug.Log("Filho: " + moveCollider);
 
         float colliderY = moveCollider.gameObject.transform.position.y;
         float colliderX = moveCollider.gameObject.transform.position.x;
@@ -281,7 +319,7 @@ public class EnemyManager : MonoBehaviour
         {
             jumping = true;
             playerMovement.HandleJump();
-            StartCoroutine(SecondJumpWait(timeToMax + .2f));
+            StartCoroutine(SecondJumpWait(timeToMax));
         }
         float targetSpeed = 0f;
         if(enemyX > colliderX)

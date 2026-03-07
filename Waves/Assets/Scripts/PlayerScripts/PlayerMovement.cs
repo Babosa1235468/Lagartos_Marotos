@@ -297,6 +297,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public IEnumerator RespawnCoroutine()
     {
+        isInvincible = true;
         float timer = respawnTimer;
 
         while (timer > 0)
@@ -304,7 +305,6 @@ public class PlayerMovement : MonoBehaviour
             timer -= Time.deltaTime;
             yield return null;
         }
-
         Spawn();
         FixReload();
     }
@@ -320,7 +320,7 @@ public class PlayerMovement : MonoBehaviour
     public void Spawn()
     {
         gameObject.SetActive(true);
-        isDead = false;
+        isInvincible = false;
         currentHealthPoints = maxHealthPoints;
         targetHealthFill = 1f;
         currentHealthFill = 1f;
@@ -362,6 +362,8 @@ public class PlayerMovement : MonoBehaviour
 
         transform.position = spawnPos;
         rb.linearVelocity = Vector2.zero;
+        
+        isDead = false;
     }
 
     #region ...[Power Ups Section]...

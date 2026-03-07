@@ -352,7 +352,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3995495908148313112, guid: 56dff6bb2da9c0b4db90dd67d38885cf, type: 3}
       propertyPath: m_SurfaceArc
-      value: 170
+      value: 175
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

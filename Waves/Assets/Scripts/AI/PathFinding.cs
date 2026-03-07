@@ -188,8 +188,7 @@ public class PathFinding : MonoBehaviour
         float doubleJumpHeight = maxJumpHeight + playerMovement.jumpSpeed * playerMovement.jumpSpeed / (2 * effectiveGravity);
 
         float timeToMax = playerMovement.jumpSpeed / effectiveGravity;
-        float direction = Mathf.Sign(jumpTo.transform.position.x - transform.position.x);
-        float horizontalDistanceAtMax = direction * (Mathf.Abs(playerMovement.currentSpeed) * timeToMax + 0.5f * Mathf.Abs(playerMovement.acceleration) * timeToMax * timeToMax);
+        float horizontalDistanceAtMax = Mathf.Abs(playerMovement.currentSpeed) * timeToMax + 0.5f * Mathf.Abs(playerMovement.acceleration) * timeToMax * timeToMax;
 
         float enemyY = transform.position.y;
         float enemyX = transform.position.x;
