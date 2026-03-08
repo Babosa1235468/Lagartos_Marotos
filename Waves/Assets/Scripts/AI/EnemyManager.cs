@@ -86,11 +86,11 @@ public class EnemyManager : MonoBehaviour
             }
             if(currentState == States.Starting)
             {
-                
                 if(playerMovement.rb.linearVelocityY == 0)
                 {
                     currentState = States.Chasing;
                 }
+                return;
             }
             bool isInvincible = playerMovement.otherPlayer.isInvincible;
             if (isInvincible)
@@ -121,7 +121,7 @@ public class EnemyManager : MonoBehaviour
                             currentState = States.Chasing;
                         }
                     }
-                    int facingBehind = playerShooting.spriteHolder.transform.localScale.x > 0 ? -1 : 1;
+                    int facingBehind = playerShooting.sprites.transform.localScale.x > 0 ? -1 : 1;
                     if (pathFinding.PlayerBehind())
                     {
                         playerMovement.FlipSprite(facingBehind);
@@ -277,8 +277,6 @@ public class EnemyManager : MonoBehaviour
     {
         if(moveCollider == null) return;
         if(moveCollider.IsTouching(playerMovement.col)) return;
-        Debug.Log("Pai:" + moveCollider.transform.parent.parent);
-        Debug.Log("Filho: " + moveCollider);
 
         float colliderY = moveCollider.gameObject.transform.position.y;
         float colliderX = moveCollider.gameObject.transform.position.x;

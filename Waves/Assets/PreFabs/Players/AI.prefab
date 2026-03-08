@@ -405,6 +405,9 @@ MonoBehaviour:
   col: {fileID: 1277434389744419537}
   footCol: {fileID: 0}
   spriteHolder: {fileID: 7849448788827519628}
+  animator: {fileID: 0}
+  deathEffectPrefab: {fileID: 1786839803593510463, guid: c8fa2bf25a97ed6429c01c19f0ada2a8, type: 3}
+  spriteRenderer: {fileID: 3330019955925858792}
   healthBar: {fileID: 0}
   playerNameTxt: {fileID: 0}
   playerLivesTxt: {fileID: 0}
@@ -427,6 +430,7 @@ MonoBehaviour:
   isInAir: 0
   goingDown: 0
   isDead: 0
+  respawnTimer: 0
   currentLives: 0
   currentHealthPoints: 0
   targetHealthFill: 0

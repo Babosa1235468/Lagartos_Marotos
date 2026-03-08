@@ -8,7 +8,7 @@ public class PlayerShooting : MonoBehaviour
     [Header("UI")]
     public Image reloadFill;
     public Canvas reloadBar;
-    public Transform spriteHolder;
+    public Transform sprites;
     public TMP_Text bulletsTxt;
 
     [Header("Shooting Settings")]
@@ -34,6 +34,7 @@ public class PlayerShooting : MonoBehaviour
         // Gets UI elements of the player by name
         GameObject UIGameObject = GameObject.FindGameObjectWithTag(LayerUIName);
         bulletsTxt = UIGameObject.transform.Find("BulletsLeft/Text").GetComponent<TextMeshProUGUI>();
+        sprites = gameObject.transform.Find("Sprites");
     }
     
     void Start()
@@ -105,7 +106,7 @@ public class PlayerShooting : MonoBehaviour
 
     public void Shoot()
     {
-        GameObject newBullet = Instantiate(bullet, spriteHolder.transform.position, Quaternion.identity);
+        GameObject newBullet = Instantiate(bullet, sprites.transform.position, Quaternion.identity);
         if (newBullet.TryGetComponent<BulletHit>(out var hit))
         {
             hit.owner = gameObject;
@@ -116,7 +117,7 @@ public class PlayerShooting : MonoBehaviour
         if (newBullet.TryGetComponent<BulletMovingScript>(out var bm))
         {
             bm.moveSpeed = bulletSpeed;
-            float facing = spriteHolder.transform.localScale.x > 0 ? 1f : -1f;
+            float facing = sprites.transform.localScale.x > 0 ? 1f : -1f;
             bm.moveDirection = new Vector2(facing, 0);
 
             float angle = Mathf.Atan2(bm.moveDirection.y, bm.moveDirection.x) * Mathf.Rad2Deg;

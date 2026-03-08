@@ -375,7 +375,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.97, y: 3.36}
+    oldSize: {x: 0.8485714, y: 0.96}
     newSize: {x: 2.97, y: 3.36}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -407,6 +407,8 @@ MonoBehaviour:
   footCol: {fileID: 5316776034432023909}
   spriteHolder: {fileID: 1448654658341250412}
   animator: {fileID: 0}
+  deathEffectPrefab: {fileID: 1786839803593510463, guid: c8fa2bf25a97ed6429c01c19f0ada2a8, type: 3}
+  spriteRenderer: {fileID: 3330019955925858792}
   healthBar: {fileID: 0}
   playerNameTxt: {fileID: 0}
   playerLivesTxt: {fileID: 0}

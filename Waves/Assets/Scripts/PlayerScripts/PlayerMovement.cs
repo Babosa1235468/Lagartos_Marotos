@@ -29,8 +29,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public Rigidbody2D rb;
     [SerializeField] public Collider2D col;
     [SerializeField] public Collider2D footCol;
-    [SerializeField] public Transform spriteHolder; // assign SpriteHolder in Inspector
-    [SerializeField] public Animator animator;
+    [SerializeField] public Transform sprites;
+    // [SerializeField] public Animator animator;
+    [SerializeField] public ParticleSystem deathEffectPrefab;
+    public Canvas reloadBar;
 
     [Header("UI")]
     [SerializeField] public Image healthBar;
@@ -112,8 +114,8 @@ public class PlayerMovement : MonoBehaviour
         playerLivesTxt = UIGameObject.transform.Find("PlayerLives/Text").GetComponent<TextMeshProUGUI>();
         rb = gameObject.GetComponent<Rigidbody2D>();
         col = gameObject.GetComponent<BoxCollider2D>();
-        spriteHolder = gameObject.GetComponentInChildren<SpriteRenderer>().transform;
-        animator = gameObject.GetComponent<Animator>();
+        sprites = gameObject.transform.Find("Sprites");
+        // animator = gameObject.GetComponent<Animator>();
     }
 
     void Start()
@@ -172,7 +174,7 @@ public class PlayerMovement : MonoBehaviour
         currentSpeed = 0f;
 
         // Scale
-        scale = spriteHolder.transform.localScale;
+        scale = sprites.transform.localScale;
     }
 
     public void UpdateHealthBar()
@@ -226,16 +228,16 @@ public class PlayerMovement : MonoBehaviour
 
         float smoothFactor = (targetSpeed == 0f) ? deceleration : acceleration;
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, smoothFactor * Time.deltaTime);
-        animator.SetFloat("Speed", Math.Abs(currentSpeed));
+        // animator.SetFloat("Speed", Math.Abs(currentSpeed));
         rb.linearVelocity = new Vector2(currentSpeed, rb.linearVelocity.y);
     }
 
     // 1 FOR RIGHT -1 FOR LEFT
     public void FlipSprite(int direction)
     {
-        Vector3 scale = spriteHolder.localScale;
-        scale.x = Mathf.Abs(scale.x) * direction;
-        spriteHolder.localScale = scale;
+        Vector3 scale = sprites.localScale;
+        scale.x = Mathf.Abs(scale.x) * direction; 
+        sprites.localScale = scale;
     }
 
     public void HandleFalling()
@@ -273,6 +275,8 @@ public class PlayerMovement : MonoBehaviour
     public void Death()
     {
         if (isDead) return;
+        changePlayerState(true);
+        Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
 
         isDead = true;
         currentLives--;
@@ -319,6 +323,7 @@ public class PlayerMovement : MonoBehaviour
     // -------------------- Spawn --------------------
     public void Spawn()
     {
+        changePlayerState(false);
         gameObject.SetActive(true);
         isInvincible = false;
         currentHealthPoints = maxHealthPoints;
@@ -335,8 +340,6 @@ public class PlayerMovement : MonoBehaviour
         {
             playerNameTxt.text = $"{playerName}";
         }
-
-
 
         Vector3 spawnPos;
         bool SpawnInGround = false;
@@ -364,6 +367,19 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
         
         isDead = false;
+    }
+    public void changePlayerState(bool disable)
+    {
+        SpriteRenderer[] renderers = sprites.GetComponentsInChildren<SpriteRenderer>();
+
+        foreach (SpriteRenderer sr in renderers)
+        {
+            sr.enabled = !disable;
+        }
+        col.enabled = !disable;
+        footCol.enabled = !disable;
+        reloadBar.enabled = !disable;
+        
     }
 
     #region ...[Power Ups Section]...

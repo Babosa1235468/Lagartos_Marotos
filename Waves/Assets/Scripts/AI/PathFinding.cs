@@ -156,7 +156,7 @@ public class PathFinding : MonoBehaviour
     //O player está no los do player
     public bool PlayerInLOS()
     {
-        float facing = playerShooting.spriteHolder.transform.localScale.x > 0 ? 1f : -1f;
+        float facing = playerShooting.sprites.transform.localScale.x > 0 ? 1f : -1f;
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, new Vector2(facing, 0));
         foreach (RaycastHit2D hit in hits)
         {
@@ -169,7 +169,7 @@ public class PathFinding : MonoBehaviour
     }
     public bool PlayerBehind()
     {
-        float facing = playerShooting.spriteHolder.transform.localScale.x > 0 ? -1f : 1f;
+        float facing = playerShooting.sprites.transform.localScale.x > 0 ? -1f : 1f;
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, new Vector2(facing, 0));
         foreach (RaycastHit2D hit in hits)
         {

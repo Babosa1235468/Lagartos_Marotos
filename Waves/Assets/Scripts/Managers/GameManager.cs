@@ -36,7 +36,8 @@ public class GameManager : MonoBehaviour
     }
     public void StartGame()
     {
-        //CODIGO PARA PODER COMECAR O JOGO
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
     }
     public void ChangePauseMenuState()
     {
@@ -67,8 +68,8 @@ public class GameManager : MonoBehaviour
     }
     public void EndGame(string PlayerWhoWonName)
     {
-        Mapas.SetActive(false);
         gameOverScreen.SetActive(true);
+        PauseGame();
        
         nomeJogador.text = $"{PlayerWhoWonName} \nGANHOU!!!";
     }
