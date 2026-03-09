@@ -2,26 +2,36 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class MenuManager : MonoBehaviour
 {
+    public static MenuManager instance;
     [Header("Menus")]
     public GameObject FirstMenu;
     public GameObject ChoosePlayerModeMenu;
     public GameObject PVsPSettings;
     public GameObject PVsAiSettings;
-    public GameObject MapSelection;
+    public GameObject MapSelectionPvP;
+    public GameObject MapSelectionPvE;
 
     [Header("Mapas")]
     public GameObject[] Mapas;
 
-     void Start()
+    void Awake()
+    {
+        instance = this;
+    }
+
+    void Start()
     {
         FirstMenu.SetActive(true);
+        
         ChoosePlayerModeMenu.SetActive(false);
         PVsPSettings.SetActive(false);
         PVsAiSettings.SetActive(false);
-        MapSelection.SetActive(false);
+        MapSelectionPvE.SetActive(false);
+        MapSelectionPvP.SetActive(false);
     }
 
     #region ...[Scene Loads]...
@@ -36,6 +46,7 @@ public class MenuManager : MonoBehaviour
     } 
     #endregion
    
+    #region ...[Menus Hide e Show --> Spaghetti]...
     
     public void LoadChoosePlayerModeMenu()
     {
@@ -48,6 +59,8 @@ public class MenuManager : MonoBehaviour
         FirstMenu.SetActive(true);
         ChoosePlayerModeMenu.SetActive(false);
     }
+    
+    
     public void LoadPlayerVsPlayerSettings()
     {
         PVsPSettings.SetActive(true);
@@ -58,24 +71,33 @@ public class MenuManager : MonoBehaviour
         PVsPSettings.SetActive(false);
         ChoosePlayerModeMenu.SetActive(true);
     }
+   
+   
     public void ShowMapChoosingPvP()
     {
         PVsPSettings.SetActive(false);
-        MapSelection.SetActive(true);
+        MapSelectionPvP.SetActive(true);
     }
     public void HideMapChoosingPvP()
     {
         PVsPSettings.SetActive(true);
-        MapSelection.SetActive(false);
+        MapSelectionPvP.SetActive(false);
+        gameObject.transform.Find("CanvaMenu/PVsPSettigs/MapChoosing").GetComponent<Image>().sprite = DataManager.instance.MapaEscolhido.transform.Find("Preview").GetComponent<Sprite>();
     }
+    
+    
     public void ShowMapChoosingPvE()
     {
         PVsAiSettings.SetActive(false);
-        MapSelection.SetActive(true);
+        MapSelectionPvE.SetActive(true);
     }
     public void HideMapChoosingPvE()
     {
         PVsAiSettings.SetActive(true);
-        MapSelection.SetActive(false);
+        MapSelectionPvE.SetActive(false);
     }
+    
+    #endregion
+
+
 }
