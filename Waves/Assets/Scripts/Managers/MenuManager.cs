@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
@@ -26,7 +26,7 @@ public class MenuManager : MonoBehaviour
     void Start()
     {
         FirstMenu.SetActive(true);
-        
+
         ChoosePlayerModeMenu.SetActive(false);
         PVsPSettings.SetActive(false);
         PVsAiSettings.SetActive(false);
@@ -43,11 +43,11 @@ public class MenuManager : MonoBehaviour
     public void LoadPlayerVsIAMode()
     {
         SceneManager.LoadScene("Game_AI_Test", LoadSceneMode.Single);
-    } 
+    }
     #endregion
-   
+
     #region ...[Menus Hide e Show --> Spaghetti]...
-    
+
     public void LoadChoosePlayerModeMenu()
     {
         ChoosePlayerModeMenu.SetActive(true);
@@ -59,8 +59,8 @@ public class MenuManager : MonoBehaviour
         FirstMenu.SetActive(true);
         ChoosePlayerModeMenu.SetActive(false);
     }
-    
-    
+
+
     public void LoadPlayerVsPlayerSettings()
     {
         PVsPSettings.SetActive(true);
@@ -71,8 +71,20 @@ public class MenuManager : MonoBehaviour
         PVsPSettings.SetActive(false);
         ChoosePlayerModeMenu.SetActive(true);
     }
-   
-   
+
+
+    public void LoadPlayerVsAiSettings()
+    {
+        PVsPSettings.SetActive(true);
+        ChoosePlayerModeMenu.SetActive(false);
+    }
+    public void HidePlayerVsAiSettings()
+    {
+        PVsPSettings.SetActive(false);
+        ChoosePlayerModeMenu.SetActive(true);
+    }
+
+
     public void ShowMapChoosingPvP()
     {
         PVsPSettings.SetActive(false);
@@ -82,10 +94,13 @@ public class MenuManager : MonoBehaviour
     {
         PVsPSettings.SetActive(true);
         MapSelectionPvP.SetActive(false);
-        gameObject.transform.Find("CanvaMenu/PVsPSettigs/MapChoosing").GetComponent<Image>().sprite = DataManager.instance.MapaEscolhido.transform.Find("Preview").GetComponent<Sprite>();
+        Image mapChoosingImage = GameObject.Find("CanvaMenu/PVsPSettings/MapChoosing").GetComponent<Image>();
+        Sprite previewSprite = DataManager.instance.MapaEscolhido.transform.Find("Preview").GetComponent<SpriteRenderer>().sprite;
+
+        mapChoosingImage.sprite = previewSprite;
     }
-    
-    
+
+
     public void ShowMapChoosingPvE()
     {
         PVsAiSettings.SetActive(false);
@@ -95,8 +110,12 @@ public class MenuManager : MonoBehaviour
     {
         PVsAiSettings.SetActive(true);
         MapSelectionPvE.SetActive(false);
+        Image mapChoosingImage = GameObject.Find("CanvaMenu/PVsAiSettings/MapChoosing").GetComponent<Image>();
+        Sprite previewSprite = DataManager.instance.MapaEscolhido.transform.Find("Preview").GetComponent<SpriteRenderer>().sprite;
+
+        mapChoosingImage.sprite = previewSprite;
     }
-    
+
     #endregion
 
 

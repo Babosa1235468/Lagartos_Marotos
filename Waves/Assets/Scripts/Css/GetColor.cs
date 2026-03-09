@@ -13,6 +13,13 @@ public class GetColor : MonoBehaviour
         //clikec collor e a cor com qual clicou
         Color clickedColor = img.color;
 
-        gameObject.GetComponent<Image>().color = clickedColor;
+        //atribuir as cores
+        foreach (Transform child in gameObject.transform)
+        {
+            if (child.gameObject.tag != "DoNotChange")
+            {
+                child.gameObject.GetComponent<SpriteRenderer>().color = clickedColor;
+            }  
+        }
     }
 }

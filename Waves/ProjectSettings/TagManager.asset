@@ -15,6 +15,7 @@ TagManager:
   - Vertices
   - PowerUpVertice
   - Ground
+  - DoNotChange
   layers:
   - Default
   - TransparentFX
