@@ -44,3 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67d6e2a5706270146a892d1668b38135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  MapaEscolhido: {fileID: 7221623768674939480, guid: bba477d42e6fc0048aa72756105da560, type: 3}
+  P1SpriteColor: {r: 0, g: 0, b: 0, a: 0}
+  P1Chapeu: {fileID: 0}
+  P1Shirt: {fileID: 0}
+  P2SpriteColor: {r: 0, g: 0, b: 0, a: 0}
+  P2Chapeu: {fileID: 0}
+  P2Shirt: {fileID: 0}
+  P1MovementControls: 77000000610000007300000064000000
+  P1ShootingControls: 7200000074000000
+  P2MovementControls: 11010000140100001201000013010000
+  P2ShootingControls: 6e0000006d000000
+  UsingPowerUps: 1

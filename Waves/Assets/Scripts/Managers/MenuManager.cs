@@ -14,7 +14,7 @@ public class MenuManager : MonoBehaviour
     public GameObject PVsAiSettings;
     public GameObject MapSelectionPvP;
     public GameObject MapSelectionPvE;
-
+    public GameObject CurrentTabOpenOnCustomizePlayer;
     [Header("Mapas")]
     public GameObject[] Mapas;
 
@@ -114,6 +114,11 @@ public class MenuManager : MonoBehaviour
         Sprite previewSprite = DataManager.instance.MapaEscolhido.transform.Find("Preview").GetComponent<SpriteRenderer>().sprite;
 
         mapChoosingImage.sprite = previewSprite;
+    }
+
+    public void ShowHatsChoosing()
+    {
+        
     }
 
     #endregion
