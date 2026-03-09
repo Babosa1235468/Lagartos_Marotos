@@ -3,23 +3,35 @@ using TMPro;
 using UnityEngine.UI;
 using Image = UnityEngine.UI.Image;
 
-using Microsoft.Unity.VisualStudio.Editor;
 public class GetColor : MonoBehaviour
 {
-    public void ChangeColor(GameObject obj)
+    public void ChangeColorP1(GameObject obj)
+    {
+        ChangeColor(obj, 1);
+    }
+
+    public void ChangeColorP2(GameObject obj)
+    {
+        ChangeColor(obj, 2);
+    }
+
+    private void ChangeColor(GameObject obj, int player)
     {
         Image img = obj.GetComponent<Image>();
-
-        //clikec collor e a cor com qual clicou
         Color clickedColor = img.color;
 
-        //atribuir as cores
-        foreach (Transform child in gameObject.transform)
+        foreach (Transform child in transform)
         {
-            if (child.gameObject.tag != "DoNotChange")
+            if (!child.CompareTag("DoNotChange"))
             {
-                child.gameObject.GetComponent<SpriteRenderer>().color = clickedColor;
-            }  
+                if (child.TryGetComponent(out SpriteRenderer sr))
+                    sr.color = clickedColor;
+            }
         }
+
+        if (player == 1)
+            DataManager.instance.P1SpriteColor = clickedColor;
+        else
+            DataManager.instance.P2SpriteColor = clickedColor;
     }
 }
