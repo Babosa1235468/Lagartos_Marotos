@@ -914,7 +914,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KeyRebinder
   playerIndex: 2
   keyToRebind: 0
-  buttonText: {fileID: 1040633275}
+  buttonText: {fileID: 69027553}
 --- !u!114 &66901821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3360,7 +3360,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: RightArrow
+  m_text: "\u2192"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4395,7 +4395,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KeyRebinder
   playerIndex: 2
   keyToRebind: 2
-  buttonText: {fileID: 300637583}
+  buttonText: {fileID: 1735863082}
 --- !u!114 &460774227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6568,7 +6568,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KeyRebinder
   playerIndex: 2
   keyToRebind: 1
-  buttonText: {fileID: 365690026}
+  buttonText: {fileID: 1982423149}
 --- !u!114 &935517712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7850,7 +7850,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KeyRebinder
   playerIndex: 2
   keyToRebind: 3
-  buttonText: {fileID: 1280207681}
+  buttonText: {fileID: 306063351}
 --- !u!114 &1061147324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9785,7 +9785,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KeyRebinder
   playerIndex: 2
   keyToRebind: 2
-  buttonText: {fileID: 1277066957}
+  buttonText: {fileID: 1896441117}
 --- !u!114 &1343942532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13346,7 +13346,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DownArrow
+  m_text: "\u2193"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -14057,7 +14057,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KeyRebinder
   playerIndex: 2
   keyToRebind: 5
-  buttonText: {fileID: 1626915333}
+  buttonText: {fileID: 119418504}
 --- !u!114 &1974544778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14209,7 +14209,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LeftArrow
+  m_text: "\u2190"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
