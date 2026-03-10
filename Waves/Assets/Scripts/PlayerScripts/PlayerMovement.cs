@@ -385,6 +385,7 @@ public class PlayerMovement : MonoBehaviour
     {
         changePlayerState(false);
         gameObject.SetActive(true);
+        reloadBar.enabled = false;
         isInvincible = false;
         currentHealthPoints = maxHealthPoints;
         targetHealthFill = 1f;
