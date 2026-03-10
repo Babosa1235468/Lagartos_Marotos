@@ -28,8 +28,10 @@ public class PathFinding : MonoBehaviour
 
         playerMovement = gameObject.GetComponent<PlayerMovement>();
         playerShooting = gameObject.GetComponent<PlayerShooting>();
+        verticesPowerUps = GameObject.FindGameObjectsWithTag("PowerUpVertice").Select(p => p.GetComponent<Transform>()).ToArray();
+        vertices = GameObject.FindGameObjectsWithTag("Vertices").Select(p => p.GetComponent<Transform>()).ToArray();
     }
-    public void GetVertices()
+    public void UpdateVertices()
     {
         verticesPowerUps = GameObject.FindGameObjectsWithTag("PowerUpVertice").Select(p => p.GetComponent<Transform>()).ToArray();
         vertices = GameObject.FindGameObjectsWithTag("Vertices").Select(p => p.GetComponent<Transform>()).ToArray();

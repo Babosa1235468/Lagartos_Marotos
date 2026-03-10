@@ -40,7 +40,8 @@ public class GameManager : MonoBehaviour
 
         if (DataManager.instance.IsAI)
         {
-            
+            PathFinding pf = GameObject.FindGameObjectWithTag("Player2").GetComponent<PathFinding>();
+            pf.UpdateVertices();
         }
     }
 

@@ -148,16 +148,16 @@ public class PlayerMovement : MonoBehaviour
                 rightKey = dataManager.P2MovementControls[3];
                 playerShooting.shootKey = dataManager.P2ShootingControls[0];
                 playerShooting.reloadKey = dataManager.P2ShootingControls[1];
-                /*
+                
                 if (dataManager.IsAI)
                 {
                     gameObject.AddComponent<EnemyManager>();
                     gameObject.AddComponent<PathFinding>();
                 }
                 else
-                {*/
+                {
                     gameObject.AddComponent<PlayerManager>();
-                //}
+                }
             }
             
         }

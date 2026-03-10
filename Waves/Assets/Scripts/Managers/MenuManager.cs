@@ -152,9 +152,9 @@ public class MenuManager : MonoBehaviour
     }
     public void HideMapChoosingPvE()
     {
-        PVsAiSettings.SetActive(true);
-        MapSelectionPvE.SetActive(false);
-        Image mapChoosingImage = GameObject.Find("CanvaMenu/PVsAiSettings/MapChoosing").GetComponent<Image>();
+        PVsPSettings.SetActive(true);
+        MapSelectionPvP.SetActive(false);
+        Image mapChoosingImage = GameObject.Find("CanvaMenu/PVsPSettings/MapChoosing").GetComponent<Image>();
         Sprite previewSprite = DataManager.instance.MapaEscolhido.transform.Find("Preview").GetComponent<SpriteRenderer>().sprite;
 
         mapChoosingImage.sprite = previewSprite;
