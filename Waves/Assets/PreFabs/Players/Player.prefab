@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2716976179984471082}
   m_Layer: 6
   m_Name: LeftEye
-  m_TagString: Untagged
+  m_TagString: DoNotChange
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -504,7 +504,7 @@ GameObject:
   - component: {fileID: 3821832094230476933}
   m_Layer: 6
   m_Name: Gun
-  m_TagString: Untagged
+  m_TagString: DoNotChange
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -687,7 +687,6 @@ GameObject:
   - component: {fileID: 1277434389744419537}
   - component: {fileID: 3110014565690963030}
   - component: {fileID: 6443438252919894533}
-  - component: {fileID: 8152826069132970713}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -874,18 +873,6 @@ MonoBehaviour:
   isReloading: 0
   bulletDamageDifference: 0
   DamageEffectOn: 0
---- !u!114 &8152826069132970713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6315187201325522643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91c33c68e42902041a876c6fbe338cc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
 --- !u!1 &6914430864342145835
 GameObject:
   m_ObjectHideFlags: 0
@@ -1080,7 +1067,7 @@ GameObject:
   - component: {fileID: 3756601130477908711}
   m_Layer: 6
   m_Name: RightEye
-  m_TagString: Untagged
+  m_TagString: DoNotChange
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1428,7 +1415,7 @@ GameObject:
   - component: {fileID: 1549524670493477254}
   m_Layer: 6
   m_Name: Mouth
-  m_TagString: Untagged
+  m_TagString: DoNotChange
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

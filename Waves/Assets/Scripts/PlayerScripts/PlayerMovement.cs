@@ -92,10 +92,13 @@ public class PlayerMovement : MonoBehaviour
     {
         GameObject[] Players = GameObject.FindGameObjectsWithTag("Player");
         string LayerUIName = string.Empty;
+        int i = 0,player = 0;
         foreach (GameObject p in Players)
         {
+            i++;
             if (p != gameObject)
             {
+                player = i;
                 otherPlayerCol = p.GetComponent<Collider2D>();
                 otherPlayer = p.GetComponent<PlayerMovement>();
                 otherPlayerFootCol = p.transform.Find("Foot").GetComponent<Collider2D>();
@@ -116,6 +119,50 @@ public class PlayerMovement : MonoBehaviour
         col = gameObject.GetComponent<BoxCollider2D>();
         sprites = gameObject.transform.Find("Sprites");
         // animator = gameObject.GetComponent<Animator>();
+        DataManager dataManager = DataManager.instance;
+        Color spriteColor;
+        if(player == 1)
+        {
+            spriteColor = dataManager.P1SpriteColor;
+            jumpKey = dataManager.P1MovementControls[0];
+            leftKey = dataManager.P1MovementControls[1];
+            downKey = dataManager.P1MovementControls[2];
+            rightKey = dataManager.P1MovementControls[3];
+            playerShooting.shootKey = dataManager.P1ShootingControls[0];
+            playerShooting.reloadKey = dataManager.P1ShootingControls[1];
+            gameObject.AddComponent<PlayerManager>();
+        }
+        else
+        {
+            spriteColor = dataManager.P2SpriteColor;
+            jumpKey = dataManager.P2MovementControls[0];
+            leftKey = dataManager.P2MovementControls[1];
+            downKey = dataManager.P2MovementControls[2];
+            rightKey = dataManager.P2MovementControls[3];
+            playerShooting.shootKey = dataManager.P2ShootingControls[0];
+            playerShooting.reloadKey = dataManager.P2ShootingControls[1];
+            /*
+            if (dataManager.IsAI)
+            {
+                gameObject.AddComponent<EnemyManager>();
+                gameObject.AddComponent<PathFinding>();
+            }
+            else
+            {*/
+                gameObject.AddComponent<PlayerManager>();
+            //}
+            
+        }
+
+        foreach (Transform child in transform)
+        {
+            if (!child.CompareTag("DoNotChange"))
+            {
+                if (child.TryGetComponent(out SpriteRenderer sr))
+                    sr.color = spriteColor;
+            }
+        }
+
     }
 
     void Start()
