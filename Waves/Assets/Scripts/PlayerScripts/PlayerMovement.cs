@@ -31,8 +31,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public Collider2D footCol;
     [SerializeField] public Transform sprites;
     // [SerializeField] public Animator animator;
-    [SerializeField] public ParticleSystem deathEffectPrefab;
     public Canvas reloadBar;
+    [Header("Effects")]
+    [SerializeField] public ParticleSystem deathEffectPrefab;
+    [SerializeField] public ParticleSystem damageEffect;
 
     [Header("UI")]
     [SerializeField] public Image healthBar;
@@ -120,37 +122,43 @@ public class PlayerMovement : MonoBehaviour
         sprites = gameObject.transform.Find("Sprites");
         // animator = gameObject.GetComponent<Animator>();
         DataManager dataManager = DataManager.instance;
-        Color spriteColor;
+        Color spriteColor = new Color(0,0,0);
         if(player == 1)
         {
-            spriteColor = dataManager.P1SpriteColor;
-            jumpKey = dataManager.P1MovementControls[0];
-            leftKey = dataManager.P1MovementControls[1];
-            downKey = dataManager.P1MovementControls[2];
-            rightKey = dataManager.P1MovementControls[3];
-            playerShooting.shootKey = dataManager.P1ShootingControls[0];
-            playerShooting.reloadKey = dataManager.P1ShootingControls[1];
-            gameObject.AddComponent<PlayerManager>();
+            if (dataManager)
+            {
+                spriteColor = dataManager.P1SpriteColor;
+                jumpKey = dataManager.P1MovementControls[0];
+                leftKey = dataManager.P1MovementControls[1];
+                downKey = dataManager.P1MovementControls[2];
+                rightKey = dataManager.P1MovementControls[3];
+                playerShooting.shootKey = dataManager.P1ShootingControls[0];
+                playerShooting.reloadKey = dataManager.P1ShootingControls[1];
+                gameObject.AddComponent<PlayerManager>();
+            }
         }
         else
         {
-            spriteColor = dataManager.P2SpriteColor;
-            jumpKey = dataManager.P2MovementControls[0];
-            leftKey = dataManager.P2MovementControls[1];
-            downKey = dataManager.P2MovementControls[2];
-            rightKey = dataManager.P2MovementControls[3];
-            playerShooting.shootKey = dataManager.P2ShootingControls[0];
-            playerShooting.reloadKey = dataManager.P2ShootingControls[1];
-            /*
-            if (dataManager.IsAI)
+            if (dataManager)
             {
-                gameObject.AddComponent<EnemyManager>();
-                gameObject.AddComponent<PathFinding>();
+                spriteColor = dataManager.P2SpriteColor;
+                jumpKey = dataManager.P2MovementControls[0];
+                leftKey = dataManager.P2MovementControls[1];
+                downKey = dataManager.P2MovementControls[2];
+                rightKey = dataManager.P2MovementControls[3];
+                playerShooting.shootKey = dataManager.P2ShootingControls[0];
+                playerShooting.reloadKey = dataManager.P2ShootingControls[1];
+                /*
+                if (dataManager.IsAI)
+                {
+                    gameObject.AddComponent<EnemyManager>();
+                    gameObject.AddComponent<PathFinding>();
+                }
+                else
+                {*/
+                    gameObject.AddComponent<PlayerManager>();
+                //}
             }
-            else
-            {*/
-                gameObject.AddComponent<PlayerManager>();
-            //}
             
         }
 
@@ -162,6 +170,7 @@ public class PlayerMovement : MonoBehaviour
                     sr.color = spriteColor;
             }
         }
+        
 
     }
 
@@ -321,12 +330,16 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Death()
     {
+        currentLives--;
+        if (playerLivesTxt != null)
+        {
+            playerLivesTxt.text = $"{currentLives}";
+        }
         if (isDead) return;
         changePlayerState(true);
         Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
 
         isDead = true;
-        currentLives--;
 
         if (currentLives <= 0)
         {
@@ -381,8 +394,6 @@ public class PlayerMovement : MonoBehaviour
         {
             playerLivesTxt.text = $"{currentLives}";
         }
-
-
         if (playerNameTxt != null)
         {
             playerNameTxt.text = $"{playerName}";
