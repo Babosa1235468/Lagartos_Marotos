@@ -5,10 +5,11 @@ using UnityEngine.Analytics;
 public class GameManager : MonoBehaviour
 {
     // PAUSE MENU VARIABLES
+    public GameObject dataManager;
     public GameObject pauseGameMenu;
     public GameObject gameOverScreen;
     public TextMeshProUGUI nomeJogador;
-    public GameObject Mapas;
+    public GameObject Mapa;
     public static GameManager instance;
     public bool isPaused = false;
 
@@ -18,11 +19,29 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        dataManager = GameObject.Find("DataManager");
         instance = this;
         pauseGameMenu.SetActive(false);
         gameOverScreen.SetActive(false);
-        Mapas = GameObject.Find("Maps");
+
+        //ir buscar o mapa e colocar o gameobject escolhido pelo player
+        Mapa = GameObject.Find("Map/MapToLoad");
+        foreach (Transform child in Mapa.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        Instantiate(DataManager.instance.MapaEscolhido, Mapa.transform);
+        
         nomeJogador = gameOverScreen.transform.Find("GameOverMenu/PlayerWhoWon").GetComponent<TextMeshProUGUI>();
+
+        //resetar os vertices do pwoerup e path finding
+        PowerUpManager pum = GameObject.Find("PowerUpManager").GetComponent<PowerUpManager>();
+        pum.UpdateVertices();
+
+        if (DataManager.instance.IsAI)
+        {
+            
+        }
     }
 
     // ------------------- PAUSE / CONTINUE FUNTIONS --------------------------
@@ -54,6 +73,7 @@ public class GameManager : MonoBehaviour
     }
     public void QuitGame()
     {
+        DataManager.instance.ResetVariables();
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
     private void PauseGame()
@@ -73,27 +93,4 @@ public class GameManager : MonoBehaviour
        
         nomeJogador.text = $"{PlayerWhoWonName} \nGANHOU!!!";
     }
-
-    // // ------------------- WORKS --------------
-    // public int CurrentLevel()
-    // {
-    //     return currentLevel;
-    // }
-    // public void ChangeState(GameState newGameState)
-    // {
-    //     gameState = newGameState;
-    //     HandleStateChanged(gameState);
-    // }
-    // private void HandleStateChanged(GameState gameState)
-    // {
-    //     switch (gameState)
-    //     {
-    //         case GameState.Playing:
-    //             break;
-    //     }
-    // }
-    // public enum GameState
-    // {
-    //     Playing,
-    // }
 }

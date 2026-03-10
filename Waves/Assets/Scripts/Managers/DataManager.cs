@@ -6,7 +6,8 @@ public class DataManager : MonoBehaviour
     public static DataManager instance;
     [Header("Mapa Escolhido")]
     public GameObject MapaEscolhido;
-
+    [Header("Modo Escolhido")]
+    public bool IsAI;
 
     [Header("Player 1 Costumization")]
     public Color P1SpriteColor;
@@ -50,5 +51,28 @@ public class DataManager : MonoBehaviour
     public void ChangeMap(GameObject Mapa)
     {
         MapaEscolhido = Mapa;
+    }
+    public void ResetVariables()
+    {
+        // Mapas e modo
+        IsAI = false;
+
+        //as cores vao ser default 
+        P1Chapeu = null;
+        P1Shirt = null;
+
+        //cores vao ser difault
+        P2Chapeu = null;
+        P2Shirt = null;
+
+        // Controls
+        P1MovementControls = new KeyCode[4] { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D };
+        P1ShootingControls = new KeyCode[2] { KeyCode.Mouse0, KeyCode.R };
+
+        P2MovementControls = new KeyCode[4] { KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
+        P2ShootingControls = new KeyCode[2] { KeyCode.Keypad0, KeyCode.Keypad1 };
+
+        // Game settings
+        UsingPowerUps = true;
     }
 }

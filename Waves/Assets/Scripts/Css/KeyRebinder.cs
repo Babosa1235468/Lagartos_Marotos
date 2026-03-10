@@ -43,7 +43,7 @@ public class KeyRebinder : MonoBehaviour
     {
         if (nomeTeclas.TryGetValue(tecla, out string nome))
             return nome;
-        return tecla.ToString(); // fallback para teclas normais como A, B, C...
+        return tecla.ToString(); // teclas normais como A, B, C...
     }
     private bool waitingForKey = false;
 
@@ -89,7 +89,6 @@ public class KeyRebinder : MonoBehaviour
             movement = DataManager.instance.P2MovementControls;
             shooting = DataManager.instance.P2ShootingControls;
         }
-
         switch (keyToRebind)
         {
             case ControlType.Jump:

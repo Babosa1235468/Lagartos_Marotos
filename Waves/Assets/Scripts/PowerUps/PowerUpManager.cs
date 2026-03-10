@@ -27,17 +27,22 @@ public class PowerUpManager : MonoBehaviour
         // Começa a spawnar a cada 10 segundos
         InvokeRepeating(nameof(SpawnPowerUp), 6f, 6f);
     }
-
+    public void UpdateVertices()
+    {
+        vertices = GameObject.FindGameObjectsWithTag("PowerUpVertice");
+    }
     /// <summary>
     /// Instancia um powerup aleatório em um vértice vazio
     /// </summary>
     public void SpawnPowerUp()
     {
-        // Filtra vértices que estão vazios
-        List<GameObject> emptyVertices = vertices.Where(v => v.transform.childCount == 0).ToList();
+        // Busca os vértices **atualmente existentes**
+        GameObject[] currentVertices = GameObject.FindGameObjectsWithTag("PowerUpVertice");
+
+        List<GameObject> emptyVertices = currentVertices.Where(v => v.transform.childCount == 0).ToList();
+
         if (emptyVertices.Count == 0)
         {
-            Debug.Log("Nenhum vértice vazio disponível para spawn.");
             return;
         }
 

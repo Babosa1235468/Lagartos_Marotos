@@ -1,3 +1,5 @@
+using System.Collections;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Analytics;
@@ -14,9 +16,12 @@ public class MenuManager : MonoBehaviour
     public GameObject PVsAiSettings;
     public GameObject MapSelectionPvP;
     public GameObject MapSelectionPvE;
-    public GameObject CurrentTabOpenOnCustomizePlayer;
+    public GameObject CurrentTabOpenOnCustomizePlayer1;
+    public GameObject CurrentTabOpenOnCustomizePlayer2;
     [Header("Mapas")]
     public GameObject[] Mapas;
+    [Header("Textos")]
+    public TextMeshProUGUI errorText;
 
     void Awake()
     {
@@ -35,13 +40,51 @@ public class MenuManager : MonoBehaviour
     }
 
     #region ...[Scene Loads]...
+    public bool TemTeclasRepetidas(KeyCode[] a, KeyCode[] b)
+    {
+        System.Collections.Generic.HashSet<KeyCode> usadas = new System.Collections.Generic.HashSet<KeyCode>();
 
+        foreach (KeyCode k in a)
+        {
+            if (k != KeyCode.None && !usadas.Add(k))
+                return true;
+        }
+
+        foreach (KeyCode k in b)
+        {
+            if (k != KeyCode.None && !usadas.Add(k))
+                return true;
+        }
+
+        return false;
+    }
+    IEnumerator EsconderErro()
+    {
+        yield return new WaitForSeconds(3f);
+        errorText.gameObject.SetActive(false);
+    }
     public void LoadPlayerVsPlayerMode()
     {
+        if (TemTeclasRepetidas(DataManager.instance.P1MovementControls, DataManager.instance.P1ShootingControls) ||
+            TemTeclasRepetidas(DataManager.instance.P2MovementControls, DataManager.instance.P2ShootingControls))
+        {
+            errorText.text = "Existem teclas repetidas!\nAltere-as para começar a jogar";
+            errorText.gameObject.SetActive(true);
+            StartCoroutine(EsconderErro());
+            return;
+        }
         SceneManager.LoadScene("Game_Damage", LoadSceneMode.Single);
     }
     public void LoadPlayerVsIAMode()
     {
+        if (TemTeclasRepetidas(DataManager.instance.P1MovementControls, DataManager.instance.P1ShootingControls))
+        {
+            errorText.text = "Existem teclas repetidas!";
+            errorText.gameObject.SetActive(true);
+            StartCoroutine(EsconderErro());
+            return;
+        }
+        SceneManager.LoadScene("Game_Damage", LoadSceneMode.Single);
         SceneManager.LoadScene("Game_AI_Test", LoadSceneMode.Single);
     }
     #endregion
@@ -52,7 +95,6 @@ public class MenuManager : MonoBehaviour
     {
         ChoosePlayerModeMenu.SetActive(true);
         FirstMenu.SetActive(false);
-
     }
     public void HideChoosePlayerModeMenu()
     {
@@ -65,6 +107,7 @@ public class MenuManager : MonoBehaviour
     {
         PVsPSettings.SetActive(true);
         ChoosePlayerModeMenu.SetActive(false);
+        DataManager.instance.IsAI = false;
     }
     public void HidePlayerVsPlayerSettings()
     {
@@ -77,6 +120,7 @@ public class MenuManager : MonoBehaviour
     {
         PVsPSettings.SetActive(true);
         ChoosePlayerModeMenu.SetActive(false);
+        DataManager.instance.IsAI = true;
     }
     public void HidePlayerVsAiSettings()
     {
@@ -117,6 +161,14 @@ public class MenuManager : MonoBehaviour
     }
 
     public void ShowHatsChoosing()
+    {
+
+    }
+    public void ShowControlsEditing()
+    {
+        
+    }
+    public void ShowShirtsChoosing()
     {
         
     }

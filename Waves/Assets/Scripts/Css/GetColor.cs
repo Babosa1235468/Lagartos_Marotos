@@ -19,7 +19,6 @@ public class GetColor : MonoBehaviour
     {
         Image img = obj.GetComponent<Image>();
         Color clickedColor = img.color;
-
         foreach (Transform child in transform)
         {
             if (!child.CompareTag("DoNotChange"))
@@ -30,8 +29,12 @@ public class GetColor : MonoBehaviour
         }
 
         if (player == 1)
+        {
             DataManager.instance.P1SpriteColor = clickedColor;
+        }
         else
+        {
             DataManager.instance.P2SpriteColor = clickedColor;
+        }
     }
 }
