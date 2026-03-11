@@ -11,7 +11,7 @@ public class PickUpPowerUp : MonoBehaviour
         playerMovement = collision.GetComponent<PlayerMovement>();
         playerShooting = collision.GetComponent<PlayerShooting>();
         // caso toque em outras cenas
-        if (playerMovement == null || playerShooting == null ) return;
+        if (playerMovement == null || playerShooting == null) return;
 
         //buscar o powerUp script para encontrar o respetivo tipo
         PowerUp powerUp = GetComponentInParent<PowerUp>();
@@ -20,6 +20,13 @@ public class PickUpPowerUp : MonoBehaviour
             powerUp = GetComponentInParent<PowerUp>();
         }
         ApplyPowerUpEffect(powerUp.type);
+        //Resetar os vertices da IA, nao deve de causar problemas
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject p in players)
+        {
+            PathFinding pf = p.GetComponent<PathFinding>();
+            if (pf != null) pf.UpdateVertices();
+        }
     }
     public void ApplyPowerUpEffect(PowerUp.PowerUpType type)
     {
@@ -56,5 +63,5 @@ public class PickUpPowerUp : MonoBehaviour
                 break;
         }
     }
-    
+
 }

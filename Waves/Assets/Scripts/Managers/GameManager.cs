@@ -5,7 +5,6 @@ using UnityEngine.Analytics;
 public class GameManager : MonoBehaviour
 {
     // PAUSE MENU VARIABLES
-    public GameObject dataManager;
     public GameObject pauseGameMenu;
     public GameObject gameOverScreen;
     public TextMeshProUGUI nomeJogador;
@@ -13,13 +12,14 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public bool isPaused = false;
 
-
-    // int currentLevel = 1;
-    // GameState gameState;
-
     private void Awake()
     {
-        dataManager = GameObject.Find("DataManager");
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         instance = this;
         pauseGameMenu.SetActive(false);
         gameOverScreen.SetActive(false);
@@ -31,20 +31,34 @@ public class GameManager : MonoBehaviour
             Destroy(child.gameObject);
         }
         Instantiate(DataManager.instance.MapaEscolhido, Mapa.transform);
-        
+
         nomeJogador = gameOverScreen.transform.Find("GameOverMenu/PlayerWhoWon").GetComponent<TextMeshProUGUI>();
 
-        //resetar os vertices do pwoerup e path finding
-        PowerUpManager pum = GameObject.Find("PowerUpManager").GetComponent<PowerUpManager>();
-        pum.UpdateVertices();
+    }
+    void Start()
+    {
+        if (!DataManager.instance.UsingPowerUps)
+        {
+            GameObject.Find("PowerUpManager").gameObject.SetActive(false);
+        }
+        else
+        {
+            PowerUpManager pum = GameObject.Find("PowerUpManager").GetComponent<PowerUpManager>();
+            pum.UpdateVertices();
+        }
 
         if (DataManager.instance.IsAI)
         {
-            PathFinding pf = GameObject.FindGameObjectWithTag("Player2").GetComponent<PathFinding>();
-            pf.UpdateVertices();
-        }
-    }
+            GameObject aiPlayer = GameObject.FindGameObjectWithTag("Player2");
 
+            if (aiPlayer != null)
+            {
+                PathFinding pf = aiPlayer.GetComponent<PathFinding>();
+                pf.UpdateVertices();
+            }
+        }
+        
+    }
     // ------------------- PAUSE / CONTINUE FUNTIONS --------------------------
 
     private void Update()
@@ -56,8 +70,7 @@ public class GameManager : MonoBehaviour
     }
     public void StartGame()
     {
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     public void ChangePauseMenuState()
     {
@@ -74,6 +87,7 @@ public class GameManager : MonoBehaviour
     }
     public void QuitGame()
     {
+        Time.timeScale = 1f;
         DataManager.instance.ResetVariables();
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
@@ -91,7 +105,7 @@ public class GameManager : MonoBehaviour
     {
         gameOverScreen.SetActive(true);
         PauseGame();
-       
+
         nomeJogador.text = $"{PlayerWhoWonName} \nGANHOU!!!";
     }
 }

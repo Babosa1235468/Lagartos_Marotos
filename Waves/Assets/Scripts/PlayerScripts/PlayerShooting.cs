@@ -20,23 +20,25 @@ public class PlayerShooting : MonoBehaviour
     public float fireRate = 0.2f;          // one shot per 0.3s
     public int magazineSize = 5;           // bullets per magazine
     public float reloadTime = 1.2f;
+    public Transform shootPoint;
 
     public int remainingBullets;
     public float nextFireTime;
     public bool isReloading = false;
 
-    void Awake() 
+    void Awake()
     {
         string LayerUIName = string.Empty;
-        
+
         LayerUIName = LayerMask.LayerToName(gameObject.layer) + "_UI";
 
         // Gets UI elements of the player by name
         GameObject UIGameObject = GameObject.FindGameObjectWithTag(LayerUIName);
         bulletsTxt = UIGameObject.transform.Find("BulletsLeft/Text").GetComponent<TextMeshProUGUI>();
         sprites = gameObject.transform.Find("Sprites");
+        shootPoint = gameObject.transform.Find("Sprites/Gun/ShootPos").transform;
     }
-    
+
     void Start()
     {
         reloadBar.enabled = false;
@@ -53,7 +55,7 @@ public class PlayerShooting : MonoBehaviour
             StartCoroutine(Reload());
         }
     }
-    
+
     public void HandleTryShooting()
     {
         if (isReloading) return;
@@ -73,7 +75,7 @@ public class PlayerShooting : MonoBehaviour
             }
         }
     }
-    
+
     public IEnumerator Reload()
     {
         isReloading = true;
@@ -106,13 +108,19 @@ public class PlayerShooting : MonoBehaviour
 
     public void Shoot()
     {
-        GameObject newBullet = Instantiate(bullet, sprites.transform.position, Quaternion.identity);
+        GameObject newBullet = Instantiate(bullet, shootPoint.position, Quaternion.identity);
+
+        // Bring bullet to front
+        if (newBullet.TryGetComponent<SpriteRenderer>(out var sr))
+        {
+            sr.sortingOrder = 10;
+        }
+
         if (newBullet.TryGetComponent<BulletHit>(out var hit))
         {
             hit.owner = gameObject;
             hit.dmg = bulletDamage;
         }
-
 
         if (newBullet.TryGetComponent<BulletMovingScript>(out var bm))
         {
@@ -123,9 +131,8 @@ public class PlayerShooting : MonoBehaviour
             float angle = Mathf.Atan2(bm.moveDirection.y, bm.moveDirection.x) * Mathf.Rad2Deg;
             newBullet.transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
         }
-
     }
-    
+
     #region ...[Power Up Effects]...
     #region ...[Variables]...
     public float bulletDamageDifference;
@@ -139,11 +146,11 @@ public class PlayerShooting : MonoBehaviour
             bulletDamage -= bulletDamageDifference;
         }
         DamageEffectOn = true;
-        bulletDamageDifference = (bulletDamage*multValue) - bulletDamage;
+        bulletDamageDifference = (bulletDamage * multValue) - bulletDamage;
         bulletDamage += bulletDamageDifference;
         Invoke(nameof(EndDamageBoost), time);
-         
-        }
+
+    }
     public void EndDamageBoost()
     {
         bulletDamage -= bulletDamageDifference;

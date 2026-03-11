@@ -25,9 +25,13 @@ public class MenuManager : MonoBehaviour
 
     void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         instance = this;
-        Debug.Log(DataManager.instance.P1SpriteColor);
-        Debug.Log(DataManager.instance.P2SpriteColor);
     }
 
     void Start()
@@ -81,7 +85,9 @@ public class MenuManager : MonoBehaviour
     public void LoadPlayerVsPlayerMode()
     {
         if (TemTeclasRepetidas(DataManager.instance.P1MovementControls, DataManager.instance.P1ShootingControls) ||
-            TemTeclasRepetidas(DataManager.instance.P2MovementControls, DataManager.instance.P2ShootingControls))
+            TemTeclasRepetidas(DataManager.instance.P2MovementControls, DataManager.instance.P2ShootingControls) ||
+            TemTeclasRepetidas(DataManager.instance.P1MovementControls, DataManager.instance.P2MovementControls) ||
+            TemTeclasRepetidas(DataManager.instance.P1ShootingControls, DataManager.instance.P2ShootingControls))
         {
             errorText.text = "Existem teclas repetidas!\nAltere-as para começar a jogar";
             errorText.gameObject.SetActive(true);
@@ -135,13 +141,13 @@ public class MenuManager : MonoBehaviour
 
     public void LoadPlayerVsAiSettings()
     {
-        PVsPSettings.SetActive(true);
+        PVsAiSettings.SetActive(true);
         ChoosePlayerModeMenu.SetActive(false);
         DataManager.instance.IsAI = true;
     }
     public void HidePlayerVsAiSettings()
     {
-        PVsPSettings.SetActive(false);
+        PVsAiSettings.SetActive(false);
         ChoosePlayerModeMenu.SetActive(true);
     }
 
@@ -169,9 +175,10 @@ public class MenuManager : MonoBehaviour
     }
     public void HideMapChoosingPvE()
     {
-        PVsPSettings.SetActive(true);
-        MapSelectionPvP.SetActive(false);
-        Image mapChoosingImage = GameObject.Find("CanvaMenu/PVsPSettings/MapChoosing").GetComponent<Image>();
+        PVsAiSettings.SetActive(true);
+        MapSelectionPvE.SetActive(false);
+
+        Image mapChoosingImage = GameObject.Find("CanvaMenu/PVsAiSettings/MapChoosing").GetComponent<Image>();
         Sprite previewSprite = DataManager.instance.MapaEscolhido.transform.Find("Preview").GetComponent<SpriteRenderer>().sprite;
 
         mapChoosingImage.sprite = previewSprite;

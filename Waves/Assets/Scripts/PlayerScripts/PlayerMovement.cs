@@ -40,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public Image healthBar;
     [SerializeField] public TextMeshProUGUI playerNameTxt;
     [SerializeField] public TextMeshProUGUI playerLivesTxt;
+    [SerializeField] public TextMeshProUGUI playerAboveHeadTxt;
 
     [Header("Stats (Editable)")]
     [SerializeField] public float gravity = 2.3f;
@@ -92,27 +93,29 @@ public class PlayerMovement : MonoBehaviour
     // -------------------- Core Variables --------------------
     void Awake()
     {
+        // Determina o número do player pela layer do GameObject
+        string layerName = LayerMask.LayerToName(gameObject.layer);
+        int player = layerName.Contains("1") ? 1 : 2;
+        string LayerUIName = layerName + "_UI";
+
+        // Encontra o outro player
         GameObject[] Players = GameObject.FindGameObjectsWithTag("Player");
-        string LayerUIName = string.Empty;
-        int i = 0,player = 0;
         foreach (GameObject p in Players)
         {
-            i++;
             if (p != gameObject)
             {
-                player = i;
                 otherPlayerCol = p.GetComponent<Collider2D>();
                 otherPlayer = p.GetComponent<PlayerMovement>();
                 otherPlayerFootCol = p.transform.Find("Foot").GetComponent<Collider2D>();
             }
         }
-        LayerUIName = LayerMask.LayerToName(gameObject.layer) + "_UI";
 
         playerShooting = GetComponent<PlayerShooting>();
 
         // Gets UI elements of the player by name
         footCol = transform.Find("Foot").GetComponent<Collider2D>();
 
+        playerAboveHeadTxt = gameObject.transform.Find("PlayerNameCanvas/PlayerName").GetComponent<TextMeshProUGUI>();
         GameObject UIGameObject = GameObject.FindGameObjectWithTag(LayerUIName);
         healthBar = UIGameObject.transform.Find("Health/HealthBar").GetComponent<Image>();
         playerNameTxt = UIGameObject.transform.Find("PlayerName").GetComponent<TextMeshProUGUI>();
@@ -124,10 +127,11 @@ public class PlayerMovement : MonoBehaviour
         DataManager dataManager = DataManager.instance;
         Color spriteColor = Color.white;
         ;
-        if(player == 1)
+        if (player == 1)
         {
             if (dataManager != null)
             {
+                playerAboveHeadTxt.text = dataManager.P1Name;
                 playerName = dataManager.P1Name;
                 spriteColor = dataManager.P1SpriteColor;
                 jumpKey = dataManager.P1MovementControls[0];
@@ -143,6 +147,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (dataManager != null)
             {
+                playerAboveHeadTxt.text = dataManager.P2Name;
                 playerName = dataManager.P2Name;
                 spriteColor = dataManager.P2SpriteColor;
                 jumpKey = dataManager.P2MovementControls[0];
@@ -153,15 +158,16 @@ public class PlayerMovement : MonoBehaviour
                 playerShooting.reloadKey = dataManager.P2ShootingControls[1];
                 if (dataManager.IsAI)
                 {
-                    gameObject.AddComponent<EnemyManager>();
+                    //tem de ser por esta ordem. Enemy manager precisa do component do PathFinding
                     gameObject.AddComponent<PathFinding>();
+                    gameObject.AddComponent<EnemyManager>();
                 }
                 else
                 {
                     gameObject.AddComponent<PlayerManager>();
                 }
             }
-            
+
         }
         foreach (Transform child in sprites)
         {
@@ -171,7 +177,7 @@ public class PlayerMovement : MonoBehaviour
                     sr.color = spriteColor;
             }
         }
-        
+
 
     }
 
@@ -293,7 +299,7 @@ public class PlayerMovement : MonoBehaviour
     public void FlipSprite(int direction)
     {
         Vector3 scale = sprites.localScale;
-        scale.x = Mathf.Abs(scale.x) * direction; 
+        scale.x = Mathf.Abs(scale.x) * direction;
         sprites.localScale = scale;
     }
 
@@ -336,9 +342,14 @@ public class PlayerMovement : MonoBehaviour
         {
             playerLivesTxt.text = $"{currentLives}";
         }
+        playerAboveHeadTxt.gameObject.SetActive(false);
+
         if (isDead) return;
+
         changePlayerState(true);
-        Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+
+        ParticleSystem DeathEffect = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+        Destroy(DeathEffect.gameObject, 2f);
 
         isDead = true;
 
@@ -384,6 +395,7 @@ public class PlayerMovement : MonoBehaviour
     // -------------------- Spawn --------------------
     public void Spawn()
     {
+        playerAboveHeadTxt.gameObject.SetActive(true);
         changePlayerState(false);
         gameObject.SetActive(true);
         reloadBar.enabled = false;
@@ -425,7 +437,7 @@ public class PlayerMovement : MonoBehaviour
 
         transform.position = spawnPos;
         rb.linearVelocity = Vector2.zero;
-        
+
         isDead = false;
     }
     public void changePlayerState(bool disable)
@@ -439,7 +451,7 @@ public class PlayerMovement : MonoBehaviour
         col.enabled = !disable;
         footCol.enabled = !disable;
         reloadBar.enabled = !disable;
-        
+
     }
 
     #region ...[Power Ups Section]...
@@ -464,7 +476,6 @@ public class PlayerMovement : MonoBehaviour
     }
     public void EndSpeedBoost()
     {
-        Debug.Log("Chamei");
         SpeedEffectOn = false;
         maxSpeed -= speedDiference;
     }
@@ -482,7 +493,6 @@ public class PlayerMovement : MonoBehaviour
     }
     public void EndJumpBoost()
     {
-        Debug.Log("Chamei");
         JumpEffectOn = false;
         jumpSpeed -= jumpDiference;
     }
@@ -497,7 +507,6 @@ public class PlayerMovement : MonoBehaviour
     }
     public void EndInvulnerability()
     {
-        Debug.Log("Chamei");
         isInvincible = false;
     }
     public void AddMaxHealth(int livesAmmount)

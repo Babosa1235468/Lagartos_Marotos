@@ -16,6 +16,7 @@ TagManager:
   - PowerUpVertice
   - Ground
   - DoNotChange
+  - ShootPoint
   layers:
   - Default
   - TransparentFX

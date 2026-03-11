@@ -19,7 +19,8 @@ public class BulletHit : MonoBehaviour
             if (!collision.GetComponent<PlayerMovement>().isInvincible)
             {
                 Quaternion rotation = Quaternion.Euler(0, -transform.eulerAngles.z, 0);
-                Instantiate(damageEffect, collision.transform.position, rotation);
+                ParticleSystem CreatedEffectDamage = Instantiate(damageEffect, collision.transform.position, rotation);
+                Destroy(CreatedEffectDamage.gameObject, 2f);
                 collision.GetComponent<PlayerMovement>().Damage(dmg);
             }
             // destroy bullet after hit
