@@ -1417,6 +1417,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 75886570}
+    - target: {fileID: 5939124555756939413, guid: f207a225ad4e1ad429917a20f5023605, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangePauseMenuState
+      objectReference: {fileID: 0}
     - target: {fileID: 7305185878722141267, guid: f207a225ad4e1ad429917a20f5023605, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1439,10 +1443,10 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 619394802}
+  - {fileID: 5696600799010885218}
   - {fileID: 2065104329}
   - {fileID: 1402993268}
   - {fileID: 163844232}
   - {fileID: 545350737}
   - {fileID: 244766622}
-  - {fileID: 5696600799010885218}
   - {fileID: 1785018361}

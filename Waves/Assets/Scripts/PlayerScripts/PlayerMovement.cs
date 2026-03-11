@@ -161,8 +161,8 @@ public class PlayerMovement : MonoBehaviour
             }
             
         }
-
-        foreach (Transform child in transform)
+        Debug.Log("Cor do player " + player + ": " + spriteColor);
+        foreach (Transform child in sprites)
         {
             if (!child.CompareTag("DoNotChange"))
             {

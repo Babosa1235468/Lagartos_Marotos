@@ -39,6 +39,11 @@ public class MenuManager : MonoBehaviour
         MapSelectionPvP.SetActive(false);
     }
 
+    public void ChangeMap(GameObject Mapa)
+    {
+        DataManager.instance.MapaEscolhido = Mapa;
+    }
+
     #region ...[Scene Loads]...
     public bool TemTeclasRepetidas(KeyCode[] a, KeyCode[] b)
     {
@@ -55,7 +60,6 @@ public class MenuManager : MonoBehaviour
             if (k != KeyCode.None && !usadas.Add(k))
                 return true;
         }
-
         return false;
     }
     IEnumerator EsconderErro()
@@ -84,7 +88,7 @@ public class MenuManager : MonoBehaviour
             StartCoroutine(EsconderErro());
             return;
         }
-        SceneManager.LoadScene("Game_Damage", LoadSceneMode.Single);
+        
         SceneManager.LoadScene("Game_AI_Test", LoadSceneMode.Single);
     }
     #endregion

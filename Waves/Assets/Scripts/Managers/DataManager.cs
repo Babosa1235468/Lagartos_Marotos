@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-
+    public GameObject MapaDefault;
     public static DataManager instance;
     [Header("Mapa Escolhido")]
     public GameObject MapaEscolhido;
@@ -48,14 +48,12 @@ public class DataManager : MonoBehaviour
         }
         //os valores default estao colocados no inspetor
     }
-    public void ChangeMap(GameObject Mapa)
-    {
-        MapaEscolhido = Mapa;
-    }
+    
     public void ResetVariables()
     {
         // Mapas e modo
         IsAI = false;
+        MapaEscolhido = MapaDefault;
 
         //as cores vao ser default 
         P1Chapeu = null;
