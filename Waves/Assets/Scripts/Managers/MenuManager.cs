@@ -26,6 +26,8 @@ public class MenuManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        Debug.Log(DataManager.instance.P1SpriteColor);
+        Debug.Log(DataManager.instance.P2SpriteColor);
     }
 
     void Start()
@@ -39,6 +41,15 @@ public class MenuManager : MonoBehaviour
         MapSelectionPvP.SetActive(false);
     }
 
+    public void CloseGame()
+    {
+        // will only work on build
+        Application.Quit();
+        // para o editor
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
     public void ChangeMap(GameObject Mapa)
     {
         DataManager.instance.MapaEscolhido = Mapa;
@@ -77,6 +88,8 @@ public class MenuManager : MonoBehaviour
             StartCoroutine(EsconderErro());
             return;
         }
+        DataManager.instance.P1Name = GameObject.FindGameObjectWithTag("Player1").GetComponent<TextMeshProUGUI>().text;
+        DataManager.instance.P2Name = GameObject.FindGameObjectWithTag("Player2").GetComponent<TextMeshProUGUI>().text;
         SceneManager.LoadScene("Game_Damage", LoadSceneMode.Single);
     }
     public void LoadPlayerVsIAMode()
@@ -88,7 +101,7 @@ public class MenuManager : MonoBehaviour
             StartCoroutine(EsconderErro());
             return;
         }
-        
+
         SceneManager.LoadScene("Game_AI_Test", LoadSceneMode.Single);
     }
     #endregion
@@ -170,11 +183,11 @@ public class MenuManager : MonoBehaviour
     }
     public void ShowControlsEditing()
     {
-        
+
     }
     public void ShowShirtsChoosing()
     {
-        
+
     }
 
     #endregion

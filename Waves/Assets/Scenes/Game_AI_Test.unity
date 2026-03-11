@@ -1469,6 +1469,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6443438252919894533, guid: 085675ee88cbe674ebcaa151c626851b, type: 3}
+      propertyPath: shootKey
+      value: 99
+      objectReference: {fileID: 0}
+    - target: {fileID: 6443438252919894533, guid: 085675ee88cbe674ebcaa151c626851b, type: 3}
+      propertyPath: reloadKey
+      value: 118
+      objectReference: {fileID: 0}
+    - target: {fileID: 6654900150085333081, guid: 085675ee88cbe674ebcaa151c626851b, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6654900150085333081, guid: 085675ee88cbe674ebcaa151c626851b, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6654900150085333081, guid: 085675ee88cbe674ebcaa151c626851b, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

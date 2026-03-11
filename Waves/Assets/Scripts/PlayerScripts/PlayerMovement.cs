@@ -122,11 +122,13 @@ public class PlayerMovement : MonoBehaviour
         sprites = gameObject.transform.Find("Sprites");
         // animator = gameObject.GetComponent<Animator>();
         DataManager dataManager = DataManager.instance;
-        Color spriteColor = new Color(0,0,0);
+        Color spriteColor = Color.white;
+        ;
         if(player == 1)
         {
-            if (dataManager)
+            if (dataManager != null)
             {
+                playerName = dataManager.P1Name;
                 spriteColor = dataManager.P1SpriteColor;
                 jumpKey = dataManager.P1MovementControls[0];
                 leftKey = dataManager.P1MovementControls[1];
@@ -139,8 +141,9 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if (dataManager)
+            if (dataManager != null)
             {
+                playerName = dataManager.P2Name;
                 spriteColor = dataManager.P2SpriteColor;
                 jumpKey = dataManager.P2MovementControls[0];
                 leftKey = dataManager.P2MovementControls[1];
@@ -148,7 +151,6 @@ public class PlayerMovement : MonoBehaviour
                 rightKey = dataManager.P2MovementControls[3];
                 playerShooting.shootKey = dataManager.P2ShootingControls[0];
                 playerShooting.reloadKey = dataManager.P2ShootingControls[1];
-                
                 if (dataManager.IsAI)
                 {
                     gameObject.AddComponent<EnemyManager>();
@@ -161,7 +163,6 @@ public class PlayerMovement : MonoBehaviour
             }
             
         }
-        Debug.Log("Cor do player " + player + ": " + spriteColor);
         foreach (Transform child in sprites)
         {
             if (!child.CompareTag("DoNotChange"))
