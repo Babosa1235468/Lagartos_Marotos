@@ -2696,7 +2696,7 @@ PrefabInstance:
     - target: {fileID: 1395950940653593267, guid: 768965daf1beae64a9e1d242e55bb2ee, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 8060701184581476617, guid: e87e4b7c90daac14095cdd1639d6b0e3, type: 3}
+      objectReference: {fileID: 6890075141461526944, guid: 3cf187bec6b471943af27c418ae5ff47, type: 3}
     - target: {fileID: 1545453863311711117, guid: 768965daf1beae64a9e1d242e55bb2ee, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2795,6 +2795,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3740432456853619706, guid: 768965daf1beae64a9e1d242e55bb2ee, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5204271261794564093, guid: 768965daf1beae64a9e1d242e55bb2ee, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5239909394221904036, guid: 768965daf1beae64a9e1d242e55bb2ee, type: 3}
@@ -3458,6 +3462,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2957352696978562372, guid: 916825baec72ed948899b6cf706e50e7, type: 3}
       propertyPath: MapaDefault
+      value: 
+      objectReference: {fileID: 7221623768674939480, guid: af565289c746a264da2e4c1f8ac326ab, type: 3}
+    - target: {fileID: 2957352696978562372, guid: 916825baec72ed948899b6cf706e50e7, type: 3}
+      propertyPath: MapaEscolhido
       value: 
       objectReference: {fileID: 7221623768674939480, guid: af565289c746a264da2e4c1f8ac326ab, type: 3}
     - target: {fileID: 2957352696978562372, guid: 916825baec72ed948899b6cf706e50e7, type: 3}

@@ -352,7 +352,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3995495908148313112, guid: 56dff6bb2da9c0b4db90dd67d38885cf, type: 3}
       propertyPath: m_SurfaceArc
-      value: 175
+      value: 180
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -378,7 +378,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2133497002090260903, guid: 0f7372956be9c5f4fb5d579ecbe85f04, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.069
       objectReference: {fileID: 0}
     - target: {fileID: 2133497002090260903, guid: 0f7372956be9c5f4fb5d579ecbe85f04, type: 3}
       propertyPath: m_LocalPosition.z

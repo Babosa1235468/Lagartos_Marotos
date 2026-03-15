@@ -36,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
     public ParticleSystem deathEffectPrefab;
     public ParticleSystem jumpBoostEffect;
     public ParticleSystem speedBoostEffect;
+    public GameObject shieldInvulnerability;
 
     [Header("UI")]
     public Image healthBar;
@@ -513,11 +514,16 @@ public class PlayerMovement : MonoBehaviour
         {
             CancelInvoke(nameof(EndInvulnerability));
         }
+        else
+        {
+            shieldInvulnerability.SetActive(true);
+        }
         isInvincible = true;
         Invoke(nameof(EndInvulnerability), time);
     }
     public void EndInvulnerability()
     {
+        shieldInvulnerability.SetActive(false);
         isInvincible = false;
     }
     public void AddMaxHealth(int livesAmmount)
