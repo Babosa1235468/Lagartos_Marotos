@@ -15,55 +15,56 @@ public class PlayerMovement : MonoBehaviour
     #region ...[VARIABLES]...  
 
     [Header("Player Settings")]
-    [SerializeField] public string playerName = "Player";
-    [SerializeField] public Collider2D otherPlayerCol;
-    [SerializeField] public Collider2D otherPlayerFootCol;
+    public string playerName = "Player";
+    public Collider2D otherPlayerCol;
+    public Collider2D otherPlayerFootCol;
 
     [Header("Controls")]
-    [SerializeField] public KeyCode leftKey = KeyCode.A;
-    [SerializeField] public KeyCode rightKey = KeyCode.D;
-    [SerializeField] public KeyCode jumpKey = KeyCode.W;
-    [SerializeField] public KeyCode downKey = KeyCode.S;
+    public KeyCode leftKey = KeyCode.A;
+    public KeyCode rightKey = KeyCode.D;
+    public KeyCode jumpKey = KeyCode.W;
+    public KeyCode downKey = KeyCode.S;
 
     [Header("Components")]
-    [SerializeField] public Rigidbody2D rb;
-    [SerializeField] public Collider2D col;
-    [SerializeField] public Collider2D footCol;
-    [SerializeField] public Transform sprites;
-    // [SerializeField] public Animator animator;
+    public Rigidbody2D rb;
+    public Collider2D col;
+    public Collider2D footCol;
+    public Transform sprites;
+    // public Animator animator;
     public Canvas reloadBar;
     [Header("Effects")]
-    [SerializeField] public ParticleSystem deathEffectPrefab;
-    [SerializeField] public ParticleSystem damageEffect;
+    public ParticleSystem deathEffectPrefab;
+    public ParticleSystem jumpBoostEffect;
+    public ParticleSystem speedBoostEffect;
 
     [Header("UI")]
-    [SerializeField] public Image healthBar;
-    [SerializeField] public TextMeshProUGUI playerNameTxt;
-    [SerializeField] public TextMeshProUGUI playerLivesTxt;
-    [SerializeField] public TextMeshProUGUI playerAboveHeadTxt;
+    public Image healthBar;
+    public TextMeshProUGUI playerNameTxt;
+    public TextMeshProUGUI playerLivesTxt;
+    public TextMeshProUGUI playerAboveHeadTxt;
 
     [Header("Stats (Editable)")]
-    [SerializeField] public float gravity = 2.3f;
+    public float gravity = 2.3f;
 
     [Header("Jump Settings")]
-    [SerializeField] public float jumpSpeed = 6.5f;
-    [SerializeField] public int maxJumps = 2;
+    public float jumpSpeed = 6.5f;
+    public int maxJumps = 2;
 
     [Header("Lives & Health")]
-    [SerializeField] public int maxLives = 3;
-    [SerializeField] public float maxHealthPoints = 100f;
-    [SerializeField] public float healthBarSpeed = 5f;
+    public int maxLives = 3;
+    public float maxHealthPoints = 100f;
+    public float healthBarSpeed = 5f;
 
     [Header("Movement Settings")]
-    [SerializeField] public float currentSpeed = 0f;
-    [SerializeField] public float acceleration;
-    [SerializeField] public float deceleration;
-    [SerializeField] public float maxSpeed;
-    [SerializeField] public float maxFallSpeed = 1f;
+    public float currentSpeed = 0f;
+    public float acceleration;
+    public float deceleration;
+    public float maxSpeed;
+    public float maxFallSpeed = 1f;
 
     [Header("Health UI Colors")]
-    [SerializeField] public Color fullHealthColor = Color.green;
-    [SerializeField] public Color zeroHealthColor = Color.red;
+    public Color fullHealthColor = Color.green;
+    public Color zeroHealthColor = Color.red;
 
     [Header("Spawn Settings")]
     public PlayerMovement otherPlayer;          // reference to the other player
@@ -469,6 +470,10 @@ public class PlayerMovement : MonoBehaviour
             CancelInvoke(nameof(EndSpeedBoost));
             maxSpeed -= speedDiference;
         }
+        else
+        {
+            speedBoostEffect.Play();
+        }
         SpeedEffectOn = true;
         speedDiference = (maxSpeed * multValue) - maxSpeed;
         maxSpeed += speedDiference;
@@ -476,6 +481,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void EndSpeedBoost()
     {
+        speedBoostEffect.Stop();
         SpeedEffectOn = false;
         maxSpeed -= speedDiference;
     }
@@ -486,6 +492,10 @@ public class PlayerMovement : MonoBehaviour
             CancelInvoke(nameof(EndJumpBoost));
             jumpSpeed -= jumpDiference;
         }
+        else
+        {
+            jumpBoostEffect.Play();
+        }
         JumpEffectOn = true;
         jumpDiference = (jumpSpeed * multValue) - jumpSpeed;
         jumpSpeed += jumpDiference;
@@ -493,6 +503,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void EndJumpBoost()
     {
+        jumpBoostEffect.Stop();
         JumpEffectOn = false;
         jumpSpeed -= jumpDiference;
     }

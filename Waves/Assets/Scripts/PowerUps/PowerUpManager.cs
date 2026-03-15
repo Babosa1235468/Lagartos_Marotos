@@ -24,8 +24,8 @@ public class PowerUpManager : MonoBehaviour
         // Pega todos os vértices com a tag
         vertices = GameObject.FindGameObjectsWithTag("PowerUpVertice");
 
-        // Começa a spawnar a cada 10 segundos
-        InvokeRepeating(nameof(SpawnPowerUp), 6f, 6f);
+        // Começa a spawnar a cada 6 segundos
+        InvokeRepeating(nameof(SpawnPowerUp), 1f, 1f);
     }
     public void UpdateVertices()
     {

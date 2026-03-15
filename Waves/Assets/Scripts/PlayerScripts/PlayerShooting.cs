@@ -25,6 +25,9 @@ public class PlayerShooting : MonoBehaviour
     public int remainingBullets;
     public float nextFireTime;
     public bool isReloading = false;
+    
+    [Header("Effects")]
+    public ParticleSystem damageBoostEffect;
 
     void Awake()
     {
@@ -113,7 +116,7 @@ public class PlayerShooting : MonoBehaviour
         // Bring bullet to front
         if (newBullet.TryGetComponent<SpriteRenderer>(out var sr))
         {
-            sr.sortingOrder = 10;
+            sr.sortingOrder = 0;
         }
 
         if (newBullet.TryGetComponent<BulletHit>(out var hit))
@@ -145,6 +148,10 @@ public class PlayerShooting : MonoBehaviour
             CancelInvoke(nameof(EndDamageBoost));
             bulletDamage -= bulletDamageDifference;
         }
+        else
+        {
+            damageBoostEffect.Play();
+        }
         DamageEffectOn = true;
         bulletDamageDifference = (bulletDamage * multValue) - bulletDamage;
         bulletDamage += bulletDamageDifference;
@@ -153,6 +160,7 @@ public class PlayerShooting : MonoBehaviour
     }
     public void EndDamageBoost()
     {
+        damageBoostEffect.Stop();
         bulletDamage -= bulletDamageDifference;
         DamageEffectOn = false;
     }
