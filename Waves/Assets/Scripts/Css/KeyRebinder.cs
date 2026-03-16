@@ -63,8 +63,6 @@ public class KeyRebinder : MonoBehaviour
             {
                 if (key == KeyCode.Escape)
                 {
-                    waitingForKey = false;
-                    buttonText.text = "Essa Nao";
                     return;
                 }
                 AssignKey(key);

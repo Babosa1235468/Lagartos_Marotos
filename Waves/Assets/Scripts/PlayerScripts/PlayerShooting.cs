@@ -164,5 +164,9 @@ public class PlayerShooting : MonoBehaviour
         bulletDamage -= bulletDamageDifference;
         DamageEffectOn = false;
     }
+    public void CallEndInvoke()
+    {
+        CancelInvoke(nameof(EndDamageBoost));
+    }
     #endregion
 }

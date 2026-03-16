@@ -21,7 +21,8 @@ public class MenuManager : MonoBehaviour
     [Header("Mapas")]
     public GameObject[] Mapas;
     [Header("Textos")]
-    public TextMeshProUGUI errorText;
+    public TextMeshProUGUI PvPerrorText;
+    public TextMeshProUGUI PvEerrorText;
 
     void Awake()
     {
@@ -77,10 +78,15 @@ public class MenuManager : MonoBehaviour
         }
         return false;
     }
-    IEnumerator EsconderErro()
+    IEnumerator EsconderErroPvP()
     {
         yield return new WaitForSeconds(3f);
-        errorText.gameObject.SetActive(false);
+        PvPerrorText.gameObject.SetActive(false);
+    }
+    IEnumerator EsconderErroPvE()
+    {
+        yield return new WaitForSeconds(3f);
+        PvEerrorText.gameObject.SetActive(false);
     }
     public void LoadPlayerVsPlayerMode()
     {
@@ -91,9 +97,9 @@ public class MenuManager : MonoBehaviour
             TemTeclasRepetidas(DataManager.instance.P2ShootingControls, DataManager.instance.P2MovementControls) ||
             TemTeclasRepetidas(DataManager.instance.P1ShootingControls, DataManager.instance.P2MovementControls))
         {
-            errorText.text = "Existem teclas repetidas!\nAltere-as para começar a jogar";
-            errorText.gameObject.SetActive(true);
-            StartCoroutine(EsconderErro());
+            PvPerrorText.text = "Existem teclas repetidas!\nAltere-as para começar a jogar";
+            PvPerrorText.gameObject.SetActive(true);
+            StartCoroutine(EsconderErroPvP());
             return;
         }
         DataManager.instance.P1Name = GameObject.FindGameObjectWithTag("Player1").GetComponent<TextMeshProUGUI>().text;
@@ -104,13 +110,13 @@ public class MenuManager : MonoBehaviour
     {
         if (TemTeclasRepetidas(DataManager.instance.P1MovementControls, DataManager.instance.P1ShootingControls))
         {
-            errorText.text = "Existem teclas repetidas!";
-            errorText.gameObject.SetActive(true);
-            StartCoroutine(EsconderErro());
+            PvEerrorText.text = "Existem teclas repetidas!\nAltere-as para começar a jogar";
+            PvEerrorText.gameObject.SetActive(true);
+            StartCoroutine(EsconderErroPvE());
             return;
         }
 
-        SceneManager.LoadScene("Game_AI_Test", LoadSceneMode.Single);
+        SceneManager.LoadScene("Game_Damage", LoadSceneMode.Single);
     }
     #endregion
 

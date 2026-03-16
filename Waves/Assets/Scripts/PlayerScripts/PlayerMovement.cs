@@ -470,8 +470,11 @@ public class PlayerMovement : MonoBehaviour
     #endregion
     public void ClearAllEffects()
     {
-        CancelInvoke();
-        playerShooting.CancelInvoke();
+        CancelInvoke(nameof(EndSpeedBoost));
+        CancelInvoke(nameof(EndJumpBoost));
+        CancelInvoke(nameof(EndInvulnerability));
+        
+        playerShooting.CallEndInvoke();
         if(JumpEffectOn) EndJumpBoost();
         if(SpeedEffectOn) EndSpeedBoost();
         if(isInvincible) EndInvulnerability();
