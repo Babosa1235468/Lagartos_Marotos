@@ -50,7 +50,7 @@ public class KeyRebinder : MonoBehaviour
     public void StartRebind()
     {
         waitingForKey = true;
-        buttonText.text = "";
+        buttonText.text = "...";
     }
 
     void Update()
