@@ -70,10 +70,10 @@ public class DataManager : MonoBehaviour
 
         // Controls
         P1MovementControls = new KeyCode[4] { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D };
-        P1ShootingControls = new KeyCode[2] { KeyCode.Mouse0, KeyCode.R };
+        P1ShootingControls = new KeyCode[2] { KeyCode.T, KeyCode.R };
 
         P2MovementControls = new KeyCode[4] { KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
-        P2ShootingControls = new KeyCode[2] { KeyCode.Keypad0, KeyCode.Keypad1 };
+        P2ShootingControls = new KeyCode[2] { KeyCode.Keypad1, KeyCode.Keypad2 };
 
         // Game settings
         UsingPowerUps = true;

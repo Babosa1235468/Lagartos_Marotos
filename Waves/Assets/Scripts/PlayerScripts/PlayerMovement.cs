@@ -360,7 +360,7 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(GameOver());
             return;
         }
-
+        ClearAllEffects();
         StartCoroutine(RespawnCoroutine());
     }
     public IEnumerator GameOver()
@@ -457,13 +457,26 @@ public class PlayerMovement : MonoBehaviour
     }
 
     #region ...[Power Ups Section]...
+
+
     #region ...[Variaveis]...
+
     public bool isInvincible = false;
     public float speedDiference;
     public float jumpDiference;
     public bool SpeedEffectOn = false;
     public bool JumpEffectOn = false;
+
     #endregion
+    public void ClearAllEffects()
+    {
+        CancelInvoke();
+        playerShooting.CancelInvoke();
+        if(JumpEffectOn) EndJumpBoost();
+        if(SpeedEffectOn) EndSpeedBoost();
+        if(isInvincible) EndInvulnerability();
+        if(playerShooting.DamageEffectOn) playerShooting.EndDamageBoost();
+    }
     public void ApplySpeedBoost(float multValue, float time)
     {
         if (SpeedEffectOn)
