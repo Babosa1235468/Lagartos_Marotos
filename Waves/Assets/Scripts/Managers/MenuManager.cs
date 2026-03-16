@@ -85,9 +85,11 @@ public class MenuManager : MonoBehaviour
     public void LoadPlayerVsPlayerMode()
     {
         if (TemTeclasRepetidas(DataManager.instance.P1MovementControls, DataManager.instance.P1ShootingControls) ||
-            TemTeclasRepetidas(DataManager.instance.P2MovementControls, DataManager.instance.P2ShootingControls) ||
+            TemTeclasRepetidas(DataManager.instance.P1MovementControls, DataManager.instance.P2ShootingControls) ||
             TemTeclasRepetidas(DataManager.instance.P1MovementControls, DataManager.instance.P2MovementControls) ||
-            TemTeclasRepetidas(DataManager.instance.P1ShootingControls, DataManager.instance.P2ShootingControls))
+            TemTeclasRepetidas(DataManager.instance.P1ShootingControls, DataManager.instance.P2ShootingControls) ||
+            TemTeclasRepetidas(DataManager.instance.P2ShootingControls, DataManager.instance.P2MovementControls) ||
+            TemTeclasRepetidas(DataManager.instance.P1ShootingControls, DataManager.instance.P2MovementControls))
         {
             errorText.text = "Existem teclas repetidas!\nAltere-as para começar a jogar";
             errorText.gameObject.SetActive(true);
