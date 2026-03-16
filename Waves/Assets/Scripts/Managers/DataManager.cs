@@ -59,7 +59,8 @@ public class DataManager : MonoBehaviour
         // Mapas e modo
         IsAI = false;
         MapaEscolhido = MapaDefault;
-
+        P1Name = "Jogador 1";
+        P2Name = "Jogador 2";
         //as cores vao ser default 
         P1Chapeu = null;
         P1Shirt = null;

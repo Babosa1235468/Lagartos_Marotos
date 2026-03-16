@@ -102,8 +102,8 @@ public class MenuManager : MonoBehaviour
             StartCoroutine(EsconderErroPvP());
             return;
         }
-        DataManager.instance.P1Name = GameObject.FindGameObjectWithTag("Player1").GetComponent<TextMeshProUGUI>().text;
-        DataManager.instance.P2Name = GameObject.FindGameObjectWithTag("Player2").GetComponent<TextMeshProUGUI>().text;
+        DataManager.instance.P1Name = GameObject.FindGameObjectWithTag("P1NamePvP").GetComponent<TextMeshProUGUI>().text;
+        DataManager.instance.P2Name = GameObject.FindGameObjectWithTag("P2NamePvP").GetComponent<TextMeshProUGUI>().text;
         SceneManager.LoadScene("Game_Damage", LoadSceneMode.Single);
     }
     public void LoadPlayerVsIAMode()
@@ -115,7 +115,7 @@ public class MenuManager : MonoBehaviour
             StartCoroutine(EsconderErroPvE());
             return;
         }
-
+        DataManager.instance.P1Name = GameObject.FindGameObjectWithTag("P1NamePvE").GetComponent<TextMeshProUGUI>().text;
         SceneManager.LoadScene("Game_Damage", LoadSceneMode.Single);
     }
     #endregion
@@ -136,9 +136,24 @@ public class MenuManager : MonoBehaviour
 
     public void LoadPlayerVsPlayerSettings()
     {
+        
+        DataManager.instance.ResetVariables();
         PVsPSettings.SetActive(true);
         ChoosePlayerModeMenu.SetActive(false);
         DataManager.instance.IsAI = false;
+        GameObject.FindGameObjectWithTag("P1Shoot").GetComponent<TextMeshProUGUI>().text = "T";
+        GameObject.FindGameObjectWithTag("P1Reload").GetComponent<TextMeshProUGUI>().text = "R";
+        GameObject.FindGameObjectWithTag("P1Jump").GetComponent<TextMeshProUGUI>().text = "W";
+        GameObject.FindGameObjectWithTag("P1Down").GetComponent<TextMeshProUGUI>().text = "S";
+        GameObject.FindGameObjectWithTag("P1Left").GetComponent<TextMeshProUGUI>().text = "A";
+        GameObject.FindGameObjectWithTag("P1Right").GetComponent<TextMeshProUGUI>().text = "D";
+
+        GameObject.FindGameObjectWithTag("P2Shoot").GetComponent<TextMeshProUGUI>().text = "Keypad1";
+        GameObject.FindGameObjectWithTag("P2Reload").GetComponent<TextMeshProUGUI>().text = "Keypad2";
+        GameObject.FindGameObjectWithTag("P2Jump").GetComponent<TextMeshProUGUI>().text = "↑";
+        GameObject.FindGameObjectWithTag("P2Down").GetComponent<TextMeshProUGUI>().text = "↓";
+        GameObject.FindGameObjectWithTag("P2Left").GetComponent<TextMeshProUGUI>().text = "←";
+        GameObject.FindGameObjectWithTag("P2Right").GetComponent<TextMeshProUGUI>().text = "→";
     }
     public void HidePlayerVsPlayerSettings()
     {
@@ -149,9 +164,18 @@ public class MenuManager : MonoBehaviour
 
     public void LoadPlayerVsAiSettings()
     {
+       
+
+        DataManager.instance.ResetVariables();
         PVsAiSettings.SetActive(true);
         ChoosePlayerModeMenu.SetActive(false);
         DataManager.instance.IsAI = true;
+        GameObject.FindGameObjectWithTag("P1Shoot").GetComponent<TextMeshProUGUI>().text = "T";
+        GameObject.FindGameObjectWithTag("P1Reload").GetComponent<TextMeshProUGUI>().text = "R";
+        GameObject.FindGameObjectWithTag("P1Jump").GetComponent<TextMeshProUGUI>().text = "W";
+        GameObject.FindGameObjectWithTag("P1Down").GetComponent<TextMeshProUGUI>().text = "S";
+        GameObject.FindGameObjectWithTag("P1Left").GetComponent<TextMeshProUGUI>().text = "A";
+        GameObject.FindGameObjectWithTag("P1Right").GetComponent<TextMeshProUGUI>().text = "D";
     }
     public void HidePlayerVsAiSettings()
     {
