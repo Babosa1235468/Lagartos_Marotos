@@ -17,6 +17,21 @@ TagManager:
   - Ground
   - DoNotChange
   - ShootPoint
+  - P1NamePvP
+  - P2NamePvP
+  - P1NamePvE
+  - P1Jump
+  - P1Down
+  - P1Left
+  - P1Right
+  - P1Reload
+  - P1Shoot
+  - P2Shoot
+  - P2Reload
+  - P2Jump
+  - P2Down
+  - P2Left
+  - P2Right
   layers:
   - Default
   - TransparentFX
