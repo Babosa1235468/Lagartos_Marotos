@@ -32,6 +32,9 @@ TagManager:
   - P2Down
   - P2Left
   - P2Right
+  - Tab
+  - Card1
+  - Card2
   layers:
   - Default
   - TransparentFX

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -51,9 +52,9 @@ public class MenuManager : MonoBehaviour
         // will only work on build
         Application.Quit();
         // para o editor
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #endif
     }
     public void ChangeMap(GameObject Mapa)
     {
@@ -215,18 +216,56 @@ public class MenuManager : MonoBehaviour
 
         mapChoosingImage.sprite = previewSprite;
     }
-
-    public void ShowHatsChoosing()
+    public void ShowHatsChoosing(GameObject card)
     {
-
+       ShowTab("Hats",card);
     }
-    public void ShowControlsEditing()
+    public void ShowControlsEditing(GameObject card)
     {
-
+        ShowTab("Controls",card);
     }
-    public void ShowShirtsChoosing()
+    public void ShowMouthChoosing(GameObject card)
     {
-
+        ShowTab("Mouths",card);
+    }
+    private void ShowTab(string tab,GameObject card)
+    {
+        List<GameObject> tabs = new List<GameObject>();
+        foreach (Transform child in card.transform) {
+            if(child.gameObject.tag == "Tab")
+            {
+                tabs.Add(child.gameObject);
+                
+            }
+        }
+        
+        if(tabs != null)
+        {
+            foreach (GameObject item in tabs)
+            {
+                if(item.gameObject.name == tab)
+                {
+                    foreach(Transform menu in item.transform)
+                    {
+                        if(menu.gameObject.name == "Menu")
+                        {
+                            menu.gameObject.SetActive(true);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach(Transform menu in item.transform)
+                    {
+                        if(menu.gameObject.name == "Menu")
+                        {
+                            menu.gameObject.SetActive(false);
+                        }
+                    }
+                }
+            }
+        }
+        
     }
 
     #endregion
