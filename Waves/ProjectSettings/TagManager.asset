@@ -35,6 +35,7 @@ TagManager:
   - Tab
   - Card1
   - Card2
+  - MapSelect
   layers:
   - Default
   - TransparentFX
