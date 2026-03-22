@@ -103,8 +103,8 @@ public class MenuManager : MonoBehaviour
             StartCoroutine(EsconderErroPvP());
             return;
         }
-        DataManager.instance.P1Name = GameObject.FindGameObjectWithTag("P1NamePvP").GetComponent<TextMeshProUGUI>().text;
-        DataManager.instance.P2Name = GameObject.FindGameObjectWithTag("P2NamePvP").GetComponent<TextMeshProUGUI>().text;
+        DataManager.instance.P1Name = GameObject.FindGameObjectWithTag("P1NamePvP").GetComponent<TMP_InputField>().text;
+        DataManager.instance.P2Name = GameObject.FindGameObjectWithTag("P2NamePvP").GetComponent<TMP_InputField>().text;
         SceneManager.LoadScene("Game_Damage", LoadSceneMode.Single);
     }
     public void LoadPlayerVsIAMode()
@@ -116,7 +116,7 @@ public class MenuManager : MonoBehaviour
             StartCoroutine(EsconderErroPvE());
             return;
         }
-        DataManager.instance.P1Name = GameObject.FindGameObjectWithTag("P1NamePvE").GetComponent<TextMeshProUGUI>().text;
+        DataManager.instance.P1Name = GameObject.FindGameObjectWithTag("P1NamePvE").GetComponent<TMP_InputField>().text;
         SceneManager.LoadScene("Game_Damage", LoadSceneMode.Single);
     }
     #endregion
@@ -137,11 +137,14 @@ public class MenuManager : MonoBehaviour
 
     public void LoadPlayerVsPlayerSettings()
     {
-        
-        DataManager.instance.ResetVariables();
         PVsPSettings.SetActive(true);
         ChoosePlayerModeMenu.SetActive(false);
+        ShowControlsEditing(GameObject.FindGameObjectWithTag("Card1"));
+        ShowControlsEditing(GameObject.FindGameObjectWithTag("Card2"));
+        DataManager.instance.ResetVariables();
         DataManager.instance.IsAI = false;
+        GameObject.FindGameObjectWithTag("P1NamePvP").GetComponent<TMP_InputField>().text = DataManager.instance.P1Name;
+        GameObject.FindGameObjectWithTag("P2NamePvP").GetComponent<TMP_InputField>().text = DataManager.instance.P2Name;
         GameObject.FindGameObjectWithTag("P1Shoot").GetComponent<TextMeshProUGUI>().text = "T";
         GameObject.FindGameObjectWithTag("P1Reload").GetComponent<TextMeshProUGUI>().text = "R";
         GameObject.FindGameObjectWithTag("P1Jump").GetComponent<TextMeshProUGUI>().text = "W";
@@ -155,6 +158,7 @@ public class MenuManager : MonoBehaviour
         GameObject.FindGameObjectWithTag("P2Down").GetComponent<TextMeshProUGUI>().text = "↓";
         GameObject.FindGameObjectWithTag("P2Left").GetComponent<TextMeshProUGUI>().text = "←";
         GameObject.FindGameObjectWithTag("P2Right").GetComponent<TextMeshProUGUI>().text = "→";
+
     }
     public void HidePlayerVsPlayerSettings()
     {
@@ -165,12 +169,14 @@ public class MenuManager : MonoBehaviour
 
     public void LoadPlayerVsAiSettings()
     {
-       
-
-        DataManager.instance.ResetVariables();
         PVsAiSettings.SetActive(true);
         ChoosePlayerModeMenu.SetActive(false);
+        ShowControlsEditing(GameObject.FindGameObjectWithTag("Card1"));
+        ShowMouthChoosing(GameObject.FindGameObjectWithTag("Card2"));
+        DataManager.instance.ResetVariables();
         DataManager.instance.IsAI = true;
+        DataManager.instance.P2Name = "AI";
+        GameObject.FindGameObjectWithTag("P1NamePvE").GetComponent<TMP_InputField>().text = DataManager.instance.P1Name;
         GameObject.FindGameObjectWithTag("P1Shoot").GetComponent<TextMeshProUGUI>().text = "T";
         GameObject.FindGameObjectWithTag("P1Reload").GetComponent<TextMeshProUGUI>().text = "R";
         GameObject.FindGameObjectWithTag("P1Jump").GetComponent<TextMeshProUGUI>().text = "W";

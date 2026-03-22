@@ -125,6 +125,8 @@ public class PlayerMovement : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody2D>();
         col = gameObject.GetComponent<BoxCollider2D>();
         sprites = gameObject.transform.Find("Sprites");
+        SpriteRenderer mouthSprite = sprites.Find("Mouth").GetComponent<SpriteRenderer>();
+        SpriteRenderer hatSprite = sprites.Find("Hat").GetComponent<SpriteRenderer>();
         // animator = gameObject.GetComponent<Animator>();
         DataManager dataManager = DataManager.instance;
         Color spriteColor = Color.white;
@@ -133,6 +135,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (dataManager != null)
             {
+                mouthSprite.sprite = dataManager.P1Mouth;
+                hatSprite.sprite = dataManager.P1Chapeu;
                 playerAboveHeadTxt.text = dataManager.P1Name;
                 playerName = dataManager.P1Name;
                 spriteColor = dataManager.P1SpriteColor;
@@ -149,6 +153,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (dataManager != null)
             {
+                mouthSprite.sprite = dataManager.P2Mouth;
+                hatSprite.sprite = dataManager.P2Chapeu;
                 playerAboveHeadTxt.text = dataManager.P2Name;
                 playerName = dataManager.P2Name;
                 spriteColor = dataManager.P2SpriteColor;
@@ -179,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
                     sr.color = spriteColor;
             }
         }
-
+        
 
     }
 

@@ -1,5 +1,7 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DataManager : MonoBehaviour
 {
@@ -9,19 +11,21 @@ public class DataManager : MonoBehaviour
     public GameObject MapaEscolhido;
     [Header("Modo Escolhido")]
     public bool IsAI;
+    [Header("Player Costumization Default")]
+    public Sprite defaultMouth;
 
     [Header("Player 1 Costumization")]
     public string P1Name = "Jogador 1";
     public Color P1SpriteColor;
-    public SpriteRenderer P1Chapeu;
-    public SpriteRenderer P1Shirt;
+    public Sprite P1Chapeu;
+    public Sprite P1Mouth;
 
 
     [Header("Player 2 Costumization")]
     public string P2Name = "Jogador 2";
     public Color P2SpriteColor;
-    public SpriteRenderer P2Chapeu;
-    public SpriteRenderer P2Shirt;
+    public Sprite P2Chapeu;
+    public Sprite P2Mouth;
 
 
     // w, a, s ,d, por ordem
@@ -63,11 +67,11 @@ public class DataManager : MonoBehaviour
         P2Name = "Jogador 2";
         //as cores vao ser default 
         P1Chapeu = null;
-        P1Shirt = null;
+        P1Mouth = defaultMouth;
 
         //cores vao ser difault
         P2Chapeu = null;
-        P2Shirt = null;
+        P2Mouth = defaultMouth;
 
         // Controls
         P1MovementControls = new KeyCode[4] { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D };
@@ -78,5 +82,40 @@ public class DataManager : MonoBehaviour
 
         // Game settings
         UsingPowerUps = true;
+
+        P1SpriteColor = new Color(0.86f,0.1f,0.1f,1);
+        P2SpriteColor = new Color(1,0.5f,0,1);
+
+        ChangeSpritesToDefault();
+    }
+
+    private void ChangeSpritesToDefault()
+    {
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player1"))
+        {
+            foreach (Transform child in player.transform.Find("Sprites"))
+            {
+                if (!child.CompareTag("DoNotChange"))
+                {
+                    if (child.TryGetComponent(out SpriteRenderer sr))
+                        sr.color = P1SpriteColor;
+                }
+            }
+            player.transform.Find("Sprites/Mouth").GetComponent<SpriteRenderer>().sprite = defaultMouth;
+            player.transform.Find("Sprites/Hat").GetComponent<SpriteRenderer>().sprite = null;
+        }
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player2"))
+        {
+            foreach (Transform child in player.transform.Find("Sprites"))
+            {
+                if (!child.CompareTag("DoNotChange"))
+                {
+                    if (child.TryGetComponent(out SpriteRenderer sr))
+                        sr.color = P2SpriteColor;
+                }
+            }
+            player.transform.Find("Sprites/Mouth").GetComponent<SpriteRenderer>().sprite = defaultMouth;
+            player.transform.Find("Sprites/Hat").GetComponent<SpriteRenderer>().sprite = null;
+        }
     }
 }

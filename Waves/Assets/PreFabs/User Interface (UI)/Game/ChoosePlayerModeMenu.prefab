@@ -177,6 +177,10 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 128.9
       objectReference: {fileID: 0}
+    - target: {fileID: 7604676728119425089, guid: 730476c7b45ee1f4e9023f3e928e306c, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 9202968470566493484, guid: 6d665cdaef1980349aa079109a0cfcec, type: 2}
     - target: {fileID: 9129866956129971320, guid: 730476c7b45ee1f4e9023f3e928e306c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -327,6 +331,10 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 128.9
       objectReference: {fileID: 0}
+    - target: {fileID: 7604676728119425089, guid: 730476c7b45ee1f4e9023f3e928e306c, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 9202968470566493484, guid: 6d665cdaef1980349aa079109a0cfcec, type: 2}
     - target: {fileID: 9129866956129971320, guid: 730476c7b45ee1f4e9023f3e928e306c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
