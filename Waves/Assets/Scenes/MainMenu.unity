@@ -340,6 +340,22 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6167387315817456207, guid: a4c82c2fb76f69a4381de5b2bdccda4d, type: 3}
+      propertyPath: m_fontColorGradient.topLeft.g
+      value: 0.4862745
+      objectReference: {fileID: 0}
+    - target: {fileID: 6167387315817456207, guid: a4c82c2fb76f69a4381de5b2bdccda4d, type: 3}
+      propertyPath: m_fontColorGradient.topRight.g
+      value: 0.4862745
+      objectReference: {fileID: 0}
+    - target: {fileID: 6167387315817456207, guid: a4c82c2fb76f69a4381de5b2bdccda4d, type: 3}
+      propertyPath: m_fontColorGradient.bottomLeft.g
+      value: 0.4862745
+      objectReference: {fileID: 0}
+    - target: {fileID: 6167387315817456207, guid: a4c82c2fb76f69a4381de5b2bdccda4d, type: 3}
+      propertyPath: m_fontColorGradient.bottomRight.g
+      value: 0.4862745
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -700,6 +716,22 @@ PrefabInstance:
     - target: {fileID: 6167387315817456207, guid: a4c82c2fb76f69a4381de5b2bdccda4d, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6167387315817456207, guid: a4c82c2fb76f69a4381de5b2bdccda4d, type: 3}
+      propertyPath: m_fontColorGradient.topLeft.g
+      value: 0.4862745
+      objectReference: {fileID: 0}
+    - target: {fileID: 6167387315817456207, guid: a4c82c2fb76f69a4381de5b2bdccda4d, type: 3}
+      propertyPath: m_fontColorGradient.topRight.g
+      value: 0.4862745
+      objectReference: {fileID: 0}
+    - target: {fileID: 6167387315817456207, guid: a4c82c2fb76f69a4381de5b2bdccda4d, type: 3}
+      propertyPath: m_fontColorGradient.bottomLeft.g
+      value: 0.4862745
+      objectReference: {fileID: 0}
+    - target: {fileID: 6167387315817456207, guid: a4c82c2fb76f69a4381de5b2bdccda4d, type: 3}
+      propertyPath: m_fontColorGradient.bottomRight.g
+      value: 0.4862745
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5194,7 +5226,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4279248950811516175, guid: 7e691f98d73371a4eb7aea423dab1593, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4338037175955974514, guid: 7e691f98d73371a4eb7aea423dab1593, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -5427,6 +5459,22 @@ PrefabInstance:
     - target: {fileID: 3232320052000920693, guid: 454a7a7d8852913418d36a33fade7c12, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3232320052000920693, guid: 454a7a7d8852913418d36a33fade7c12, type: 3}
+      propertyPath: m_fontColorGradient.topLeft.g
+      value: 0.4867578
+      objectReference: {fileID: 0}
+    - target: {fileID: 3232320052000920693, guid: 454a7a7d8852913418d36a33fade7c12, type: 3}
+      propertyPath: m_fontColorGradient.topRight.g
+      value: 0.4867578
+      objectReference: {fileID: 0}
+    - target: {fileID: 3232320052000920693, guid: 454a7a7d8852913418d36a33fade7c12, type: 3}
+      propertyPath: m_fontColorGradient.bottomLeft.g
+      value: 0.4867578
+      objectReference: {fileID: 0}
+    - target: {fileID: 3232320052000920693, guid: 454a7a7d8852913418d36a33fade7c12, type: 3}
+      propertyPath: m_fontColorGradient.bottomRight.g
+      value: 0.4867578
       objectReference: {fileID: 0}
     - target: {fileID: 3493622636019527522, guid: 454a7a7d8852913418d36a33fade7c12, type: 3}
       propertyPath: m_Pivot.x
@@ -5711,7 +5759,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8294167180064040769, guid: 768965daf1beae64a9e1d242e55bb2ee, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8328177067026942108, guid: 768965daf1beae64a9e1d242e55bb2ee, type: 3}
       propertyPath: m_IsActive
