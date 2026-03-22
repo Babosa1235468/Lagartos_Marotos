@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7599068f3c477b84a9e9d43ec74c299a
+guid: b0c6571fe80bbcb4ea277e810b85afee
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8248785920648648947
-    second: Mapa3Preview_0
+      213: -60065850425979681
+    second: "Captura de ecr\xE3 2026-03-22 210841_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Mapa3Preview_0
+      name: "Captura de ecr\xE3 2026-03-22 210841_0"
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 410
-        height: 231
+        width: 855
+        height: 452
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3f891844713997270800000000000000
-      internalID: 8248785920648648947
+      spriteID: fdc4a326d6a9a2ff0800000000000000
+      internalID: -60065850425979681
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Mapa3Preview_0: 8248785920648648947
+      "Captura de ecr\xE3 2026-03-22 210841_0": -60065850425979681
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

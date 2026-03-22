@@ -708,7 +708,7 @@ PrefabInstance:
     - target: {fileID: 6167387315817456207, guid: a4c82c2fb76f69a4381de5b2bdccda4d, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+      objectReference: {fileID: 9202968470566493484, guid: 6d665cdaef1980349aa079109a0cfcec, type: 2}
     - target: {fileID: 6167387315817456207, guid: a4c82c2fb76f69a4381de5b2bdccda4d, type: 3}
       propertyPath: m_enableAutoSizing
       value: 0
@@ -879,7 +879,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8248785920648648947, guid: 7599068f3c477b84a9e9d43ec74c299a, type: 3}
+  m_Sprite: {fileID: -60065850425979681, guid: b0c6571fe80bbcb4ea277e810b85afee, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1736,7 +1736,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8060701184581476617, guid: e87e4b7c90daac14095cdd1639d6b0e3, type: 3}
+  m_Sprite: {fileID: 8765107110034553658, guid: 37b6b77b2f49fca4d92880d31e1699e8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2615,13 +2615,13 @@ MonoBehaviour:
   m_text: Torre
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6d665cdaef1980349aa079109a0cfcec, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 9202968470566493484, guid: 6d665cdaef1980349aa079109a0cfcec, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4286844305
+    rgba: 4278190080
   m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2819,7 +2819,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8248785920648648947, guid: 7599068f3c477b84a9e9d43ec74c299a, type: 3}
+  m_Sprite: {fileID: -60065850425979681, guid: b0c6571fe80bbcb4ea277e810b85afee, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2964,7 +2964,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8060701184581476617, guid: e87e4b7c90daac14095cdd1639d6b0e3, type: 3}
+  m_Sprite: {fileID: 8765107110034553658, guid: 37b6b77b2f49fca4d92880d31e1699e8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3231,13 +3231,13 @@ MonoBehaviour:
   m_text: Ponte
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6d665cdaef1980349aa079109a0cfcec, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 9202968470566493484, guid: 6d665cdaef1980349aa079109a0cfcec, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4286844305
+    rgba: 4278190080
   m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -3810,13 +3810,13 @@ MonoBehaviour:
   m_text: "C\xE9u"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6d665cdaef1980349aa079109a0cfcec, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 9202968470566493484, guid: 6d665cdaef1980349aa079109a0cfcec, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4286844305
+    rgba: 4278190080
   m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -5099,7 +5099,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2869319654616637916, guid: 454a7a7d8852913418d36a33fade7c12, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3232320052000920693, guid: 454a7a7d8852913418d36a33fade7c12, type: 3}
       propertyPath: m_fontSize
