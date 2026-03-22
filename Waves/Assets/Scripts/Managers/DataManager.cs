@@ -64,7 +64,10 @@ public class DataManager : MonoBehaviour
         // Mapas e modo
         IsAI = false;
         MapaEscolhido = MapaDefault;
-        GameObject.FindGameObjectWithTag("MapSelect").GetComponent<Image>().sprite = MapaDefaultSprite;
+        if(GameObject.FindGameObjectWithTag("MapSelect") != null)
+        {
+            GameObject.FindGameObjectWithTag("MapSelect").GetComponent<Image>().sprite = MapaDefaultSprite;
+        }
         P1Name = "Jogador 1";
         P2Name = "Jogador 2";
         //as cores vao ser default 
